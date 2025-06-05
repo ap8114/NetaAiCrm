@@ -1,0 +1,541 @@
+:root {
+    --kn-primary: #0052a3;
+    --kn-success: #28a745;
+    --kn-light-bg: #f8f9fa;
+    --kn-card-bg: #ffffff;
+    --kn-text-muted: #6c757d;
+    --kn-border: #dee2e6;
+}
+
+.kn-body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--kn-light-bg);
+    margin: 0;
+    padding: 0;
+}
+
+/* HEADER STYLES */
+.kn-navbar {
+    background-color: var(--kn-card-bg);
+    border-bottom: 1px solid var(--kn-border);
+    padding: 0.75rem 0;
+    height: 70px;
+}
+
+.kn-header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.kn-search-container {
+    position: relative;
+    flex-grow: 1;
+    max-width: 500px;
+}
+
+.kn-search-input {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--kn-border);
+    background-color: var(--kn-light-bg);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.kn-search-input:focus {
+    outline: none;
+    border-color: var(--kn-primary);
+    box-shadow: 0 0 0 3px rgba(0, 82, 163, 0.1);
+}
+
+.kn-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--kn-text-muted);
+}
+
+.kn-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.kn-add-new-btn {
+    background-color: var(--kn-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.kn-add-new-btn:hover {
+    background-color: #003d7a;
+}
+
+.kn-dropdown-menu {
+    min-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--kn-border);
+    padding: 0.5rem 0;
+}
+
+.kn-dropdown-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--kn-text-muted);
+    padding: 0.5rem 1rem;
+    letter-spacing: 0.5px;
+}
+
+.kn-dropdown-item {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.kn-dropdown-item:hover {
+    background-color: var(--kn-light-bg);
+}
+
+.kn-dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.kn-icon-btn {
+    background: none;
+    border: none;
+    color: var(--kn-text-muted);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.kn-icon-btn:hover {
+    background-color: var(--kn-light-bg);
+    color: var(--kn-primary);
+}
+
+.kn-notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.6rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kn-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--kn-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.kn-search-container {
+    position: relative;
+}
+
+.kn-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: gray;
+}
+
+.kn-search-input {
+    padding-left: 35px;
+    height: 36px;
+    width: 200px;
+    border-radius: 5px;
+    border: none;
+    background-color: #444;
+    color: white;
+}
+
+.kn-search-input::placeholder {
+    color: #ccc;
+}
+
+.kn-dropdown-menu {
+    min-width: 280px;
+    background-color: #fff;
+    color: #000;
+}
+
+.kn-dropdown-menu .dropdown-header {
+    font-weight: bold;
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    color: #666;
+    background-color: #f7f7f7;
+}
+
+.kn-dropdown-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.contract-jobs-btn {
+    background-color: #5a5a5a;
+    /* match dark-gray bg */
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.contract-jobs-btn:hover {
+    background-color: #4a4a4a;
+    cursor: pointer;
+}
+
+.kn-avatar {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+
+
+/* EXISTING DASHBOARD STYLES */
+.kn-welcome-text {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.kn-highlight {
+    color: #0052a3;
+}
+
+.kn-setup-card {
+    background-color: var(--kn-card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.kn-progress-header {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.kn-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    margin-bottom: 1.5rem;
+}
+
+.kn-progress-fill {
+    height: 100%;
+    background-color: var(--kn-primary);
+    border-radius: 4px;
+    width: 33%;
+}
+
+.kn-task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.kn-task-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--kn-success);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    font-size: 0.75rem;
+}
+
+.kn-task-text {
+    color: #333;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.kn-task-pending .kn-task-text {
+    text-decoration: none;
+    opacity: 1;
+}
+
+.kn-task-pending .kn-task-icon {
+    background-color: #e9ecef;
+    color: #6c757d;
+}
+
+.kn-start-btn {
+    background-color: transparent;
+    color: var(--kn-primary);
+    border: none;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.kn-start-btn:hover {
+    color: var(--kn-primary);
+    text-decoration: underline;
+}
+
+.kn-quickbooks-card {
+    background: linear-gradient(135deg, var(--kn-success) 0%, #20c997 100%);
+    border-radius: 12px;
+    padding: 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.kn-qb-icon {
+    width: 80px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.kn-qb-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.kn-qb-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.kn-connect-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.kn-connect-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.kn-section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.kn-category-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--kn-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.kn-menu-item {
+    background-color: var(--kn-card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--kn-border);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.kn-menu-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+    transform: translateY(-1px);
+}
+
+.kn-menu-item-content {
+    display: flex;
+    align-items: center;
+}
+
+.kn-menu-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: var(--kn-light-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    color: var(--kn-text-muted);
+}
+
+.kn-menu-text {
+    font-weight: 500;
+    color: #333;
+}
+
+.kn-badge {
+    background-color: #fd7e14;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: auto;
+}
+
+.kn-upgrade-badge {
+    background-color: #333;
+    color: white;
+    font-size: 0.50rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.kn-expert-btn {
+    background-color: var(--kn-primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.kn-expert-btn:hover {
+    background-color: #003d7a;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.kn-dots {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+    .kn-welcome-text {
+        font-size: 1.5rem;
+    }
+
+    .kn-setup-card,
+    .kn-quickbooks-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .kn-qb-icon {
+        width: 60px;
+        height: 45px;
+    }
+
+    .kn-section-title {
+        font-size: 1.25rem;
+    }
+
+    .kn-header-content {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .kn-search-container {
+        order: 2;
+        max-width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .kn-setup-card,
+    .kn-quickbooks-card {
+        padding: 1.25rem;
+    }
+
+    .kn-menu-item {
+        padding: 0.75rem;
+    }
+}
