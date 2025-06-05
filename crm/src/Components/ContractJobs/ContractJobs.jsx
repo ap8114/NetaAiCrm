@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Dropdown, ButtonGroup, Badge, Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import { FunnelFill, List } from 'react-bootstrap-icons';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './Jobs.css'; // Make sure to create this CSS file
 
 const projects = [

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import CountUp from 'react-countup';
 import { Calendar, Clock, Search } from 'react-bootstrap-icons';
 

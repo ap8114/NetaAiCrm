@@ -192,7 +192,7 @@ const AdminHome = () => {
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 mb-4">
               <div className="kn-category-title">INSIGHTS</div>
-              <Link to="dashboard" className="kn-menu-item">
+              <Link to="/dashboard" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-tachometer-alt" />
@@ -219,7 +219,7 @@ const AdminHome = () => {
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 mb-4">
               <div className="kn-category-title">COMPANY</div>
-              <Link to="/clientdata" className="kn-menu-item">
+              <Link to="/ClientsData" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-users" />
