@@ -1,5 +1,5 @@
 import React from 'react'
-import './Home.css'
+import './AdminHome.css'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
@@ -144,7 +144,7 @@ const Home = () => {
                   <div className="kn-menu-text">Purchases</div>
                 </div>
               </Link>
-              <Link to="#" className="kn-menu-item">
+              <Link to="/BillsTab" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-file-invoice" />
@@ -181,7 +181,7 @@ const Home = () => {
                   <div className="kn-menu-text">Scheduling</div>
                 </div>
               </Link>
-              <Link to="#" className="kn-menu-item">
+              <Link to="/Tasks" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-tasks" />
@@ -192,7 +192,7 @@ const Home = () => {
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 mb-4">
               <div className="kn-category-title">INSIGHTS</div>
-              <Link to="dashboard" className="kn-menu-item">
+              <Link to="/dashboard" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-tachometer-alt" />
@@ -200,7 +200,7 @@ const Home = () => {
                   <div className="kn-menu-text">Dashboard</div>
                 </div>
               </Link>
-              <Link to="/reportspage" className="kn-menu-item">
+              <Link to="/ReportsPage" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-chart-bar" />
@@ -219,7 +219,7 @@ const Home = () => {
             </div>
             <div className="col-lg-2 col-md-6 col-sm-6 mb-4">
               <div className="kn-category-title">COMPANY</div>
-              <Link to="/clientdata" className="kn-menu-item">
+              <Link to="/ClientsData" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-users" />
@@ -236,7 +236,7 @@ const Home = () => {
                   <div className="kn-menu-text">Vendors</div>
                 </div>
               </Link>
-              <Link to="#" className="kn-menu-item">
+              <Link to="/CataLog" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-tags" />

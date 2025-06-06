@@ -119,7 +119,7 @@ const Header = () => {
           </span>
         </div>
         <div
-          className="bg-dark rounded-circle d-flex align-items-center justify-content-center"
+          className="bg-dark rounded-circle d-flex align-items-center justify-content-center "
           style={{ width: 32, height: 32, cursor: "pointer" }}
           onClick={toggleProfileDropdown}
         >
@@ -129,19 +129,19 @@ const Header = () => {
         {/* Profile Dropdown */}
         {showProfileDropdown && (
           <div
-            className="position-absolute end-0 mt-5 me-3 p-3 bg-white shadow rounded"
+            className="position-absolute end-0 mt-5 me-3 p-3 bg-white shadow rounded "
             style={{ width: "280px", zIndex: 2000 }}
           >
             <div className="d-flex align-items-center mb-2">
               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: 36, height: 36 }}>
                 sM
               </div>
-              <div className="ms-2">
+              <div className="ms-2 py-5">
                 <strong>simon Mashiah</strong>
               </div>
             </div>
 
-            <hr className="my-2" />
+            <hr className="my-5" />
 
             <div className="mb-2 small text-muted">ACCOUNT</div>
             <p className="mb-1"><FaLock className="me-2" /> Change password</p>

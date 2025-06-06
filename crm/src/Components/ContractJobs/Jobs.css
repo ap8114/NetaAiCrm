@@ -1,0 +1,77 @@
+/* Jobs.css */
+.contract-jobs-wrapper {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.header-bar {
+  background-color: white;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+  background-color: white;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab:hover {
+  background-color: #f1f1f1;
+}
+
+.active-tab {
+  font-weight: bold;
+  border-bottom: 2px solid #0d6efd;
+}
+
+.active-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #0d6efd;
+}
+
+.badge-new {
+  background-color: #dc3545;
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.filters-bar {
+  background-color: white;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  width: 250px;
+}
+
+.list-btn, .view-btn, .filter-icon {
+  border-color: #dee2e6;
+}
+
+.add-btn {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: #6c757d;
+}

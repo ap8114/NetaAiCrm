@@ -12,8 +12,8 @@ import {
   Alert,
 } from "react-bootstrap";
 
-import NotesTab from "../LeadOpportunity/BillsTab.jsx";
-import BillsTab from "../LeadOpportunity/NotesTab.jsx";
+import NotesTab from "./NotesTab.jsx";
+import BillsTab from "./BillsTab.jsx";
 
 // Dummy data for demonstration
 const allClients = [
