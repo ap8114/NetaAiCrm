@@ -21,26 +21,31 @@ const Home = () => {
     <>
       {/* Main content area */}
       <div className="container-fluid kn-container">
-
         <div className="container-fluid py-4">
           <div className="row">
-            <div className="col-12 text-center">
-              {/* Logo and Welcome Heading */}
-              <img src={logo} alt="Supply Logo" style={{ maxHeight: 70, marginBottom: 10 }} />
-              <h1 className="kn-welcome-text mt-3">
-                Welcome to{' '}
-                <span
-                  style={{
-                    background: 'linear-gradient(90deg, #d4b41c 30%, #000 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    fontWeight: 700,
-                  }}
-                >
-                  Bon-Bon
-                </span>
-              </h1>
+            <div className="col-12">
+              {/* Logo and Welcome Heading in one line, centered */}
+              <div className="d-flex flex-wrap justify-content-center align-items-center mb-3 gap-3">
+                <img
+                  src={logo}
+                  alt="Supply Logo"
+                  style={{ maxHeight: 55, width: "auto" }}
+                />
+                <h1 className="kn-welcome-text m-0" style={{ fontSize: "2.2rem", fontWeight: 700 }}>
+                  Welcome to{' '}
+                  <span
+                    style={{
+                      background: 'linear-gradient(90deg, #d4b41c 30%, #000 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      fontWeight: 700,
+                    }}
+                  >
+                    Bon-Bon
+                  </span>
+                </h1>
+              </div>
             </div>
           </div>
           <div className="row justify-content-center">
