@@ -16,6 +16,7 @@ import CatalogTabs from './Components/Catalog/CataLog';
 import Tasks from './Components/Tasks/Tasks';
 import BillsTab from './Components/Bills/BillsTab';
 import Reports from './Components/Reports/Reports';
+import AdminSection from './Components/AdminSection/AdminSection';
 function App() {
   return (
     <>
@@ -35,6 +36,7 @@ function App() {
             <Route path="/CataLog" element={<CatalogTabs />} />
               <Route path="/Tasks" element={<Tasks/>} />
                 <Route path="/BillsTab" element={<BillsTab />} />
+                 <Route path="/adminsection" element={<AdminSection />} />
           
         </Routes>
       

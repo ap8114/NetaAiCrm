@@ -155,7 +155,10 @@ const Header = () => {
 
                         <div className="mb-2 small text-muted">ACCOUNT</div>
                         <p className="mb-1"><FaLock className="me-2" /> Change password</p>
-                        <p className="mb-1"><FaCogs className="me-2" /> Admin section</p>
+
+                       <Link to="/adminsection">
+                       <p className="mb-1"><FaCogs className="me-2" /> Admin section</p>
+                       </Link> 
                         <p className="mb-1"><FaRegBell className="me-2" /> Notification settings</p>
 
                         <div className="mt-3 mb-2 small text-muted">SUPPORT</div>

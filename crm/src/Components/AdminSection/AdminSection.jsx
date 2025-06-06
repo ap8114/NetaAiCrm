@@ -177,6 +177,11 @@ const initialResourceCost = [
 ];
 
 const AdminSection = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
   // --- Structure tab state ---
   const [structureType, setStructureType] = useState("Departments");
   const [departments, setDepartments] = useState([
@@ -856,7 +861,34 @@ const AdminSection = () => {
                     Every business is different, that is why you can adjust Knowify to fit your particular needs. Contact us at support@knowify.com if you would like us to help you. Our setup is complimentary!
                   </div>
                   <div className="mt-2">
-                    <div>&#x25B6; Company Logo</div>
+                  <div>
+      <div className="dropdown-header" onClick={toggleDropdown}>
+        ▶ Company Logo
+      </div>
+
+      {isOpen && (
+        <div className="dropdown-container">
+          <p>
+            Upload the logo of your company here. We will include it in your
+            personalized proposals, invoices, and purchase orders.
+          </p>
+
+          <div className="logo-box">
+            <img src="your-logo.png" alt="Existing Logo" />
+            <div className="upload-box">
+              <p>Drop logo here</p>
+              <p>or</p>
+              <a href="#">Select file</a>
+            </div>
+          </div>
+
+          <div className="remove-link">Remove existing logo</div>
+          <div className="note">
+            ⚠️ Both height and width of logo must be lower than 5000px
+          </div>
+        </div>
+      )}
+    </div>
                     <div>&#x25B6; Custom Templates</div>
                     <div>&#x25B6; Numbering</div>
                     <div>&#x25B6; Hide/Display Jobs</div>
