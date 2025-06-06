@@ -144,7 +144,7 @@ const AdminHome = () => {
                   <div className="kn-menu-text">Purchases</div>
                 </div>
               </Link>
-              <Link to="#" className="kn-menu-item">
+              <Link to="/BillsTab" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-file-invoice" />
@@ -181,7 +181,7 @@ const AdminHome = () => {
                   <div className="kn-menu-text">Scheduling</div>
                 </div>
               </Link>
-              <Link to="#" className="kn-menu-item">
+              <Link to="/Tasks" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-tasks" />
@@ -236,7 +236,7 @@ const AdminHome = () => {
                   <div className="kn-menu-text">Vendors</div>
                 </div>
               </Link>
-              <Link to="#" className="kn-menu-item">
+              <Link to="/CataLog" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-tags" />

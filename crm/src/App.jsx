@@ -13,6 +13,9 @@ import LeadOpportunities from './Components/LeadOpportunity/LeadOpportunities';
 import Purchases from './Components/Purchasepage/purchasesData';
 import ReportsPage from './Components/Reports/ReportsPage';
 import VendorsPage from './Components/Vendorspage/VendorsPage';
+import CatalogTabs from './Components/Catalog/CataLog';
+import Tasks from './Components/Tasks/Tasks';
+import BillsTab from './Components/Bills/BillsTab';
 function App() {
 
 
@@ -31,6 +34,9 @@ function App() {
           <Route path="/purchasesData" element={<Purchases />} />
           <Route path="/ReportsPage" element={<ReportsPage />} />
           <Route path="/VendorsPage" element={<VendorsPage />} />
+            <Route path="/CataLog" element={<CatalogTabs />} />
+              <Route path="/Tasks" element={<Tasks/>} />
+                <Route path="/BillsTab" element={<BillsTab />} />
           
         </Routes>
       
