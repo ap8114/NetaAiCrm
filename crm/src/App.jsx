@@ -24,7 +24,6 @@ import Reports from './Components/Reports/Reports';
 import AdminSection from './Components/AdminSection/AdminSection';
 
 
-
 function AppContent() {
   const location = useLocation();
   // Auth routes jahan header nahi dikhana

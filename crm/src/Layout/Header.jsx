@@ -158,26 +158,29 @@ const Header = () => {
                         <div className="mb-2 small text-muted">ACCOUNT</div>
                         <p className="mb-1"><FaLock className="me-2" /> Change password</p>
 
-                       <Link to="/adminsection">
-                       <p className="mb-1"><FaCogs className="me-2" /> Admin section</p>
-                       </Link> 
+                        <Link to="/adminsection">
+                            <div className="mb-1">
+                                <FaCogs className="me-2" /> Admin section
+                            </div>
+                        </Link>
+
                         <p className="mb-1"><FaRegBell className="me-2" /> Notification settings</p>
 
                         <div className="mt-3 mb-2 small text-muted">SUPPORT</div>
                         <p className="mb-1"><FaQuestionCircle className="me-2" /> Video tutorials</p>
                         <p className="mb-1"><FaBook className="me-2" /> Documentation</p>
 
-            <div className="mt-3 mb-2 small text-muted">ABOUT KNOWIFY</div>
-            <p className="mb-1"><FaFileContract className="me-2" /> Terms of service</p>
-            <p className="mb-3"><FaShieldAlt className="me-2" /> Privacy policy</p>
-<Link to="/">
-            <button className="btn btn-success w-100">Log out</button>
-            </Link>
-          </div>
-        )}
-      </div>
-    </header>
-  );
+                        <div className="mt-3 mb-2 small text-muted">ABOUT KNOWIFY</div>
+                        <p className="mb-1"><FaFileContract className="me-2" /> Terms of service</p>
+                        <p className="mb-3"><FaShieldAlt className="me-2" /> Privacy policy</p>
+                        <Link to="/">
+                            <button className="btn btn-success w-100">Log out</button>
+                        </Link>
+                    </div>
+                )}
+            </div>
+        </header>
+    );
 };
 
 export default Header;
