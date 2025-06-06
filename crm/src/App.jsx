@@ -15,12 +15,13 @@ import VendorsPage from './Components/Vendorspage/VendorsPage';
 import CatalogTabs from './Components/Catalog/CataLog';
 import Tasks from './Components/Tasks/Tasks';
 import BillsTab from './Components/Bills/BillsTab';
+import Reports from './Components/Reports/Reports';
 
 // Auth pages
 import Login from './Auth/Login';
 import Signup from './Auth/Signup';
 import ForgotPassword from './Auth/ForgotPassword';
-import Reports from './Components/Reports/Reports';
+
 
 
 
