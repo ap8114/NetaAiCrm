@@ -2,8 +2,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
-import netalogo from "../assets/images/Neta-Logo.png";
-import BASE_URL from "../../config";
+// import netalogo from "../assets/images/Neta-Logo.png";
+// import BASE_URL from "../../config";
 
 const SignUp = () => {
   const navigate = useNavigate();

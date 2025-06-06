@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaBell, FaUser, FaLock, FaCogs, FaRegBell, FaQuestionCircle, FaBook, FaFileContract, FaShieldAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import {
   FaFileAlt,
   FaProjectDiagram,
@@ -155,8 +156,9 @@ const Header = () => {
             <div className="mt-3 mb-2 small text-muted">ABOUT KNOWIFY</div>
             <p className="mb-1"><FaFileContract className="me-2" /> Terms of service</p>
             <p className="mb-3"><FaShieldAlt className="me-2" /> Privacy policy</p>
-
+             <Link to="/login">
             <button className="btn btn-success w-100">Log out</button>
+            </Link>
           </div>
         )}
       </div>

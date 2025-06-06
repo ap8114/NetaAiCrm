@@ -2,8 +2,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
-import netalogo from "../assets/images/Neta-Logo.png";
-import BASE_URL from "../../config";
+// import netalogo from "../assets/images/Neta-Logo.png";
+// import BASE_URL from "../../config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ const Login = () => {
         <div className="logo-container mb-4">
           <Link to="/">
             <img
-              src={netalogo}
+              src=""
               alt="NETA Logo"
               className="img-fluid"
               style={{ maxWidth: "100px" }}

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import netalogo from "../assets/images/Neta-Logo.png";
+// import netalogo from "../assets/images/Neta-Logo.png";
 
 const ForgotPassword = () => {
   return (
