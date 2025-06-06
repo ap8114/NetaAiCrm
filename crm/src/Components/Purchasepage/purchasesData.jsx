@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Form, InputGroup, Dropdown, Modal } from "react-bootstrap";
 
-const purchasesData = [
+const PurchasesData = [
   {
     status: "Active",
     date: "11/9/22",
@@ -156,7 +156,7 @@ export default function Purchases() {
           </tr>
         </thead>
         <tbody>
-          {purchasesData.map((row, idx) => (
+          {PurchasesData.map((row, idx) => (
             <tr key={idx}>
               <td>
                 <span className="badge bg-success">{row.status}</span>

@@ -1,8 +1,8 @@
 import React from 'react'
-import './AdminHome.css'
+import './Home.css'
 import { Link } from 'react-router-dom'
 
-const AdminHome = () => {
+const Home = () => {
   // Search input handler
   const handleSearchKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -252,4 +252,4 @@ const AdminHome = () => {
   )
 }
 
-export default AdminHome
+export default Home
