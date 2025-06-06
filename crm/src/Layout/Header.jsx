@@ -158,11 +158,12 @@ const Header = () => {
                         <div className="mb-2 small text-muted">ACCOUNT</div>
                         <p className="mb-1"><FaLock className="me-2" /> Change password</p>
 
-                        <Link to="/adminsection">
+                        <Link to="/adminsection" className="text-decoration-none text-dark">
                             <div className="mb-1">
                                 <FaCogs className="me-2" /> Admin section
                             </div>
                         </Link>
+
 
                         <p className="mb-1"><FaRegBell className="me-2" /> Notification settings</p>
 
