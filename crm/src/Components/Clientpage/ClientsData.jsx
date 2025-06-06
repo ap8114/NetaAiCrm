@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Table, Form, InputGroup, Modal } from "react-bootstrap";
 import { FaSearch, FaEdit, FaUser } from "react-icons/fa";
 
-const ClientsUI = () => {
+const ClientsData = () => {
   const [showAdd, setShowAdd] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
   const [showAssign, setShowAssign] = React.useState(false);
@@ -283,4 +283,4 @@ const ClientsUI = () => {
   );
 };
 
-export default ClientsUI;
+export default ClientsData;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const ReportsPage = () => {
+const Reports = () => {
   return (
     <div className="container-fluid" style={{ backgroundColor: '#f6f6f7', minHeight: '100vh' }}>
       <div className="pt-4 px-4">
@@ -36,4 +36,4 @@ const ReportsPage = () => {
   );
 };
 
-export default ReportsPage;
+export default Reports;

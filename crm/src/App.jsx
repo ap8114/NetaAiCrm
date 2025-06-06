@@ -9,16 +9,14 @@ import ClientsData from './Components/Clientpage/ClientsData';
 import ContractJobs from './Components/ContractJobs/ContractJobs';
 import InternalProjects from './Components/Internalproject/InternalProjects';
 import LeadOpportunities from './Components/LeadOpportunity/LeadOpportunities';
-
 import Purchases from './Components/Purchasepage/purchasesData';
-import ReportsPage from './Components/Reports/ReportsPage';
+
 import VendorsPage from './Components/Vendorspage/VendorsPage';
 import CatalogTabs from './Components/Catalog/CataLog';
 import Tasks from './Components/Tasks/Tasks';
 import BillsTab from './Components/Bills/BillsTab';
+import Reports from './Components/Reports/Reports';
 function App() {
-
-
   return (
     <>
       <BrowserRouter>
@@ -32,7 +30,7 @@ function App() {
           <Route path="/InternalProjects" element={<InternalProjects />} />
           <Route path="/LeadOpportunities" element={<LeadOpportunities />} />
           <Route path="/purchasesData" element={<Purchases />} />
-          <Route path="/ReportsPage" element={<ReportsPage />} />
+          <Route path="/ReportsPage" element={<Reports />} />
           <Route path="/VendorsPage" element={<VendorsPage />} />
             <Route path="/CataLog" element={<CatalogTabs />} />
               <Route path="/Tasks" element={<Tasks/>} />
@@ -46,4 +44,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

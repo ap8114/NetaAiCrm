@@ -1,0 +1,17 @@
+.admin-company-form {
+  background-color: #fff;
+}
+
+.admin-company-nav .nav-link {
+  font-weight: 500;
+  color: #000;
+}
+
+.admin-company-map iframe {
+  border-radius: 8px;
+}
+
+.admin-company-hours-list .list-group-item {
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+}

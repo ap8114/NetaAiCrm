@@ -2,7 +2,7 @@ import React from 'react'
 import './AdminHome.css'
 import { Link } from 'react-router-dom'
 
-const AdminHome = () => {
+const Home = () => {
   // Search input handler
   const handleSearchKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -200,7 +200,7 @@ const AdminHome = () => {
                   <div className="kn-menu-text">Dashboard</div>
                 </div>
               </Link>
-              <Link to="/reportspage" className="kn-menu-item">
+              <Link to="/ReportsPage" className="kn-menu-item">
                 <div className="kn-menu-item-content">
                   <div className="kn-menu-icon">
                     <i className="fas fa-chart-bar" />
@@ -252,4 +252,4 @@ const AdminHome = () => {
   )
 }
 
-export default AdminHome
+export default Home
