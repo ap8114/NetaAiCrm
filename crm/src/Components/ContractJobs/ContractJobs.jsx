@@ -646,7 +646,7 @@ const ContractJobs = () => {
       ) : (
         <div className="contract-jobs-wrapper">
           <div className="d-flex justify-content-between align-items-center header-bar px-4 py-3">
-            <h4 className="fw-bold mb-0">Contract jobs</h4>
+            <h4 className="fw-bold  mb-0">Contract jobs</h4>
             {activeTab === 'manage' && (
               <Button className="add-btn" onClick={handleAddNewContract}>
                 Add new contract job

@@ -26,7 +26,7 @@ const ClientsData = () => {
   return (
     <div className="p-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="fw-bold">Clients</h2>
+        <h4 className="fw-bold">Clients</h4>
         <Button variant="success" onClick={handleAddOpen}>Add new client</Button>
       </div>
 

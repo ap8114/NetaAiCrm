@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Table, Button, Modal, Form, Row, Col, InputGroup, FormControl } from 'react-bootstrap';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Tasks() {
   const [key, setKey] = useState('catalog');
@@ -13,12 +14,12 @@ export default function Tasks() {
       <Tabs id="main-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-4">
         <Tab eventKey="catalog" title="Manage Catalog">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h4>Catalog</h4>
+            <h4 className='fw-bold'>Tasks</h4>
             <Button variant="success" onClick={handleShow}>Add new</Button>
           </div>
           <InputGroup className="mb-3">
             <FormControl placeholder="Search item" />
-            <Button variant="outline-secondary">🔍</Button>
+            <Button variant="outline-secondary"><FaSearch/></Button>
           </InputGroup>
           <Table bordered hover responsive>
             <thead>
@@ -49,7 +50,7 @@ export default function Tasks() {
           </div>
           <InputGroup className="mb-3">
             <FormControl placeholder="Search" />
-            <Button variant="outline-secondary">🔍</Button>
+            <Button variant="outline-secondary"><FaSearch/></Button>
           </InputGroup>
           <Table bordered hover responsive>
             <thead>

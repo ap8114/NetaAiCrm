@@ -18,7 +18,7 @@ const CalendarView = () => {
   return (
     <Container className="mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Scheduling</h2>
+        <h4 className='fw-bold'>Scheduling</h4>
         <Button variant="success" onClick={() => setShowModal(true)}>Add new allocation</Button>
       </div>
 

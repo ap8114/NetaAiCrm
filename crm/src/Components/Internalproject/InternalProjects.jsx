@@ -30,7 +30,7 @@ const InternalProjects = () => {
   return (
     <div className="p-4" style={{ backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold">Internal projects</h2>
+        <h4 className="fw-bold">Internal projects</h4>
         <Button variant="success" onClick={() => setShowModal(true)}>
           Add internal project
         </Button>
@@ -179,7 +179,7 @@ const InternalProjects = () => {
                   <div className="text-muted small">{project.subtitle}</div>
                 </td>
                 <td>
-                  <span className="badge bg-teal rounded-pill px-3 py-2">Open</span>
+                  <span className="badge bg-success rounded-pill px-3 py-2">Open</span>
                 </td>
               </tr>
             ))}

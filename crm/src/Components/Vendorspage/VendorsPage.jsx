@@ -133,7 +133,7 @@ const VendorsPage = () => {
       </div>
 
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3 className="fw-bold">Vendors</h3>
+        <h4 className="fw-bold">Vendors</h4>
         <button className="btn btn-success" onClick={() => setShowAddModal(true)}>Add new vendor</button>
       </div>
 

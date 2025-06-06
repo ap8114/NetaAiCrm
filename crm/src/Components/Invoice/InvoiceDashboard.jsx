@@ -35,7 +35,7 @@ const InvoiceDashboard = () => {
   return (
     <div className="p-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Invoices</h2>
+        <h4 className='fw-bold'>Invoices</h4>
         <div>
           <Button variant="outline-dark" className="me-2">View report</Button>
           <Button variant="success" onClick={handleOpenModal}>Add new invoice</Button>

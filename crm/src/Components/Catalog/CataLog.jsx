@@ -64,8 +64,8 @@ const CatalogTabs = () => {
   const totalCost = materials.reduce((acc, mat) => acc + (mat.quantity * mat.cost), 0);
 
   return (
-    <Container fluid className="p-4">
-      <h3 className="mb-4">Catalog</h3>
+    <Container fluid  className="p-4">
+      <h4 className=" fw-bold mb-4">Catalog</h4>
       <Tabs
         activeKey={activeTab}
         onSelect={(k) => setActiveTab(k)}

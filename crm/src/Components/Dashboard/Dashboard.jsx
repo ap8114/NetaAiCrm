@@ -227,7 +227,7 @@ const Dashboard = () => {
     <div className="container-fluid py-4 bg-light">
       {/* Header */}
       <div className="mb-4">
-        <h1 className="h3 fw-semibold text-dark mb-3">Dashboard</h1>
+        <h4 className="h3 fw-bold text-dark mb-3">Dashboard</h4>
 
         {/* Navigation Tabs */}
         <ul className="nav nav-tabs border-bottom mb-4">

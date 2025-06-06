@@ -463,7 +463,7 @@ const LeadOpportunities = () => {
             </Row>
           </Card.Body>
         </Card>
-        <h5 className="fw-bold mb-3">Lead Opportunities</h5>
+        <h4 className="fw-bold mb-3">Lead Opportunities</h4>
         <Table bordered hover responsive>
           <thead className="table-light">
             <tr>
@@ -544,7 +544,7 @@ const LeadOpportunities = () => {
                 Add Contact Form to Website
               </Button>
               <Button variant="outline-secondary">Filter (1)</Button>
-              <Button variant="primary" onClick={handleShow}>
+              <Button variant="success" onClick={handleShow}>
                 + New Lead Opportunity
               </Button>
             </div>
@@ -581,7 +581,7 @@ const LeadOpportunities = () => {
                     <span className="fw-semibold">
                       <Button
                         variant="link"
-                        className="p-0 align-baseline text-decoration-underline text-primary"
+                        className="p-0 align-baseline text-primary text-decoration-none"
                         onClick={() => handleLeadClick(index)}
                         style={{ fontWeight: 600 }}
                       >
@@ -594,7 +594,8 @@ const LeadOpportunities = () => {
                     {/* Make client contact a link */}
                     <a
                       href="#"
-                      className="text-primary text-decoration-underline"
+                      className="text-primary"
+                      style={{ textDecoration: "none" }}
                       onClick={(e) => {
                         e.preventDefault();
                         handleClientContactClick(lead.client);
@@ -656,7 +657,7 @@ const LeadOpportunities = () => {
             justify
           >
             <Tab eventKey="transaction" title="TRANSACTION LIST">
-              <Table bordered hover responsive className="bg-white rounded">
+              <Table bordered hover responsive  className="bg-white rounded">
                 <thead>
                   <tr>
                     <th>DATE</th>
@@ -714,7 +715,9 @@ const LeadOpportunities = () => {
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5 className="fw-bold mb-0">Daily Logs</h5>
                   <Button
-                    variant="primary"
+                    variant="success
+                    
+                    "
                     onClick={() => setShowEditModal(true)}
                   >
                     + New Daily Log
@@ -803,7 +806,7 @@ const LeadOpportunities = () => {
                       >
                         {log.description}
                         {idx === 0 && (
-                          <a href="#" className="d-block mt-2">
+                          <a href="#" className="d-block mt-2 text-decoration-none">
                             Read more
                           </a>
                         )}
@@ -989,7 +992,7 @@ const LeadOpportunities = () => {
                     <Form.Text muted>Supported: PDF, DOCX, JPG, PNG</Form.Text>
                   </Form.Group>
 
-                  <Button variant="primary" type="submit">
+                  <Button variant="success" type="submit">
                     Upload Document
                   </Button>
                 </Form>
@@ -1110,13 +1113,13 @@ const LeadOpportunities = () => {
                       <h6 className="fw-bold">Price Information</h6>
                       <div className="d-flex align-items-center mb-2">
                         <Button
-                          variant="outline-primary"
+                          variant="outline-success"
                           size="sm"
                           className="me-2 active"
                         >
                           Flat Fee
                         </Button>
-                        <Button variant="outline-primary" size="sm">
+                        <Button variant="outline-success" size="sm">
                           Line Items
                         </Button>
                         <Form.Check
@@ -1173,7 +1176,7 @@ const LeadOpportunities = () => {
                       </div>
                       <div className="d-flex justify-content-end mt-2">
                         <span className="fw-bold">Client Price $2,850.00</span>
-                        <a href="#" className="ms-2 small">
+                        <a href="#" className="ms-2 small text-decoration-none">
                           See full price breakdown
                         </a>
                       </div>

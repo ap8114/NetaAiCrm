@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Tab, Nav, Table, Dropdown, Button, ButtonGroup,Form } from "react-bootstrap";
+import { Tab, Nav, Table, Dropdown, Button, ButtonGroup, Form } from "react-bootstrap";
+import { FaChevronLeft, FaChevronRight, FaSearch, FaBuilding, FaTrashAlt, FaArrowUp,FaTools,FaBoxOpen,FaCommentDots,FaCommentAlt,FaCalculator } from "react-icons/fa";
 
 const TimeTracker = () => {
   const [key, setKey] = useState("overview");
@@ -8,7 +9,7 @@ const TimeTracker = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="fw-bold">Time tracker</h2>
+      <h4 className="fw-bold">Time tracker</h4>
       <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
         <Nav variant="tabs" className="mt-3">
           <Nav.Item>
@@ -38,16 +39,20 @@ const TimeTracker = () => {
          <Tab.Pane eventKey="enterTime">
   <div className="d-flex align-items-center justify-content-between mb-3">
     <div className="d-flex align-items-center">
-      <Button variant="light" className="border me-2">&lt;</Button>
+      <Button variant="light" className="border me-2">
+        <FaChevronLeft />
+      </Button>
       <span className="fw-semibold">Week of June 01 to June 07</span>
-      <Button variant="light" className="border ms-2">&gt;</Button>
+      <Button variant="light" className="border ms-2">
+        <FaChevronRight />
+      </Button>
     </div>
     <div className="d-flex align-items-center">
       <select className="form-select me-2" style={{ width: 200 }}>
         <option>NETA Admin</option>
         <option>Other User</option>
       </select>
-      <Button variant="primary" onClick={() => setShowActivityModal(true)}>
+      <Button variant="success" onClick={() => setShowActivityModal(true)}>
         + Add New Activity
       </Button>
     </div>
@@ -182,9 +187,13 @@ const TimeTracker = () => {
 
     <div className="d-flex align-items-center gap-2">
       <Button variant="light">Today</Button>
-      <Button variant="light" className="border px-2">&lt;</Button>
+      <Button variant="light" className="border px-2">
+        <FaChevronLeft />
+      </Button>
       <strong>FRI 6/6/25</strong>
-      <Button variant="light" className="border px-2">&gt;</Button>
+      <Button variant="light" className="border px-2">
+        <FaChevronRight />
+      </Button>
     </div>
   </div>
 
@@ -192,16 +201,7 @@ const TimeTracker = () => {
     className="d-flex flex-column justify-content-center align-items-center"
     style={{ height: '300px', backgroundColor: '#f8f9fa', borderRadius: '6px' }}
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
-      fill="gray"
-      className="mb-3"
-      viewBox="0 0 16 16"
-    >
-      <path d="M14.6 1.4a1 1 0 0 1 0 1.4l-2.3 2.3 1.3 1.3a1 1 0 0 1 0 1.4l-1.2 1.2a1 1 0 0 1-1.4 0L10 7.4l-2.3 2.3 1.3 1.3a1 1 0 0 1 0 1.4l-1.2 1.2a1 1 0 0 1-1.4 0L5.4 12l-2.3 2.3a1 1 0 0 1-1.4-1.4L4 10.6l-.7-.7a1 1 0 0 1 0-1.4l1.2-1.2a1 1 0 0 1 1.4 0l.7.7L10.6 4l-.7-.7a1 1 0 0 1 0-1.4l1.2-1.2a1 1 0 0 1 1.4 0l1.1 1.1z"/>
-    </svg>
+    <FaTools size={48} color="gray" className="mb-3" />
     <h5 className="text-muted">Select a job to input hours</h5>
   </div>
 </Tab.Pane>
@@ -212,15 +212,19 @@ const TimeTracker = () => {
     <div className="d-flex gap-2">
       <input type="text" className="form-control" placeholder="Search" style={{ maxWidth: '200px' }} />
       <Button variant="outline-secondary">
-        <i className="bi bi-search"></i>
+        <FaSearch />
       </Button>
       <input type="text" className="form-control" value="5/30/25 - 6/13/25" style={{ maxWidth: '200px' }} readOnly />
     </div>
     <div className="d-flex gap-2 align-items-center">
-      <Button variant="primary" onClick={() => setShowCheckInModal(true)}>+ Add New Entry</Button>
+      <Button variant="success" onClick={() => setShowCheckInModal(true)}>+ Add New Entry</Button>
       <span>1-1 of 1</span>
-      <Button variant="light">&lt;</Button>
-      <Button variant="light">&gt;</Button>
+      <Button variant="light">
+        <FaChevronLeft />
+      </Button>
+      <Button variant="light">
+        <FaChevronRight />
+      </Button>
     </div>
   </div>
 
@@ -230,9 +234,15 @@ const TimeTracker = () => {
       <thead className="table-light">
         <tr>
           <th>Day</th>
-          <th>Resource <i className="bi bi-arrow-up"></i></th>
-          <th>For <i className="bi bi-arrow-up"></i></th>
-          <th>Check in <i className="text-primary bi bi-arrow-up"></i></th>
+          <th>
+            Resource <FaArrowUp style={{ fontSize: "0.9em" }} />
+          </th>
+          <th>
+            For <FaArrowUp style={{ fontSize: "0.9em" }} />
+          </th>
+          <th>
+            Check in <FaArrowUp className="text-primary" style={{ fontSize: "0.9em" }} />
+          </th>
           <th>Check out</th>
           <th>Time</th>
           <th></th>
@@ -248,17 +258,17 @@ const TimeTracker = () => {
             Asphalt
           </td>
           <td>
-            <a href="#" className="text-primary">6/5/25 9:00 AM</a><br />
+            <a href="#" className="text-primary text-decoration-none">6/5/25 9:00 AM</a><br />
             <span className="text-primary">Manually checked in</span>
           </td>
           <td>
-            <a href="#" className="text-primary">6/5/25 5:01 PM</a><br />
+            <a href="#" className="text-primary text-decoration-none">6/5/25 5:01 PM</a><br />
             <span className="text-primary">Manually checked out</span>
           </td>
           <td>8:05</td>
           <td>
-            <i className="bi bi-building" style={{ fontSize: '1.3rem' }}></i>{' '}
-            <i className="bi bi-trash" style={{ fontSize: '1.3rem', color: '#ced4da' }}></i>
+            <FaBuilding className="text-primary"/>
+            <FaTrashAlt className="text-danger" />
           </td>
         </tr>
       </tbody>
@@ -302,7 +312,7 @@ const TimeTracker = () => {
     <div className="d-flex gap-2 align-items-center">
       <input type="text" className="form-control" placeholder="Search" style={{ maxWidth: '200px' }} />
       <Button variant="outline-secondary">
-        <i className="bi bi-search"></i>
+        <FaSearch />
       </Button>
       <input type="text" className="form-control" value="5/9/25 - 6/7/25" style={{ maxWidth: '200px' }} readOnly />
       <Form.Check type="checkbox" label="Show reviewed" />
@@ -310,8 +320,12 @@ const TimeTracker = () => {
     </div>
     <div className="d-flex align-items-center gap-2">
       <span>1-2 of 2</span>
-      <Button variant="light">&lt;</Button>
-      <Button variant="light">&gt;</Button>
+      <Button variant="light">
+        <FaChevronLeft />
+      </Button>
+      <Button variant="light">
+        <FaChevronRight />
+      </Button>
     </div>
   </div>
 
@@ -345,10 +359,9 @@ const TimeTracker = () => {
             Asphalt
           </td>
           <td>
-            8:05<br />
             <span className="text-muted">
-              <i className="bi bi-box-arrow-in-right"></i> 9:00 AM<br />
-              <i className="bi bi-box-arrow-left"></i> 5:01 PM
+              <FaBoxOpen /> 9:00 AM<br />
+              <FaBoxOpen style={{ transform: "rotate(180deg)" }} /> 5:01 PM
             </span>
           </td>
           <td>
@@ -356,10 +369,14 @@ const TimeTracker = () => {
             <span className="text-danger">$0.00</span>
           </td>
           <td>✔</td>
-          <td><i className="bi bi-chat-left-text-fill text-primary fs-5"></i></td>
           <td>
-            <i className="bi bi-pencil-square text-primary fs-5 me-2"></i>
-            <i className="bi bi-calculator-fill text-danger fs-5"></i>
+            <FaCommentDots className="text-primary fs-5" />
+          </td>
+          <td>
+            <FaCommentAlt className="text-muted fs-5" />
+          </td>
+          <td>
+            <FaCalculator className="text-danger fs-5" />
           </td>
         </tr>
         <tr>
@@ -381,10 +398,14 @@ const TimeTracker = () => {
             <span className="text-danger">$0.00</span>
           </td>
           <td>✔</td>
-          <td><i className="bi bi-chat-left-dots-fill text-muted fs-5"></i></td>
           <td>
-            <i className="bi bi-pencil-square text-primary fs-5 me-2"></i>
-            <i className="bi bi-calculator-fill text-danger fs-5"></i>
+            <FaCommentDots className="text-primary fs-5" />
+          </td>
+          <td>
+            <FaCommentAlt className="text-muted fs-5" />
+          </td>
+          <td>
+            <FaCalculator className="text-danger fs-5" />
           </td>
         </tr>
         <tr className="table-light">
@@ -412,48 +433,8 @@ const TimeTracker = () => {
   {/* Export Button */}
   <div className="text-end mt-2">
     <Button variant="outline-primary" size="sm">
-      <i className="bi bi-file-earmark-excel"></i> Export to XLS
+      <FaBoxOpen /> Export to XLS
     </Button>
-  </div>
-</Tab.Pane>
-
-          <Tab.Pane eventKey="timeReports">
-  <div className="p-4 bg-white rounded shadow-sm">
-    {[
-      {
-        title: 'Time Report',
-        desc: 'PDF report with approved time entries grouped by job and employees'
-      },
-      {
-        title: 'Time Rate Report',
-        desc: 'PDF report with approved time and rate information for a given time frame'
-      },
-      {
-        title: 'Time Cards',
-        desc: 'Spreadsheet export with submitted time entries for a given time frame'
-      },
-      {
-        title: 'Timesheet Report',
-        desc: 'Spreadsheet report with submitted employee timecards for a given time frame, with daily resolution'
-      },
-      {
-        title: 'Foreman Report',
-        desc: 'Spreadsheet report with submitted time and reimbursement information by employee for a given time frame'
-      },
-      {
-        title: 'Payroll Report',
-        desc: 'Spreadsheet report with approved payroll information, daily or weekly based on your company setup'
-      },
-      {
-        title: 'Labor Costing Report',
-        desc: 'Spreadsheet report with labor grouped by cost type and employee for a given time frame'
-      }
-    ].map((report, index) => (
-      <div key={index} className="mb-4">
-        <h5 className="text-primary mb-1">{report.title}</h5>
-        <p className="mb-0 text-secondary">{report.desc}</p>
-      </div>
-    ))}
   </div>
 </Tab.Pane>
 
@@ -468,11 +449,11 @@ const TimeTable = () => {
     <>
       <div className="d-flex align-items-center justify-content-between mb-3">
         <Button variant="light" className="border">
-          &lt;
+          <FaChevronLeft />
         </Button>
         <span className="fw-semibold">Week of June 01 to June 07</span>
         <Button variant="light" className="border">
-          &gt;
+          <FaChevronRight />
         </Button>
 
         <Dropdown as={ButtonGroup}>

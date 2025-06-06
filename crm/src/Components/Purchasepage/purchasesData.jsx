@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Form, InputGroup, Dropdown, Modal } from "react-bootstrap";
+import { FaRegCopy, FaEnvelopeOpenText, FaTrashAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const PurchasesData = [
   {
@@ -108,10 +109,10 @@ export default function Purchases() {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Purchases</h2>
+        <h4 className="fw-bold">Purchases</h4>
         <div className="d-flex gap-2">
           <Button
-            variant="outline-primary"
+            variant="outline-success"
             onClick={() => setShowReport(true)}
           >
             View report
@@ -173,14 +174,14 @@ export default function Purchases() {
               <td>{row.items}</td>
               <td>{row.from}</td>
               <td className="d-flex gap-2">
-                <Button variant="link">
-                  <i className="bi bi-clipboard"></i>
+                <Button variant="link" className="text-dark p-0">
+                  <FaRegCopy size={18} />
                 </Button>
-                <Button variant="link">
-                  <i className="bi bi-envelope"></i>
+                <Button variant="link" className="text-dark p-0">
+                  <FaEnvelopeOpenText size={18} />
                 </Button>
-                <Button variant="link">
-                  <i className="bi bi-x-lg"></i>
+                <Button variant="link" className="text-danger p-0">
+                  <FaTrashAlt size={18} />
                 </Button>
               </td>
             </tr>
@@ -190,11 +191,11 @@ export default function Purchases() {
 
       <div className="d-flex justify-content-end">
         <span>1-2 of 2</span>
-        <Button variant="light" className="ms-2">
-          <i className="bi bi-chevron-left"></i>
+        <Button variant="light" className="ms-2 p-0">
+          <FaChevronLeft size={18} />
         </Button>
-        <Button variant="light">
-          <i className="bi bi-chevron-right"></i>
+        <Button variant="light" className="p-0">
+          <FaChevronRight size={18} />
         </Button>
       </div>
 
