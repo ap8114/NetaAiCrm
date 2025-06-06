@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import netalogo from "../assets/images/Neta-Logo.png";
+import bonbonlogo from "../assets/Supplyblack.png";
 
 const ForgotPassword = () => {
   return (
@@ -11,12 +11,12 @@ const ForgotPassword = () => {
           style={{ maxWidth: 400 }}
         >
           {/* Logo Area */}
-          <div className="logo-container mb-4">
+          <div className="logo-container mb-4 align-items-center d-flex justify-content-center">
             <img
-              src=""
+              src={bonbonlogo}
               alt="NETA Logo"
               className="img-fluid"
-              style={{ maxWidth: "100px" }}
+              style={{ maxWidth: "200px" }}
             />
           </div>
 

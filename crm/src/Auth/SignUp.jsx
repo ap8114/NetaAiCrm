@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
-// import netalogo from "../assets/images/Neta-Logo.png";
+import bonbonlogo from "../assets/Supplyblack.png";
 // import BASE_URL from "../../config";
 
 const SignUp = () => {
@@ -71,13 +71,13 @@ const SignUp = () => {
         className="auth-card shadow-lg rounded p-4 bg-white w-100"
         style={{ maxWidth: 500 }}
       >
-        <div className="logo-container mb-4">
+        <div className="logo-container mb-4 align-items-center d-flex justify-content-center">
           <Link to="/">
             <img
-              src=""
+              src={bonbonlogo}
               alt="NETA Logo"
               className="img-fluid"
-              style={{ maxWidth: "100px" }}
+              style={{ maxWidth: "200px" }}
             />
           </Link>
         </div>

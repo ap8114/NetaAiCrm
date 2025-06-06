@@ -21,8 +21,10 @@ import Reports from './Components/Reports/Reports';
 import Login from './Auth/Login';
 import Signup from './Auth/Signup';
 import ForgotPassword from './Auth/ForgotPassword';
-
 import AdminSection from './Components/AdminSection/AdminSection';
+import InvoiceDashboard from './Components/Invoice/InvoiceDashboard';
+import TimeTracker from './Components/TimeTracker/TimeTracker';
+import CalendarView from './Components/Scheduling/CalendarView';
 
 
 function AppContent() {
@@ -47,6 +49,9 @@ function AppContent() {
         <Route path="/CataLog" element={<CatalogTabs />} />
         <Route path="/Tasks" element={<Tasks />} />
         <Route path="/BillsTab" element={<BillsTab />} />
+        <Route path="/InvoiceDashboard" element={<InvoiceDashboard />} />
+         <Route path="/TimeTracker" element={<TimeTracker />} />
+         <Route path="/CalendarView" element={<CalendarView />} />
          <Route path="/adminsection" element={<AdminSection />} />
 
         {/* Auth routes */}
