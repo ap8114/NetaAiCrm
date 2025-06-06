@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from '../src/Layout/Header';
 
 import AdminHome from './Components/HomePage/AdminHome';
@@ -15,35 +15,52 @@ import VendorsPage from './Components/Vendorspage/VendorsPage';
 import CatalogTabs from './Components/Catalog/CataLog';
 import Tasks from './Components/Tasks/Tasks';
 import BillsTab from './Components/Bills/BillsTab';
+
+// Auth pages
+import Login from './Auth/Login';
+import Signup from './Auth/Signup';
+import ForgotPassword from './Auth/ForgotPassword';
 import Reports from './Components/Reports/Reports';
-import AdminSection from './Components/AdminSection/AdminSection';
-function App() {
+
+
+
+function AppContent() {
+  const location = useLocation();
+  // Auth routes jahan header nahi dikhana
+  const hideHeaderRoutes = ['/', '/signup', '/forgot-password'];
+  const hideHeader = hideHeaderRoutes.includes(location.pathname);
+
   return (
     <>
-      <BrowserRouter>
-      <Header />
-     
-        <Routes>
-          <Route path="/" element={<AdminHome />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/ClientsData" element={<ClientsData />} />
-          <Route path="/ContractJobs" element={<ContractJobs />} />
-          <Route path="/InternalProjects" element={<InternalProjects />} />
-          <Route path="/LeadOpportunities" element={<LeadOpportunities />} />
-          <Route path="/purchasesData" element={<Purchases />} />
-          <Route path="/ReportsPage" element={<Reports />} />
-          <Route path="/VendorsPage" element={<VendorsPage />} />
-            <Route path="/CataLog" element={<CatalogTabs />} />
-              <Route path="/Tasks" element={<Tasks/>} />
-                <Route path="/BillsTab" element={<BillsTab />} />
-                 <Route path="/adminsection" element={<AdminSection />} />
-          
-        </Routes>
-      
-    </BrowserRouter>
-      
+      {!hideHeader && <Header />}
+      <Routes>
+        <Route path="/home" element={<AdminHome />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/ClientsData" element={<ClientsData />} />
+        <Route path="/ContractJobs" element={<ContractJobs />} />
+        <Route path="/InternalProjects" element={<InternalProjects />} />
+        <Route path="/LeadOpportunities" element={<LeadOpportunities />} />
+        <Route path="/purchasesData" element={<Purchases />} />
+        <Route path="/ReportsPage" element={<Reports />} />
+        <Route path="/VendorsPage" element={<VendorsPage />} />
+        <Route path="/CataLog" element={<CatalogTabs />} />
+        <Route path="/Tasks" element={<Tasks />} />
+        <Route path="/BillsTab" element={<BillsTab />} />
+        {/* Auth routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+      </Routes>
     </>
-  )
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
 }
 
 export default App;

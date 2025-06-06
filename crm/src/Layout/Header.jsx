@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { BsSearch } from "react-icons/bs";
 import {
     FaBell, FaUser, FaLock, FaCogs, FaRegBell, FaQuestionCircle,
     FaBook, FaFileContract, FaShieldAlt, FaFileAlt, FaProjectDiagram,
     FaHandHoldingUsd, FaFileInvoice, FaClock, FaCalendarAlt, FaTasks,
     FaUserTie, FaTruck, FaCube, FaBriefcase
 } from "react-icons/fa";
-import { BsSearch } from "react-icons/bs";
+
 import "./Header.css";
 
 const Header = () => {
@@ -165,16 +167,17 @@ const Header = () => {
                         <p className="mb-1"><FaQuestionCircle className="me-2" /> Video tutorials</p>
                         <p className="mb-1"><FaBook className="me-2" /> Documentation</p>
 
-                        <div className="mt-3 mb-2 small text-muted">ABOUT KNOWIFY</div>
-                        <p className="mb-1"><FaFileContract className="me-2" /> Terms of service</p>
-                        <p className="mb-3"><FaShieldAlt className="me-2" /> Privacy policy</p>
-
-                        <button className="btn btn-success w-100">Log out</button>
-                    </div>
-                )}
-            </div>
-        </header>
-    );
+            <div className="mt-3 mb-2 small text-muted">ABOUT KNOWIFY</div>
+            <p className="mb-1"><FaFileContract className="me-2" /> Terms of service</p>
+            <p className="mb-3"><FaShieldAlt className="me-2" /> Privacy policy</p>
+<Link to="/">
+            <button className="btn btn-success w-100">Log out</button>
+            </Link>
+          </div>
+        )}
+      </div>
+    </header>
+  );
 };
 
 export default Header;
