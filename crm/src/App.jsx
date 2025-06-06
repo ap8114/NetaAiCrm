@@ -21,6 +21,7 @@ import Login from './Auth/Login';
 import Signup from './Auth/Signup';
 import ForgotPassword from './Auth/ForgotPassword';
 import Reports from './Components/Reports/Reports';
+import AdminSection from './Components/AdminSection/AdminSection';
 
 
 
@@ -46,6 +47,8 @@ function AppContent() {
         <Route path="/CataLog" element={<CatalogTabs />} />
         <Route path="/Tasks" element={<Tasks />} />
         <Route path="/BillsTab" element={<BillsTab />} />
+         <Route path="/adminsection" element={<AdminSection />} />
+
         {/* Auth routes */}
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
