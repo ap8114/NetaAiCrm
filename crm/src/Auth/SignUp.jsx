@@ -74,7 +74,7 @@ const SignUp = () => {
         <div className="logo-container mb-4">
           <Link to="/">
             <img
-              src={netalogo}
+              src=""
               alt="NETA Logo"
               className="img-fluid"
               style={{ maxWidth: "100px" }}
@@ -176,7 +176,7 @@ const SignUp = () => {
 
         <p className="text-center mt-3 small">
           Already have an account?
-          <Link to="/login">
+          <Link to="/">
             <button className="btn btn-link p-0 ms-1 text-decoration-none">
               Login
             </button>

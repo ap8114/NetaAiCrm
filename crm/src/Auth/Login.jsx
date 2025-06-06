@@ -70,6 +70,7 @@ const Login = () => {
               className="img-fluid"
               style={{ maxWidth: "100px" }}
             />
+
           </Link>
         </div>
 
@@ -108,16 +109,17 @@ const Login = () => {
 
           <div className="mb-3 text-end me-2">
             <Link
-              to="/forgotpassword"
+              to="/forgot-password"
               className="form-label text-decoration-none"
             >
               Forgot Password?
             </Link>
           </div>
-
+          <Link to="/home">
           <button type="submit" className="btn ai-premium-btn w-100" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
+          </Link>
         </form>
 
         <p className="text-center mt-3 small">

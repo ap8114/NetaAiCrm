@@ -13,7 +13,7 @@ const ForgotPassword = () => {
           {/* Logo Area */}
           <div className="logo-container mb-4">
             <img
-              src={netalogo}
+              src=""
               alt="NETA Logo"
               className="img-fluid"
               style={{ maxWidth: "100px" }}
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
             </div> */}
 
             <div className="mb-3 text-end me-2">
-              <Link to="/login">
+              <Link to="/">
                 <button type="submit" className="btn ai-premium-btn ">
                     Change Password
                 </button>

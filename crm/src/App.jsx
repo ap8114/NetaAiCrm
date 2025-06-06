@@ -27,14 +27,14 @@ import Reports from './Components/Reports/Reports';
 function AppContent() {
   const location = useLocation();
   // Auth routes jahan header nahi dikhana
-  const hideHeaderRoutes = ['/login', '/signup', '/forgot-password'];
+  const hideHeaderRoutes = ['/', '/signup', '/forgot-password'];
   const hideHeader = hideHeaderRoutes.includes(location.pathname);
 
   return (
     <>
       {!hideHeader && <Header />}
       <Routes>
-        <Route path="/" element={<AdminHome />} />
+        <Route path="/home" element={<AdminHome />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/ClientsData" element={<ClientsData />} />
         <Route path="/ContractJobs" element={<ContractJobs />} />
@@ -47,7 +47,7 @@ function AppContent() {
         <Route path="/Tasks" element={<Tasks />} />
         <Route path="/BillsTab" element={<BillsTab />} />
         {/* Auth routes */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
