@@ -5,7 +5,10 @@ import bonbonlogo from "../assets/Supplyblack.png";
 const ForgotPassword = () => {
   return (
     <>
-      <div className="auth-container d-flex justify-content-center align-items-center min-vh-100">
+      <div
+        className="auth-container d-flex justify-content-center align-items-center min-vh-100"
+        style={{ background: "#fff" }}
+      >
         <div
           className="auth-card shadow-lg rounded p-4 bg-white w-100"
           style={{ maxWidth: 400 }}
@@ -34,28 +37,10 @@ const ForgotPassword = () => {
                 placeholder="Enter Email"
               />
             </div>
-            {/* <div className="mb-4">
-              <label className="form-label">New password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="New password"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="form-label">Confirm password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Confirm password"
-              />
-            </div> */}
-
             <div className="mb-3 text-end me-2">
               <Link to="/">
                 <button type="submit" className="btn ai-premium-btn ">
-                    Change Password
+                  Change Password
                 </button>
               </Link>
             </div>
