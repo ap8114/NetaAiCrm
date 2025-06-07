@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Table, Form } from 'react-bootstrap';
 import { FaFileExport, FaCheckSquare, FaPrint, FaFilter, FaCalendarAlt } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const invoices = [
   {
@@ -28,17 +29,35 @@ const invoices = [
 const InvoiceDashboard = () => {
   const [activeTab, setActiveTab] = useState('invoices');
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate(); // Add this lineimport { useNavigate } from "react-router-dom"; // Add this import
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
   return (
     <div className="p-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className='fw-bold'>Invoices</h4>
+   <div className="mb-4">
+        {/* Row 1: Back button + Right Buttons */}
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          {/* Left: Back Button */}
+          <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+            &lt; Back
+          </Button>
+
+          {/* Right: Action Buttons */}
+          <div>
+            <Button variant="outline-dark" className="me-2">
+              View report
+            </Button>
+            <Button variant="primary" onClick={handleOpenModal}>
+              Add new invoice
+            </Button>
+          </div>
+        </div>
+
+        {/* Row 2: Heading */}
         <div>
-          <Button variant="outline-dark" className="me-2">View report</Button>
-          <Button variant="success" onClick={handleOpenModal}>Add new invoice</Button>
+          <h4 className="fw-bold mb-0">Invoice</h4>
         </div>
       </div>
 

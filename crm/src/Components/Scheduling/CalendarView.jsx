@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Tab, Tabs, Button, Table, InputGroup, FormControl, Form } from 'react-bootstrap';
 import { FaPrint } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const CalendarView = () => {
   const [key, setKey] = useState('calendar');
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const weekDates = [
     ['26', '27', '28', '29', '30'],
@@ -18,9 +20,13 @@ const CalendarView = () => {
   return (
     <Container className="mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className='fw-bold'>Scheduling</h4>
-        <Button variant="success" onClick={() => setShowModal(true)}>Add new allocation</Button>
+       <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+                  &lt; Back
+                </Button>
+        
+        <Button variant="primary" onClick={() => setShowModal(true)}>Add new allocation</Button>
       </div>
+      <h4 className='fw-bold mt-3 mb-3'>Scheduling</h4>
 
       <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3 border-bottom">
         <Tab eventKey="calendar" title={<span className="fw-semibold">Corporate Calendar</span>}>
@@ -235,7 +241,7 @@ const CalendarView = () => {
       {/* Left Side */}
       <div className="col-md-4 bg-white p-3">
         <div className="d-flex align-items-start">
-          <div className="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
+          <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
             1
           </div>
           <div>
@@ -363,7 +369,7 @@ const CalendarView = () => {
                 <Button variant="light" onClick={() => setShowModal(false)}>
                   Cancel
                 </Button>
-                <Button variant="success">
+                <Button variant="primary">
                   Add New Allocation
                 </Button>
               </div>

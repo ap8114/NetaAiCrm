@@ -567,7 +567,7 @@ const AdminSection = () => {
                                     />
                                 </div>
                                 <button
-                                    className="btn btn-success btn-sm"
+                                    className="btn btn-primary btn-sm"
                                     type="button"
                                     onClick={handleAddDept}
                                 >
@@ -584,7 +584,7 @@ const AdminSection = () => {
                             style={{ maxWidth: 200 }}
                             placeholder="Search"
                         />
-                        <button className="btn btn-success" onClick={openAddModal}>
+                        <button className="btn btn-primary" onClick={openAddModal}>
                             + Add User
                         </button>
                         <div className="form-check ms-3">
@@ -751,7 +751,7 @@ const AdminSection = () => {
                                             </select>
                                         </div>
                                     </div>
-                                    <button className="btn btn-success btn-sm mt-3">Save Changes</button>
+                                    <button className="btn btn-primary btn-sm mt-3">Save Changes</button>
                                 </div>
                             </div>
                         )}
@@ -836,7 +836,7 @@ const AdminSection = () => {
                                     + Add new role
                                 </a>
                                 <br />
-                                <button className="btn btn-success btn-sm mt-2">Save Changes</button>
+                                <button className="btn btn-primary btn-sm mt-2">Save Changes</button>
                             </div>
                         )}
                     </div>
@@ -937,11 +937,11 @@ const AdminSection = () => {
                                         <div>&#x25B6; Proposal Management & Deposits</div>
                                         <div>&#x25B6; AIA-style Invoicing (pay apps)</div>
                                         <div>&#x25B6; Cost Plus with Schedule of Values Invoicing</div>
-                                        <div>&#x25B6; Parts Inventory <span className="badge bg-success ms-1" style={{ fontSize: 10 }}>UNLIMITED</span></div>
+                                        <div>&#x25B6; Parts Inventory <span className="badge bg-primary ms-1" style={{ fontSize: 10 }}>UNLIMITED</span></div>
                                         <div>&#x25B6; Default Payment Terms</div>
                                         <div>&#x25B6; Default Address for POs</div>
                                         <div>&#x25B6; Phone Reminders</div>
-                                        <div>&#x25B6; Submittals <span className="badge bg-success ms-1" style={{ fontSize: 10 }}>UNLIMITED</span></div>
+                                        <div>&#x25B6; Submittals <span className="badge bg-primary ms-1" style={{ fontSize: 10 }}>UNLIMITED</span></div>
                                     </div>
                                 </>
                             )}
@@ -1076,7 +1076,7 @@ const AdminSection = () => {
                                 </div>
                                 <div className="border rounded p-3 flex-fill" style={{ minWidth: 220, background: "#fafbfc" }}>
                                     <div className="mb-2" style={{ fontWeight: 500 }}>Would you like to connect? Click here:</div>
-                                    <button className="btn btn-success mb-2">Connect to QuickBooks</button>
+                                    <button className="btn btn-primary mb-2">Connect to QuickBooks</button>
                                     <hr className="my-2" />
                                     <div className="text-muted" style={{ fontSize: 13 }}>What to do now?</div>
                                 </div>
@@ -1146,7 +1146,7 @@ const AdminSection = () => {
                                 </div>
                             </div>
                         </div>
-                        <button className="btn btn-success mb-4" onClick={() => setShowSubStep1(true)}>
+                        <button className="btn btn-primary mb-4" onClick={() => setShowSubStep1(true)}>
                             Activate Now
                         </button>
                     </div>
@@ -1182,7 +1182,7 @@ const AdminSection = () => {
                                     <div className="modal-footer">
                                         <a href="#" className="me-auto" style={{ fontSize: 13 }}>Add promo code</a>
                                         <button className="btn btn-secondary" onClick={() => setShowSubStep1(false)}>Cancel</button>
-                                        <button className="btn btn-success" onClick={() => { setShowSubStep1(false); setShowSubStep2(true); }}>
+                                        <button className="btn btn-primary" onClick={() => { setShowSubStep1(false); setShowSubStep2(true); }}>
                                             Go to step 2/2
                                         </button>
                                     </div>
@@ -1238,7 +1238,7 @@ const AdminSection = () => {
                                     </div>
                                     <div className="modal-footer">
                                         <button className="btn btn-secondary" onClick={() => setShowSubStep2(false)}>Cancel</button>
-                                        <button className="btn btn-success">Submit Payment Details</button>
+                                        <button className="btn btn-primary">Submit Payment Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -1250,44 +1250,112 @@ const AdminSection = () => {
             {/* Add User Modal */}
             {showAddModal && (
                 <div className="modal d-block" tabIndex="-1">
-                    <div className="modal-dialog">
+                    <div className="modal-dialog modal-xl">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Add New User</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setShowAddModal(false)}
-                                ></button>
+                                <button type="button" className="btn-close" onClick={() => setShowAddModal(false)}></button>
                             </div>
                             <div className="modal-body">
-                                <div className="mb-3">
-                                    <label>Type of Access</label>
-                                    <select
-                                        className="form-select"
-                                        value={addUserType}
-                                        onChange={(e) => setAddUserType(e.target.value)}
-                                    >
-                                        <option value="">Select type</option>
-                                        <option value="No access">
-                                            User with no access to Knowify
-                                        </option>
-                                        <option value="Regular">Regular User</option>
-                                    </select>
+                                <div className="row g-3">
+                                    <div className="col-md-6">
+                                        <label>Type of Access</label>
+                                        <select className="form-select" value={editUser.type} onChange={(e) => setEditUser({ ...editUser, type: e.target.value })}>
+                                            <option>User with no access to Knowify</option>
+                                            <option>User with regular access to Knowify</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Role</label>
+                                        <input className="form-control" value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>First Name</label>
+                                        <input className="form-control" value={editUser.firstName} onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Last Name</label>
+                                        <input className="form-control" value={editUser.lastName} onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Email</label>
+                                        <input className="form-control" value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Department</label>
+                                        <select className="form-select" value={editUser.department} onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}>
+                                            <option>General/Corporate</option>
+                                            <option>Finance</option>
+                                            <option>Engineering</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Direct Manager</label>
+                                        <select className="form-select" value={editUser.manager} onChange={(e) => setEditUser({ ...editUser, manager: e.target.value })}>
+                                            <option>None</option>
+                                            <option>Manager A</option>
+                                            <option>Manager B</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Enable Approval Authority</label>
+                                        <div className="form-check form-switch">
+                                            <input className="form-check-input" type="checkbox" checked={editUser.approval} onChange={(e) => setEditUser({ ...editUser, approval: e.target.checked })} />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Cell Phone (optional)</label>
+                                        <input className="form-control" value={editUser.cell} onChange={(e) => setEditUser({ ...editUser, cell: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Employee ID (optional)</label>
+                                        <input className="form-control" value={editUser.empId} onChange={(e) => setEditUser({ ...editUser, empId: e.target.value })} />
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <h6>This User...</h6>
+                                    <div className="row g-2">
+                                        {[
+                                            'is responsible for managing vendor bills',
+                                            'is responsible for invoicing clients',
+                                            'tracks their time',
+                                            'manages client agreements',
+                                            'schedules company resources',
+                                            'views employee rates and job financials',
+                                            'can access QuickBooks or is your accountant',
+                                            'is a foreman or can approve time cards',
+                                            'manages or estimates jobs',
+                                            'is a Knowify system administrator'
+                                        ].map((label, index) => (
+                                            <div className="col-md-6" key={index}>
+                                                <div className="form-check">
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        checked={editUser.permissions?.includes(label)}
+                                                        onChange={(e) => {
+                                                            const updated = e.target.checked
+                                                                ? [...(editUser.permissions || []), label]
+                                                                : (editUser.permissions || []).filter(p => p !== label);
+                                                            setEditUser({ ...editUser, permissions: updated });
+                                                        }}
+                                                    />
+                                                    <label className="form-check-label">{label}</label>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button
-                                    className="btn btn-secondary"
-                                    onClick={() => setShowAddModal(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button className="btn btn-success">Add User</button>
+                                <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
+                                <button className="btn btn-primary">Add User</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
             )}
 
             {/* Edit User Modal */}
@@ -1397,7 +1465,7 @@ const AdminSection = () => {
                                 >
                                     Cancel
                                 </button>
-                                <button className="btn btn-success">Save Changes</button>
+                                <button className="btn btn-primary">Save Changes</button>
                             </div>
                         </div>
                     </div>
@@ -1525,7 +1593,7 @@ const AdminSection = () => {
                                 >
                                     Cancel
                                 </button>
-                                <button className="btn btn-success" onClick={handleAddRole}>
+                                <button className="btn btn-primary" onClick={handleAddRole}>
                                     Add New
                                 </button>
                             </div>

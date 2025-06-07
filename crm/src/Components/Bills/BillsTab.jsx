@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Modal, Button, Table, Form, InputGroup, Dropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const BillsTab = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeSearch, setActiveSearch] = useState("vendor");
   const [searchInput, setSearchInput] = useState("");
+    const navigate = useNavigate(); // Add this line
 
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
@@ -13,8 +15,11 @@ const BillsTab = () => {
   return (
     <div className="col-12 p-4">
       <div className="d-flex justify-content-between align-items-center my-3">
+          <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+                      &lt; Back
+                    </Button>
         <h4 className="fw-bold">Bills</h4>
-        <Button variant="success" onClick={handleModalShow}>
+        <Button variant="primary" onClick={handleModalShow}>
           Add new bill
         </Button>
       </div>
@@ -107,7 +112,7 @@ const BillsTab = () => {
           <Button variant="secondary" onClick={handleClear}>
             Clear data
           </Button>
-          <Button variant="success" onClick={handleModalClose}>
+          <Button variant="primary" onClick={handleModalClose}>
             Verify & Submit
           </Button>
         </Modal.Footer>

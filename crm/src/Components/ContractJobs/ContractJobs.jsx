@@ -200,7 +200,7 @@ const NewContractJobPage = ({ onClose }) => {
                   <div className="row g-3">
                     <div className="col-md-4">
                       <div 
-                        className={`card h-100 ${billingType === 'fixed-price' ? 'border-success border-2' : 'border'}`}
+                        className={`card h-100 ${billingType === 'fixed-price' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('fixed-price')}
                         style={{cursor: 'pointer'}}
                       >
@@ -219,7 +219,7 @@ const NewContractJobPage = ({ onClose }) => {
 
                     <div className="col-md-4">
                       <div 
-                        className={`card h-100 ${billingType === 'fixed-price-aia' ? 'border-success border-2' : 'border'}`}
+                        className={`card h-100 ${billingType === 'fixed-price-aia' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('fixed-price-aia')}
                         style={{cursor: 'pointer'}}
                       >
@@ -238,7 +238,7 @@ const NewContractJobPage = ({ onClose }) => {
 
                     <div className="col-md-4">
                       <div 
-                        className={`card h-100 ${billingType === 'cost-plus' ? 'border-success border-2' : 'border'}`}
+                        className={`card h-100 ${billingType === 'cost-plus' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('cost-plus')}
                         style={{cursor: 'pointer'}}
                       >
@@ -595,13 +595,13 @@ const ContractJobs = () => {
                     <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
                   </Col>
                   <Col md={1}>
-                    <Badge bg="success">{project.status}</Badge>
+                    <Badge bg="primary">{project.status}</Badge>
                   </Col>
                   <Col md={2}>
                     <div>{project.revenue}</div>
                     {project.revenue !== '$0.00' && (
                       <ProgressBar className="mt-2">
-                        <ProgressBar striped variant="success" now={40} key={1} />
+                        <ProgressBar striped variant="primary" now={40} key={1} />
                         <ProgressBar variant="secondary" now={60} key={2} />
                       </ProgressBar>
                     )}

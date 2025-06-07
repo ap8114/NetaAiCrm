@@ -56,7 +56,7 @@ const VendorsPage = () => {
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-              <button className="btn btn-success">Submit</button>
+              <button className="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@ const VendorsPage = () => {
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-              <button className="btn btn-success">Save Changes</button>
+              <button className="btn btn-primary">Save Changes</button>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@ const VendorsPage = () => {
 
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Vendors</h4>
-        <button className="btn btn-success" onClick={() => setShowAddModal(true)}>Add new vendor</button>
+        <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>Add new vendor</button>
       </div>
 
       {/* Tabs */}

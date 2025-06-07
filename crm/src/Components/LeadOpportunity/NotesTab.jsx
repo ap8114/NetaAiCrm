@@ -58,7 +58,7 @@ export default function NotesTab() {
     <div className="my-4 px-3">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5 className="mb-0">Internal Notes Timeline</h5>
-        <Button variant="success" onClick={() => setShowModal(true)}>
+        <Button variant="primary" onClick={() => setShowModal(true)}>
           + Add Note
         </Button>
       </div>

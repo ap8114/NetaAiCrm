@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Table, Button, Form, InputGroup, Dropdown, Modal } from "react-bootstrap";
+import { Table, Button, Form, InputGroup, Dropdown, Modal, Row, Col } from "react-bootstrap";
 import { FaRegCopy, FaEnvelopeOpenText, FaTrashAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import CopyFromSpreadsheetModal from './CopyFromSpreadsheetModal';
 
 const PurchasesData = [
   {
@@ -26,29 +27,154 @@ const PurchasesData = [
 ];
 
 function AddPurchaseModal({ show, onHide }) {
+  const [items, setItems] = useState([
+    { description: "", quantity: 1, unitCost: "", job: "" }
+  ]);
+  const [showSpreadsheetModal, setShowSpreadsheetModal] = useState(false);
+
+  const handleItemChange = (index, field, value) => {
+    const newItems = [...items];
+    newItems[index][field] = value;
+    setItems(newItems);
+  };
+
+  const addItem = () => {
+    setItems([...items, { description: "", quantity: 1, unitCost: "", job: "" }]);
+  };
+
   return (
-    <Modal show={show} onHide={onHide} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>New purchase</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Label>Purchase Type</Form.Label>
-            <Form.Select defaultValue="Purchase Order (vendor will send an invoice)">
-              <option>Purchase Order (vendor will send an invoice)</option>
-              <option>Other</option>
-            </Form.Select>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>
-              Vendor Name <span className="text-danger">*</span>
-            </Form.Label>
-            <Form.Control placeholder="Start typing to search vendor" />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-    </Modal>
+    <>
+      <Modal
+        show={show}
+        onHide={() => {
+          setShowSpreadsheetModal(false);
+          onHide();
+        }}
+        fullscreen  // Changed from size="lg" to fullscreen
+        backdrop={showSpreadsheetModal ? "static" : true}
+        keyboard={!showSpreadsheetModal}
+      >
+        <div 
+          style={showSpreadsheetModal ? { 
+            pointerEvents: "none", 
+            opacity: 0.5,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          } : {
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Modal.Header closeButton={!showSpreadsheetModal}>
+            <Modal.Title>New purchase</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ flex: 1, overflowY: 'auto' }}>
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Purchase Type</Form.Label>
+                <Form.Select defaultValue="">
+                  <option value="" disabled>Select Purchase Type</option>
+                  <option>Purchase Order (vendor will send an invoice)</option>
+                  <option>Expense (paid with cash or debit card)</option>
+                  <option>Reimbursement (company will reimburse me)</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Person to be Reimbursed</Form.Label>
+                <Form.Control placeholder="Type name" />
+              </Form.Group>
+
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <h6 className="mb-0">Item</h6>
+                <div>
+                  <Button 
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={() => setShowSpreadsheetModal(true)}
+                    disabled={showSpreadsheetModal}
+                    className="me-2"
+                  >
+                    Copy from spreadsheet
+                  </Button>
+                  <Button variant="outline-primary" size="sm" onClick={addItem}>
+                    + Add another item
+                  </Button>
+                </div>
+              </div>
+              
+              <div style={{ maxHeight: '40vh', overflowY: 'auto' }}>
+                {items.map((item, index) => (
+                  <Row key={index} className="mb-2 align-items-end">
+                    <Col md={5}>
+                      <Form.Label className="small mb-0">Description</Form.Label>
+                      <Form.Control
+                        placeholder="Enter description"
+                        value={item.description}
+                        onChange={(e) => handleItemChange(index, "description", e.target.value)}
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <Form.Label className="small mb-0">Qty</Form.Label>
+                      <Form.Control
+                        type="number"
+                        value={item.quantity}
+                        onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <Form.Label className="small mb-0">Unit Cost</Form.Label>
+                      <Form.Control
+                        type="number"
+                        placeholder="$"
+                        value={item.unitCost}
+                        onChange={(e) => handleItemChange(index, "unitCost", e.target.value)}
+                      />
+                    </Col>
+                    <Col md={3}>
+                      <Form.Label className="small mb-0">Job</Form.Label>
+                      <Form.Control
+                        placeholder="Search Job"
+                        value={item.job}
+                        onChange={(e) => handleItemChange(index, "job", e.target.value)}
+                      />
+                    </Col>
+                  </Row>
+                ))}
+              </div>
+
+              <Row className="mt-3">
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Check label="Set Purchase Date" />
+                    <Form.Check label="Upload Supporting Documents" />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Notes</Form.Label>
+                    <Form.Control as="textarea" rows={3} placeholder="Type here" />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer className="border-top py-3">
+            <div className="me-auto fw-bold fs-5">Total: $0.00</div>
+            <Button variant="light" onClick={onHide}>
+              Cancel
+            </Button>
+            <Button variant="success">✔ Verify & Submit</Button>
+          </Modal.Footer>
+        </div>
+      </Modal>
+      <CopyFromSpreadsheetModal
+        show={showSpreadsheetModal}
+        onHide={() => setShowSpreadsheetModal(false)}
+      />
+    </>
   );
 }
 
@@ -107,17 +233,18 @@ export default function Purchases() {
   const [showReport, setShowReport] = useState(false);
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" style={{ overflowX: "hidden" }}>
+     
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Purchases</h4>
         <div className="d-flex gap-2">
           <Button
-            variant="outline-success"
+            variant="outline-primary"
             onClick={() => setShowReport(true)}
           >
             View report
           </Button>
-          <Button variant="success" onClick={() => setShowAdd(true)}>
+          <Button variant="primary" onClick={() => setShowAdd(true)}>
             Add new purchase
           </Button>
         </div>
@@ -142,7 +269,8 @@ export default function Purchases() {
         <Button variant="outline-secondary">Export to XLS</Button>
       </div>
 
-      <Table bordered hover responsive>
+     <Table bordered hover responsive style={{ overflowX: "hidden" }}>
+     
         <thead>
           <tr>
             <th>Status</th>
@@ -160,7 +288,7 @@ export default function Purchases() {
           {PurchasesData.map((row, idx) => (
             <tr key={idx}>
               <td>
-                <span className="badge bg-success">{row.status}</span>
+                <span className="badge bg-primary">{row.status}</span>
               </td>
               <td>{row.date}</td>
               <td>

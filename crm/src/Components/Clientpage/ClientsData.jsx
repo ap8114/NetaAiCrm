@@ -27,7 +27,7 @@ const ClientsData = () => {
     <div className="p-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Clients</h4>
-        <Button variant="success" onClick={handleAddOpen}>Add new client</Button>
+        <Button variant="primary" onClick={handleAddOpen}>Add new client</Button>
       </div>
 
       <div className="d-flex gap-3 align-items-center mb-3">
@@ -168,7 +168,7 @@ const ClientsData = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleAddClose}>Cancel</Button>
-          <Button variant="success">Submit</Button>
+          <Button variant="primary">Submit</Button>
         </Modal.Footer>
       </Modal>
 
@@ -254,7 +254,7 @@ const ClientsData = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
-          <Button variant="success">Save Changes</Button>
+          <Button variant="primary">Save Changes</Button>
         </Modal.Footer>
       </Modal>
 
@@ -276,7 +276,7 @@ const ClientsData = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleAssignClose}>Cancel</Button>
-          <Button variant="success">Assign</Button>
+          <Button variant="primary">Assign</Button>
         </Modal.Footer>
       </Modal>
     </div>

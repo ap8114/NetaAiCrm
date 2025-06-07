@@ -47,7 +47,7 @@ const SignUp = () => {
       //   phone_number: formData.phone_number
       // });
       // const data = response.data;
-      alert("Sign up successful!");
+      alert("Sign up primaryful!");
       navigate("/login");
     } finally {
       setLoading(false);

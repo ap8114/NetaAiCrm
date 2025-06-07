@@ -544,7 +544,7 @@ const LeadOpportunities = () => {
                 Add Contact Form to Website
               </Button>
               <Button variant="outline-secondary">Filter (1)</Button>
-              <Button variant="success" onClick={handleShow}>
+              <Button variant="primary" onClick={handleShow}>
                 + New Lead Opportunity
               </Button>
             </div>
@@ -684,7 +684,7 @@ const LeadOpportunities = () => {
                         <td>
                           {t.status.includes("Closed") ||
                           t.status.includes("Paid") ? (
-                            <span className="badge bg-success">
+                            <span className="badge bg-primary">
                               {t.status.replace(/<br\/?>/g, " ")}
                             </span>
                           ) : (
@@ -715,7 +715,7 @@ const LeadOpportunities = () => {
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5 className="fw-bold mb-0">Daily Logs</h5>
                   <Button
-                    variant="success
+                    variant="primary
                     
                     "
                     onClick={() => setShowEditModal(true)}
@@ -992,7 +992,7 @@ const LeadOpportunities = () => {
                     <Form.Text muted>Supported: PDF, DOCX, JPG, PNG</Form.Text>
                   </Form.Group>
 
-                  <Button variant="success" type="submit">
+                  <Button variant="primary" type="submit">
                     Upload Document
                   </Button>
                 </Form>
@@ -1102,7 +1102,7 @@ const LeadOpportunities = () => {
                         </Col>
                       </Row>
                       <div className="d-flex align-items-center mb-2">
-                        <span className="badge bg-success">
+                        <span className="badge bg-primary">
                           Approved manually by Sara Yakov on Jun 17, 2024
                         </span>
                       </div>
@@ -1113,13 +1113,13 @@ const LeadOpportunities = () => {
                       <h6 className="fw-bold">Price Information</h6>
                       <div className="d-flex align-items-center mb-2">
                         <Button
-                          variant="outline-success"
+                          variant="outline-primary"
                           size="sm"
                           className="me-2 active"
                         >
                           Flat Fee
                         </Button>
-                        <Button variant="outline-success" size="sm">
+                        <Button variant="outline-primary" size="sm">
                           Line Items
                         </Button>
                         <Form.Check

@@ -35,7 +35,7 @@ const Login = () => {
       //   localStorage.setItem("token", data?.data?.token);
       //   localStorage.setItem("user_id",data?.data?.id)
       //   localStorage.setItem("user_name",data?.data?.name)
-      //   alert("Login successful!");
+      //   alert("Login primaryful!");
       //   navigate("/chatbot");
       // } else {
       //   setError(data.message || "Login failed.");
@@ -43,7 +43,7 @@ const Login = () => {
     } catch (err) {
       setError("Server error or network issue.");
     } finally {
-      alert("Login successful!");
+      alert("Login primaryful!");
       navigate("/chatbot");
       setLoading(false);
     }
@@ -118,14 +118,14 @@ const Login = () => {
               </button>
               </Link>
             </form>
-            <p className="text-center mt-3 small">
+            {/* <p className="text-center mt-3 small">
               Don’t have an account?
               <Link to="/signup">
                 <button className="btn btn-link p-0 ms-1 text-decoration-none">
                   Sign Up
                 </button>
               </Link>
-            </p>
+            </p> */}
           </div>
           {/* Right: Full Image */}
           <div className="col-md-6 d-none d-md-block p-0">

@@ -82,7 +82,7 @@ const CatalogTabs = () => {
               />
               <InputGroup.Text><FaSearch /></InputGroup.Text>
             </InputGroup>
-            <Button variant="success" onClick={handleShow}>
+            <Button variant="primary" onClick={handleShow}>
               <FaPlus className="me-1" /> Add new
             </Button>
           </div>
@@ -173,7 +173,7 @@ const CatalogTabs = () => {
 
             <div className="d-flex justify-content-end gap-2">
               <Button variant="secondary">Cancel</Button>
-              <Button variant="success">Submit</Button>
+              <Button variant="primary">Submit</Button>
             </div>
           </div>
         </Tab>
