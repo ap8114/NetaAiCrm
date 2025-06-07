@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import "./AdminSection.css";
-import {  Modal, Button, Form, InputGroup } from 'react-bootstrap';
+import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import { FaChevronDown, FaChevronUp, FaCopy, FaBold, FaItalic } from 'react-icons/fa';
 
 
@@ -181,43 +181,78 @@ const initialResourceCost = [
 
 const AdminSection = () => {
 
-     const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-     const [rates, setRates] = useState([
-    { name: 'Non taxable', rate: '0.000%' }
-  ]);
+    // Yeh function button click par modal open karega
 
-  const handleAddRate = () => {
-    setRates([...rates, { name: '', rate: '' }]);
-  };
+    // Modal close karne ke liye
+    const [showModal, setShowModal] = useState(false);
+    const fileName = "Bon-Bon-Logo.png";
+    const fileUrl = "/uploads/Bon-Bon-Logo.png"; // Replace with the actual path or dynamic value
 
-  const handleChange = (index, field, value) => {
-    const updatedRates = [...rates];
-    updatedRates[index][field] = value;
-    setRates(updatedRates);
-  };
+    const handleView = () => {
+        window.open(fileUrl, "_blank");
+    };
 
-     const [openDropdown, setOpenDropdown] = useState(null);
-  const [text, setText] = useState("");
+    const handleDownload = () => {
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
-  const toggleDropdown = (key) => {
-    setOpenDropdown((prev) => (prev === key ? null : key));
-  };
 
-  const handleFormat = (tag) => {
-    const selection = window.getSelection().toString();
-    if (!selection) return;
-    const formatted = `<${tag}>${selection}</${tag}>`;
-    setText((prev) => prev.replace(selection, formatted));
-  };
+    const fileInputRef = useRef(null);
+
+    const handleClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const files = e.target.files;
+        console.log("Selected files:", files);
+        // You can handle file upload logic here
+    };
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [rates, setRates] = useState([
+        { name: 'Non taxable', rate: '0.000%' }
+    ]);
+
+    const handleAddRate = () => {
+        setRates([...rates, { name: '', rate: '' }]);
+    };
+
+    const handleChange = (index, field, value) => {
+        const updatedRates = [...rates];
+        updatedRates[index][field] = value;
+        setRates(updatedRates);
+    };
+
+    const [openDropdown, setOpenDropdown] = useState(null);
+    const [text, setText] = useState("");
+
+    const toggleDropdown = (key) => {
+        setOpenDropdown((prev) => (prev === key ? null : key));
+    };
+
+    const handleFormat = (tag) => {
+        const selection = window.getSelection().toString();
+        if (!selection) return;
+        const formatted = `<${tag}>${selection}</${tag}>`;
+        setText((prev) => prev.replace(selection, formatted));
+    };
 
     const [showTerms, setShowTerms] = useState(false);
 
 
- 
+
     const [subject, setSubject] = useState("Invoice #^InvoiceNumber^");
     const [message, setMessage] = useState(
         "Please find attached Invoice #^InvoiceNumber^ for our services.\n\nThank you,\n\n^UserName^"
@@ -1023,166 +1058,166 @@ const AdminSection = () => {
                                         Every business is different, that is why you can adjust Knowify to fit your particular needs. Contact us at support@knowify.com if you would like us to help you. Our setup is complimentary!
                                     </div>
                                     <div className="mt-2">
-      <table className="table table-bordered" style={{ maxWidth: 400 }}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Rate</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rates.map((item, index) => (
-            <tr key={index}>
-              <td>
-                <input
-                  className="form-control form-control-sm"
-                  value={item.name}
-                  onChange={(e) => handleChange(index, 'name', e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  className="form-control form-control-sm"
-                  value={item.rate}
-                  onChange={(e) => handleChange(index, 'rate', e.target.value)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                                        <table className="table table-bordered" style={{ maxWidth: 400 }}>
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Rate</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {rates.map((item, index) => (
+                                                    <tr key={index}>
+                                                        <td>
+                                                            <input
+                                                                className="form-control form-control-sm"
+                                                                value={item.name}
+                                                                onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                className="form-control form-control-sm"
+                                                                value={item.rate}
+                                                                onChange={(e) => handleChange(index, 'rate', e.target.value)}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
 
-      <a href="#" onClick={e => { e.preventDefault(); handleAddRate(); }} style={{ fontSize: 13 }}>
-        + add a rate
-      </a>
+                                        <a href="#" onClick={e => { e.preventDefault(); handleAddRate(); }} style={{ fontSize: 13 }}>
+                                            + add a rate
+                                        </a>
 
-      <div className="form-check mt-3">
-        <input className="form-check-input" type="checkbox" id="defaultTaxes" />
-        <label className="form-check-label" htmlFor="defaultTaxes">
-          Set line items in proposals taxable by default.
-        </label>
-      </div>
-    </div>
+                                        <div className="form-check mt-3">
+                                            <input className="form-check-input" type="checkbox" id="defaultTaxes" />
+                                            <label className="form-check-label" htmlFor="defaultTaxes">
+                                                Set line items in proposals taxable by default.
+                                            </label>
+                                        </div>
+                                    </div>
                                 </>
                             )}
                             {customizeTab === "defaults" && (
-                                 <>
-      <div>
-        Every business is different, that is why you can adjust Knowify to fit your particular needs...
-      </div>
+                                <>
+                                    <div>
+                                        Every business is different, that is why you can adjust Knowify to fit your particular needs...
+                                    </div>
 
-      {[
-        { key: "invoice", label: "Invoice Email" },
-        { key: "esignature", label: "eSignature Email" },
-        { key: "po", label: "PO Email" },
-        { key: "service", label: "Service Tickets Email" },
-        { key: "terms", label: "Terms & Exclusions Language" },
-      ].map(({ key, label }) => (
-        <div className="mb-4" key={key}>
-          <div
-            className="d-flex align-items-center mb-2"
-            style={{ cursor: "pointer" }}
-            onClick={() => toggleDropdown(key)}
-          >
-            {openDropdown === key ? (
-              <FaChevronUp className="me-2 text-dark" />
-            ) : (
-              <FaChevronDown className="me-2 text-dark" />
-            )}
-            <span className="fw-bold text-dark">{label}</span>
-          </div>
+                                    {[
+                                        { key: "invoice", label: "Invoice Email" },
+                                        { key: "esignature", label: "eSignature Email" },
+                                        { key: "po", label: "PO Email" },
+                                        { key: "service", label: "Service Tickets Email" },
+                                        { key: "terms", label: "Terms & Exclusions Language" },
+                                    ].map(({ key, label }) => (
+                                        <div className="mb-4" key={key}>
+                                            <div
+                                                className="d-flex align-items-center mb-2"
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => toggleDropdown(key)}
+                                            >
+                                                {openDropdown === key ? (
+                                                    <FaChevronUp className="me-2 text-dark" />
+                                                ) : (
+                                                    <FaChevronDown className="me-2 text-dark" />
+                                                )}
+                                                <span className="fw-bold text-dark">{label}</span>
+                                            </div>
 
-          {openDropdown === key && (
-            <div className="ps-4 row">
-              {key === "terms" ? (
-                <div>
-                  <div className="mb-2">
-                    <button
-                      type="button"
-                      className="btn btn-outline-dark btn-sm me-2"
-                      onClick={() => handleFormat("b")}
-                    >
-                      <FaBold />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-dark btn-sm me-2"
-                      onClick={() => handleFormat("i")}
-                    >
-                      <FaItalic />
-                    </button>
-                  </div>
-                  <textarea
-                    className="form-control"
-                    rows="5"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    placeholder="Write terms or exclusions here..."
-                  />
-                  <div className="mt-3">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => alert("Terms saved!")}
-                    >
-                      Save Contract Terms And Exclusions
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="col-md-8 mb-3">
-                    <div className="mb-3">
-                      <label className="form-label fw-bold">Subject</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label fw-bold">Message</label>
-                      <textarea
-                        className="form-control"
-                        rows="6"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                    </div>
-                    <a href="#" className="text-primary d-inline-block mb-3">
-                      Preview Email
-                    </a>
-                    <br />
-                    <button className="btn btn-primary">
-                      Save {label}
-                    </button>
-                  </div>
+                                            {openDropdown === key && (
+                                                <div className="ps-4 row">
+                                                    {key === "terms" ? (
+                                                        <div>
+                                                            <div className="mb-2">
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-outline-dark btn-sm me-2"
+                                                                    onClick={() => handleFormat("b")}
+                                                                >
+                                                                    <FaBold />
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-outline-dark btn-sm me-2"
+                                                                    onClick={() => handleFormat("i")}
+                                                                >
+                                                                    <FaItalic />
+                                                                </button>
+                                                            </div>
+                                                            <textarea
+                                                                className="form-control"
+                                                                rows="5"
+                                                                value={text}
+                                                                onChange={(e) => setText(e.target.value)}
+                                                                placeholder="Write terms or exclusions here..."
+                                                            />
+                                                            <div className="mt-3">
+                                                                <button
+                                                                    className="btn btn-primary"
+                                                                    onClick={() => alert("Terms saved!")}
+                                                                >
+                                                                    Save Contract Terms And Exclusions
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <>
+                                                            <div className="col-md-8 mb-3">
+                                                                <div className="mb-3">
+                                                                    <label className="form-label fw-bold">Subject</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control"
+                                                                        value={subject}
+                                                                        onChange={(e) => setSubject(e.target.value)}
+                                                                    />
+                                                                </div>
+                                                                <div className="mb-3">
+                                                                    <label className="form-label fw-bold">Message</label>
+                                                                    <textarea
+                                                                        className="form-control"
+                                                                        rows="6"
+                                                                        value={message}
+                                                                        onChange={(e) => setMessage(e.target.value)}
+                                                                    />
+                                                                </div>
+                                                                <a href="#" className="text-primary d-inline-block mb-3">
+                                                                    Preview Email
+                                                                </a>
+                                                                <br />
+                                                                <button className="btn btn-primary">
+                                                                    Save {label}
+                                                                </button>
+                                                            </div>
 
-                  <div className="col-md-4">
-                    <h6 className="fw-bold">Available Tags</h6>
-                    <ul className="list-unstyled small">
-                      {key === "invoice" && (
-                        <>
-                          <li><code>^JobName^</code> for job name</li>
-                          <li><code>^ContactName^</code> for contact name</li>
-                          <li><code>^InvoiceNumber^</code> for Invoice number</li>
-                          <li><code>^TotalAmount^</code> for total amount</li>
-                          <li><code>^UserName^</code> for user name</li>
-                          <li><code>^UserEmail^</code> for user email</li>
-                          <li><code>^UserPhone^</code> for user phone</li>
-                          <li><code>^UserRole^</code> for user role</li>
-                        </>
-                      )}
-                      {/* Add other tags per dropdown type if needed */}
-                    </ul>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
-    </>
+                                                            <div className="col-md-4">
+                                                                <h6 className="fw-bold">Available Tags</h6>
+                                                                <ul className="list-unstyled small">
+                                                                    {key === "invoice" && (
+                                                                        <>
+                                                                            <li><code>^JobName^</code> for job name</li>
+                                                                            <li><code>^ContactName^</code> for contact name</li>
+                                                                            <li><code>^InvoiceNumber^</code> for Invoice number</li>
+                                                                            <li><code>^TotalAmount^</code> for total amount</li>
+                                                                            <li><code>^UserName^</code> for user name</li>
+                                                                            <li><code>^UserEmail^</code> for user email</li>
+                                                                            <li><code>^UserPhone^</code> for user phone</li>
+                                                                            <li><code>^UserRole^</code> for user role</li>
+                                                                        </>
+                                                                    )}
+                                                                    {/* Add other tags per dropdown type if needed */}
+                                                                </ul>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </>
                             )}
                             {customizeTab === "integrations" && (
                                 <>
@@ -1382,31 +1417,49 @@ const AdminSection = () => {
                                 className="border rounded bg-light d-flex flex-column align-items-center justify-content-center"
                                 style={{ minHeight: 80, borderStyle: "dashed" }}
                             >
-                                <div className="py-3 text-center w-100">
+                                <div className="py-3 text-center w-100 border border-dashed rounded" style={{ cursor: 'pointer' }}>
                                     <div>Drop files here</div>
                                     <div className="text-muted my-2">or</div>
-                                    <a href="#" style={{ color: "#2eafec", textDecoration: "underline", fontSize: 15 }}>
+                                    <a
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleClick();
+                                        }}
+                                        style={{ color: "#2eafec", textDecoration: "underline", fontSize: 15 }}
+                                    >
                                         <i className="bi bi-cloud-upload me-1" />
                                         Click to select files
                                     </a>
+
+                                    {/* Hidden file input */}
+                                    <input
+                                        type="file"
+                                        multiple
+                                        ref={fileInputRef}
+                                        onChange={handleFileChange}
+                                        style={{ display: 'none' }}
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="border rounded bg-white">
                             <div className="d-flex align-items-center px-2 py-2 border-bottom" style={{ fontSize: 15 }}>
                                 <i className="bi bi-file-earmark me-2" />
-                                <span>Bon-Bon-Logo.png</span>
+                                <span>{fileName}</span>
                                 <span className="ms-auto text-muted" style={{ fontSize: 12 }}>
                                     <i className="bi bi-clock me-1" />
                                     6/5/25 5:18 PM
                                 </span>
-                                <button className="btn btn-link btn-sm ms-2" title="View">
+                                <button className="btn btn-link btn-sm ms-2" title="View" onClick={handleView}>
                                     <i className="bi bi-eye" />
                                 </button>
-                                <button className="btn btn-link btn-sm" title="Download">
+
+
+                                <button className="btn btn-link btn-sm" title="Download" onClick={handleDownload}>
                                     <i className="bi bi-cloud-download" />
                                 </button>
-                                <button className="btn btn-link btn-sm text-danger" title="Delete">
+                                <button className="btn btn-link btn-sm text-danger" title="Delete" onClick={() => alert("Delete function here")}>
                                     <i className="bi bi-x" />
                                 </button>
                             </div>
@@ -1485,38 +1538,38 @@ const AdminSection = () => {
                                     <div className="fw-bold">$311.00/month</div>
                                     <div className="text-muted" style={{ fontSize: 13 }}>
                                         {/* Link that opens the modal */}
-      <a href="#" onClick={(e) => { e.preventDefault(); handleShow(); }} style={{ color: "#2eafec" }}>
-        Current Price<br />(see details)
-      </a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handleShow(); }} style={{ color: "#2eafec" }}>
+                                            Current Price (see details)
+                                        </a>
 
-      {/* Bootstrap Modal */}
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Upcoming Invoice Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p className="mb-2"><strong>Subscription to Advanced, including:</strong></p>
-          <ul className="mb-3 ps-3">
-            <li>1 Regular user — <strong>USD $311.00</strong></li>
-            <li>1 Additional regular user — <strong>USD $10.00</strong></li>
-          </ul>
-          <hr />
-          <p className="d-flex justify-content-between">
-            <span><strong>Subtotal</strong></span>
-            <span><strong>USD $321.00</strong></span>
-          </p>
-          <p className="d-flex justify-content-between">
-            <span><strong>Amount due</strong></span>
-            <span><strong>USD $321.00</strong></span>
-          </p>
-          <p className="text-muted mt-3"><em>**Plus sales tax, where applicable</em></p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                                        {/* Bootstrap Modal */}
+                                        <Modal show={show} onHide={handleClose} centered>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>Upcoming Invoice Details</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <p className="mb-2"><strong>Subscription to Advanced, including:</strong></p>
+                                                <ul className="mb-3 ps-3">
+                                                    <li>1 Regular user — <strong>USD $311.00</strong></li>
+                                                    <li>1 Additional regular user — <strong>USD $10.00</strong></li>
+                                                </ul>
+                                                <hr />
+                                                <p className="d-flex justify-content-between">
+                                                    <span><strong>Subtotal</strong></span>
+                                                    <span><strong>USD $321.00</strong></span>
+                                                </p>
+                                                <p className="d-flex justify-content-between">
+                                                    <span><strong>Amount due</strong></span>
+                                                    <span><strong>USD $321.00</strong></span>
+                                                </p>
+                                                <p className="text-muted mt-3"><em>**Plus sales tax, where applicable</em></p>
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <Button variant="secondary" onClick={handleClose}>
+                                                    Close
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal>
                                     </div>
                                 </div>
                             </div>
@@ -1740,118 +1793,114 @@ const AdminSection = () => {
             )}
 
             {/* Edit User Modal */}
-            {showEditModal && (
-                <div className="modal d-block" tabIndex="-1">
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Update User</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setShowEditModal(false)}
-                                ></button>
+          {showEditModal && (
+    <div className="modal d-block" tabIndex="-1">
+        <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title">Update User</h5>
+                    <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
+                </div>
+                <div className="modal-body">
+                    <div className="row g-3">
+                        <div className="col-md-6">
+                            <label>Type of Access</label>
+                            <select className="form-select" value={editUser.type} onChange={(e) => setEditUser({ ...editUser, type: e.target.value })}>
+                                <option>User with no access to Knowify</option>
+                                <option>User with regular access to Knowify</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6">
+                            <label>Role</label>
+                            <input className="form-control" value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })} />
+                        </div>
+                        <div className="col-md-6">
+                            <label>First Name</label>
+                            <input className="form-control" value={editUser.firstName} onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })} />
+                        </div>
+                        <div className="col-md-6">
+                            <label>Last Name</label>
+                            <input className="form-control" value={editUser.lastName} onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })} />
+                        </div>
+                        <div className="col-md-6">
+                            <label>Email</label>
+                            <input className="form-control" value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
+                        </div>
+                        <div className="col-md-6">
+                            <label>Department</label>
+                            <select className="form-select" value={editUser.department} onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}>
+                                <option>General/Corporate</option>
+                                <option>Finance</option>
+                                <option>Engineering</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6">
+                            <label>Direct Manager</label>
+                            <select className="form-select" value={editUser.manager} onChange={(e) => setEditUser({ ...editUser, manager: e.target.value })}>
+                                <option>None</option>
+                                <option>Manager A</option>
+                                <option>Manager B</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6">
+                            <label>Enable Approval Authority</label>
+                            <div className="form-check form-switch">
+                                <input className="form-check-input" type="checkbox" checked={editUser.approval} onChange={(e) => setEditUser({ ...editUser, approval: e.target.checked })} />
                             </div>
-                            <div className="modal-body">
-                                <div className="row g-3">
-                                    <div className="col-md-6">
-                                        <label>Type of Access</label>
-                                        <select
-                                            className="form-select"
-                                            value={editUser.type}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, type: e.target.value })
-                                            }
-                                        >
-                                            <option>User with no access to Knowify</option>
-                                            <option>Regular</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Role</label>
+                        </div>
+                        <div className="col-md-6">
+                            <label>Cell Phone (optional)</label>
+                            <input className="form-control" value={editUser.cell} onChange={(e) => setEditUser({ ...editUser, cell: e.target.value })} />
+                        </div>
+                        <div className="col-md-6">
+                            <label>Employee ID (optional)</label>
+                            <input className="form-control" value={editUser.empId} onChange={(e) => setEditUser({ ...editUser, empId: e.target.value })} />
+                        </div>
+                    </div>
+
+                    <div className="mt-4">
+                        <h6>This User...</h6>
+                        <div className="row g-2">
+                            {[
+                                'is responsible for managing vendor bills',
+                                'is responsible for invoicing clients',
+                                'tracks their time',
+                                'manages client agreements',
+                                'schedules company resources',
+                                'views employee rates and job financials',
+                                'can access QuickBooks or is your accountant',
+                                'is a foreman or can approve time cards',
+                                'manages or estimates jobs',
+                                'is a Knowify system administrator'
+                            ].map((label, index) => (
+                                <div className="col-md-6" key={index}>
+                                    <div className="form-check">
                                         <input
-                                            className="form-control"
-                                            value={editUser.role}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, role: e.target.value })
-                                            }
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={editUser.permissions?.includes(label)}
+                                            onChange={(e) => {
+                                                const updated = e.target.checked
+                                                    ? [...(editUser.permissions || []), label]
+                                                    : (editUser.permissions || []).filter(p => p !== label);
+                                                setEditUser({ ...editUser, permissions: updated });
+                                            }}
                                         />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>First Name</label>
-                                        <input
-                                            className="form-control"
-                                            value={editUser.firstName}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, firstName: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Last Name</label>
-                                        <input
-                                            className="form-control"
-                                            value={editUser.lastName}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, lastName: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Department</label>
-                                        <input
-                                            className="form-control"
-                                            value={editUser.department}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, department: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Direct Manager</label>
-                                        <input
-                                            className="form-control"
-                                            value={editUser.manager}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, manager: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Cell Phone (optional)</label>
-                                        <input
-                                            className="form-control"
-                                            value={editUser.cell}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, cell: e.target.value })
-                                            }
-                                        />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Employee ID (optional)</label>
-                                        <input
-                                            className="form-control"
-                                            value={editUser.empId}
-                                            onChange={(e) =>
-                                                setEditUser({ ...editUser, empId: e.target.value })
-                                            }
-                                        />
+                                        <label className="form-check-label">{label}</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    className="btn btn-secondary"
-                                    onClick={() => setShowEditModal(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button className="btn btn-primary">Save Changes</button>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
-            )}
+                <div className="modal-footer">
+                    <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
+                    <button className="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+)}
 
             {/* Incomplete Mobile Onboarding Modal */}
             {showOnboardingModal && selectedUser && (
