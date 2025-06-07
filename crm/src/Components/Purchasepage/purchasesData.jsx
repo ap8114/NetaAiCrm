@@ -235,7 +235,7 @@ export default function Purchases() {
   const navigate = useNavigate(); // Add this line
 
   return (
-    <div className="container mt-4" style={{ overflowX: "hidden" }}>
+    <div className="col-12 p-4 mt-4" style={{ overflowX: "hidden" }}>
       {/* Back Button above heading */}
       <div className="mb-2">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>

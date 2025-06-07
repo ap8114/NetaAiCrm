@@ -123,7 +123,7 @@ const ClientsData = () => {
   );
 
   return (
-    <div className="p-4">
+    <div className="container-fluid p-4">
       {/* Back Button above heading */}
       <div className="mb-2">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>
