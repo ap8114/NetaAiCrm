@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Table, Button, Modal, Form, Row, Col, InputGroup, FormControl } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom"; // Add this import
 
 export default function Tasks() {
   const [key, setKey] = useState('catalog');
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -22,7 +20,7 @@ export default function Tasks() {
            
             <Button variant="primary" onClick={handleShow}>Add new</Button>
           </div>
-           <h4 className='fw-bold mb-3'>Tasks</h4>
+           <h4 className='fw-bold'>Tasks</h4>
           <InputGroup className="mb-3">
             <FormControl placeholder="Search item" />
             <Button variant="outline-secondary"><FaSearch/></Button>
