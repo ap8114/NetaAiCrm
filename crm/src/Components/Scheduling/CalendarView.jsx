@@ -164,7 +164,7 @@ const CalendarView = () => {
         <i className="bi bi-chevron-right"></i>
       </button>
       <div className="fw-bold text-white bg-primary px-3 py-1 rounded me-3">THU<br />6/5/25</div>
-      <div className="flex-grow-1">NETA Admin</div>
+      <div className="flex-grow-1">Bon-Bon Admin</div>
       <div><i className="bi bi-chevron-down"></i></div>
     </div>
 
@@ -239,7 +239,7 @@ const CalendarView = () => {
             1
           </div>
           <div>
-            <div className="fw-bold">NETA Admin</div>
+            <div className="fw-bold">Bon-Bon Admin</div>
             <div className="d-flex flex-column text-muted mt-1" style={{ fontSize: '14px' }}>
               <span><i className="bi bi-box-arrow-in-right me-1"></i> 9:00 AM</span>
               <span><i className="bi bi-box-arrow-left me-1"></i> 5:01 PM</span>

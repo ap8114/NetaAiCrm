@@ -368,7 +368,7 @@ const AdminSection = () => {
                             <h5>Company Information</h5>
                             <div className="mb-3">
                                 <label className="form-label">Company Name</label>
-                                <input type="text" className="form-control" value="NETA" />
+                                <input type="text" className="form-control" value="Bon-Bon" />
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Address Lookup</label>
@@ -1046,7 +1046,7 @@ const AdminSection = () => {
                         <div className="border rounded bg-white">
                             <div className="d-flex align-items-center px-2 py-2 border-bottom" style={{ fontSize: 15 }}>
                                 <i className="bi bi-file-earmark me-2" />
-                                <span>Neta-Logo.png</span>
+                                <span>Bon-Bon-Logo.png</span>
                                 <span className="ms-auto text-muted" style={{ fontSize: 12 }}>
                                     <i className="bi bi-clock me-1" />
                                     6/5/25 5:18 PM

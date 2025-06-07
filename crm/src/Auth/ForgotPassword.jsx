@@ -17,7 +17,7 @@ const ForgotPassword = () => {
           <div className="logo-container mb-4 align-items-center d-flex justify-content-center">
             <img
               src={bonbonlogo}
-              alt="NETA Logo"
+              alt="Bon-Bon Logo"
               className="img-fluid"
               style={{ maxWidth: "200px" }}
             />

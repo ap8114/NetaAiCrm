@@ -49,7 +49,7 @@ const TimeTracker = () => {
     </div>
     <div className="d-flex align-items-center">
       <select className="form-select me-2" style={{ width: 200 }}>
-        <option>NETA Admin</option>
+        <option>Bon-Bon Admin</option>
         <option>Other User</option>
       </select>
       <Button variant="success" onClick={() => setShowActivityModal(true)}>
@@ -251,7 +251,7 @@ const TimeTracker = () => {
       <tbody>
         <tr>
           <td>THU</td>
-          <td>NETA Admin</td>
+          <td>Bon-Bon Admin</td>
           <td>
             Wally World Parking Lot<br />
             <em>for Griswold Enterprises</em><br />
@@ -350,7 +350,7 @@ const TimeTracker = () => {
           <td><Form.Check /></td>
           <td>6/5/25<br />THU</td>
           <td>
-            NETA Admin<br />
+            Bon-Bon Admin<br />
             <small>(by simon Mashiah)</small>
           </td>
           <td>
@@ -383,7 +383,7 @@ const TimeTracker = () => {
           <td><Form.Check /></td>
           <td>6/6/25<br />FRI</td>
           <td>
-            NETA Admin<br />
+            Bon-Bon Admin<br />
             <small>(by simon Mashiah)</small>
           </td>
           <td>
@@ -483,7 +483,7 @@ const TimeTable = () => {
         </thead>
         <tbody>
           <tr>
-            <td>NETA Admin</td>
+            <td>Bon-Bon Admin</td>
             <td>0:00</td>
             <td>0:00</td>
             <td>0:00</td>

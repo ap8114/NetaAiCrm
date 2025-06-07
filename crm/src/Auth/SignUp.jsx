@@ -71,7 +71,7 @@ const SignUp = () => {
               <Link to="/">
                 <img
                   src={bonbonlogo}
-                  alt="NETA Logo"
+                  alt="Bon-Bon Logo"
                   className="img-fluid"
                   style={{ maxWidth: "110px" }}
                 />
