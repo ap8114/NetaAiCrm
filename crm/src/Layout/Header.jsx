@@ -23,17 +23,23 @@ import {
     FaCube,
     FaBriefcase,
     FaTimes,
+    FaCommentDots,
+    FaMapMarkerAlt,
+    FaDollarSign,
 } from "react-icons/fa";
-
 import "./Header.css";
-import { Button } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import bonbonlogo from "../assets/Supplyblack.png";
 
 const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
-    const [showMobileAddNew, setShowMobileAddNew] = useState(false); // <-- Add this state
+    const [showMobileAddNew, setShowMobileAddNew] = useState(false);
+    const [showNotificationModal, setShowNotificationModal] = useState(false); // <-- Modal state
+    const [emailAlert, setEmailAlert] = useState(true);
+    const [activityAlert, setActivityAlert] = useState(true);
+    const [showActivityPanel, setShowActivityPanel] = useState(false);
 
     const dropdownRef = useRef(null);
     const profileRef = useRef(null);
@@ -58,7 +64,7 @@ const Header = () => {
         setShowProfileDropdown(false);
     };
 
-    // ✅ Close dropdowns when clicked outside
+    // Close dropdowns when clicked outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -69,7 +75,7 @@ const Header = () => {
             }
             if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
                 setShowMobileMenu(false);
-                setShowMobileAddNew(false); // <-- Also close Add New dropdown in mobile
+                setShowMobileAddNew(false);
             }
         };
 
@@ -200,8 +206,8 @@ const Header = () => {
                     </Link>
 
                     {/* Bell Icon */}
-                    <div className="position-relative">
-                        <FaBell size={20} />
+                    <div className="position-relative" style={{ cursor: "pointer" }}>
+                        <FaBell size={20} onClick={() => setShowActivityPanel(true)} />
                         <span
                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                             style={{ fontSize: "0.6rem" }}
@@ -245,47 +251,191 @@ const Header = () => {
 
                             <div className="mb-2 small text-muted">ACCOUNT</div>
 
-                            {/* Change Password – route exists: /forgot-password */}
                             <Link to="/forgot-password" className="text-dark text-decoration-none">
                                 <div className="mb-1">
                                     <FaLock className="me-2" /> Change password
                                 </div>
                             </Link>
 
-                            {/* Admin Section */}
                             <Link to="/adminsection" className="text-dark text-decoration-none">
                                 <div className="mb-1">
                                     <FaCogs className="me-2" /> Admin section
                                 </div>
                             </Link>
 
-                            {/* Notification settings – no route defined, static */}
-                            <p className="mb-1">
+                            {/* Notification settings – now opens modal */}
+                            <button
+                                className="mb-1 btn btn-link text-dark text-decoration-none p-0"
+                                style={{ fontSize: "1rem" }}
+                                onClick={() => setShowNotificationModal(true)}
+                                type="button"
+                            >
                                 <FaRegBell className="me-2" /> Notification settings
-                            </p>
+                            </button>
 
-                            {/* ABOUT BONBON */}
                             <div className="mt-3 mb-2 small text-muted">ABOUT BONBON</div>
-
-                            {/* Terms of Service – no route defined, static */}
                             <p className="mb-1">
                                 <FaFileContract className="me-2" /> Terms of service
                             </p>
-
-                            {/* Privacy Policy – no route defined, static */}
                             <p className="mb-3">
                                 <FaShieldAlt className="me-2" /> Privacy policy
                             </p>
-
-                            {/* Log Out button → redirects to login */}
                             <Link to="/" className="text-decoration-none">
                                 <button className="btn btn-success w-100">Log out</button>
                             </Link>
-
                         </div>
                     )}
                 </div>
             </header>
+
+            {/* Notification Activity Panel (Right Drawer) */}
+            <Modal
+                show={showActivityPanel}
+                onHide={() => setShowActivityPanel(false)}
+                dialogClassName="modal-dialog-slideout"
+                contentClassName="border-0"
+                backdropClassName="bg-dark bg-opacity-25"
+                centered={false}
+                style={{ pointerEvents: "auto" }}
+                animation={false}
+            >
+                <div
+                    className="bg-white"
+                    style={{
+                        width: 370,
+                        minHeight: "100vh",
+                        maxHeight: "100vh",
+                        position: "fixed",
+                        top: 0,
+                        right: 0,
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                        borderTopLeftRadius: "1rem",
+                        borderBottomLeftRadius: "1rem",
+                        boxShadow: "0 0 24px 0 rgba(0,0,0,0.12)",
+                        overflowY: "auto",
+                        zIndex: 2000,
+                    }}
+                >
+                    <div className="d-flex justify-content-end p-3">
+                        <Button
+                            variant="link"
+                            className="text-dark fs-3 p-0"
+                            onClick={() => setShowActivityPanel(false)}
+                            aria-label="Close"
+                        >
+                            <FaTimes />
+                        </Button>
+                    </div>
+                    <div className="px-4">
+                        {/* Top image */}
+                        <img
+                            src={bonbonlogo}
+                            alt="Welcome"
+                            className="img-fluid rounded mb-4"
+                            style={{ width: "100%", maxHeight: 110, objectFit: "cover" }}
+                        />
+                        {/* Activity List (empty state) */}
+                        <div className="mb-4">
+                            <div className="d-flex flex-column align-items-start gap-4">
+                                <div className="d-flex align-items-center gap-3">
+                                    <FaCommentDots size={20} className="text-secondary" />
+                                    <div style={{ width: 180, height: 16, background: "#f3f3f3", borderRadius: 4 }} />
+                                </div>
+                                <div className="d-flex align-items-center gap-3">
+                                    <FaMapMarkerAlt size={20} className="text-secondary" />
+                                    <div style={{ width: 140, height: 16, background: "#f3f3f3", borderRadius: 4 }} />
+                                </div>
+                                <div className="d-flex align-items-center gap-3">
+                                    <FaDollarSign size={20} className="text-secondary" />
+                                    <div style={{ width: 120, height: 16, background: "#f3f3f3", borderRadius: 4 }} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="text-center mt-5">
+                            <h6 className="fw-bold mb-2">No activity yet</h6>
+                            <div className="text-muted" style={{ fontSize: "0.97rem" }}>
+                                In this panel you will receive notifications related to your work,
+                                such as proposals signed by customers or purchases requiring your approval.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+
+            {/* Notification Settings Modal */}
+            <Modal
+                show={showNotificationModal}
+                onHide={() => setShowNotificationModal(false)}
+                centered
+                backdrop="static"
+                size="md"
+            >
+                <Modal.Body className="p-4">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                        <h5 className="fw-bold mb-0">Notification settings</h5>
+                        <Button
+                            variant="link"
+                            className="text-dark fs-4 p-0"
+                            onClick={() => setShowNotificationModal(false)}
+                            aria-label="Close"
+                        >
+                            <FaTimes />
+                        </Button>
+                    </div>
+                    <div className="border-bottom mb-3 pb-2">
+                        <span className="fw-semibold" style={{ borderBottom: "2px solid #009688", paddingBottom: 2 }}>General</span>
+                    </div>
+                    <div className="mb-2" style={{ color: "#444" }}>
+                        Set up your notification preferences for comments, mentions, tasks and scheduling alerts
+                    </div>
+                    <Form>
+                        <div className="form-check form-switch mb-3">
+                            <Form.Check
+                                type="switch"
+                                id="email-alert-switch"
+                                label={
+                                    <span>
+                                        <span className="fw-semibold">Email</span>
+                                        <br />
+                                        <span className="text-muted small">You receive an email with the full message</span>
+                                    </span>
+                                }
+                                checked={emailAlert}
+                                onChange={() => setEmailAlert(!emailAlert)}
+                            />
+                        </div>
+                        <div className="form-check form-switch mb-3">
+                            <Form.Check
+                                type="switch"
+                                id="activity-alert-switch"
+                                label={
+                                    <span>
+                                        <span className="fw-semibold">Activity alert</span>
+                                        <br />
+                                        <span className="text-muted small">You receive an alert in the side panel or activity feed</span>
+                                    </span>
+                                }
+                                checked={activityAlert}
+                                onChange={() => setActivityAlert(!activityAlert)}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <a href="#" className="text-primary fw-semibold small text-decoration-none">
+                                Learn more about notifications
+                            </a>
+                        </div>
+                        <div className="d-flex justify-content-end gap-2">
+                            <Button variant="light" onClick={() => setShowNotificationModal(false)}>
+                                Cancel
+                            </Button>
+                            <Button variant="success" onClick={() => setShowNotificationModal(false)}>
+                                Save changes
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
 
             {/* Mobile Menu */}
             {showMobileMenu && (
