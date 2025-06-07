@@ -1,47 +1,249 @@
 import React, { useState } from 'react';
-import { Button, Form, Dropdown, ButtonGroup, Badge, Container, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Button, Form, Dropdown, ButtonGroup, Badge, Container, Row, Col, ProgressBar, Modal } from 'react-bootstrap';
 import { FunnelFill, List } from 'react-bootstrap-icons';
+import { Kanban, Plus } from 'react-bootstrap-icons'; // Add Kanban and Plus icons
 
-import './Jobs.css'; // Make sure to create this CSS file
+import './Jobs.css';
+
+// --- Kanban Workflow Data ---
+const initialStages = [
+  { id: 'create-proposal', title: 'Create Proposal' },
+  { id: 'client-review', title: 'Client Review' }, // Changed from 'automatic-delivery'
+  { id: 'client-signing', title: 'Contract Signing' },
+  { id: 'auto-activation', title: 'Auto-Activation' }
+];
+
+const initialProposals = [
+  {
+    id: 'p1',
+    title: 'Proposal for Sunrise Apartments',
+    client: 'Ramesh Kumar',
+    status: 'Draft',
+    stage: 'create-proposal',
+    updated: '2025-06-07 10:30',
+    logs: [
+      { by: 'Admin', at: '2025-06-07 10:30', note: 'Created proposal' }
+    ]
+  },
+  {
+    id: 'p2',
+    title: 'Proposal for Metro Mall',
+    client: 'Sunita Singh',
+    status: 'Sent',
+    stage: 'client-review', // was 'automatic-delivery'
+    updated: '2025-06-07 11:00',
+    logs: [
+      { by: 'Admin', at: '2025-06-07 10:45', note: 'Proposal sent via email' }
+    ]
+  },
+  {
+    id: 'p3',
+    title: 'Proposal for Greenfield School',
+    client: 'Ajay Mehra',
+    status: 'Awaiting Signature',
+    stage: 'client-signing',
+    updated: '2025-06-07 11:30',
+    logs: [
+      { by: 'Client', at: '2025-06-07 11:25', note: 'Opened email' }
+    ]
+  }
+];
 
 const projects = [
   {
-    name: 'New Home (Cost Plus)',
-    client: 'Stan and Francine Smith',
-    billing: 'Cost plus / other',
-    phases: '1 phase left',
-    status: 'Active',
-    revenue: '$0.00',
-    committedCost: '$0.00',
-    profitLoss: '$0.00',
-    percent: '0%',
-    color: 'primary'
+    name: "Sunrise Apartments (Plus)",
+    client: "Ramesh Kumar",
+    billing: "Fixed Price",
+    phases: "2 phases",
+    status: "Active",
+    revenue: "$120,000.00",
+    committedCost: "$80,000.00",
+    profitLoss: "$40,000.00",
+    percent: "33%",
+    color: "success"
   },
   {
-    name: 'Kitchen Remodel (Fixed Price)',
-    client: 'Bob Belcher',
-    billing: 'Fixed price',
-    phases: '1 phase left',
-    status: 'Active',
-    revenue: '$3,500.00',
-    committedCost: '$0.00',
-    profitLoss: '$3,500.00',
-    percent: '0%',
-    color: 'primary'
+    name: "Metro Mall Renovation",
+    client: "Sunita Singh",
+    billing: "AIA-style",
+    phases: "1 phase",
+    status: "Active",
+    revenue: "$15,000.00",
+    committedCost: "$7,500.00",
+    profitLoss: "$7,500.00",
+    percent: "50%",
+    color: "info"
   },
   {
-    name: 'Wally World Parking Lot',
-    client: 'Griswold Enterprises',
-    billing: 'Fixed price with AIA-style billing',
-    phases: '2 phases left',
-    status: 'Active',
-    revenue: '$50,000.00',
-    committedCost: '$79,400.00',
-    profitLoss: '-$29,400.00',
-    percent: '58.80%',
-    color: 'danger'
+    name: "Greenfield School",
+    client: "Ajay Mehra",
+    billing: "Cost Plus",
+    phases: "3 phases",
+    status: "Active",
+    revenue: "$290,000.00",
+    committedCost: "$193,400.00",
+    profitLoss: "$96,600.00",
+    percent: "33%",
+    color: "danger"
   }
 ];
+
+// --- Proposal Creation Modal ---
+const ProposalCreationModal = ({ show, onHide, onSave }) => {
+  const [title, setTitle] = useState('');
+  const [client, setClient] = useState('');
+  const [details, setDetails] = useState('');
+
+  return (
+    <Modal show={show} onHide={onHide} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Create/Edit Proposal</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group className="mb-2">
+            <Form.Label>Proposal Title</Form.Label>
+            <Form.Control value={title} onChange={e => setTitle(e.target.value)} />
+          </Form.Group>
+          <Form.Group className="mb-2">
+            <Form.Label>Client Name</Form.Label>
+            <Form.Control value={client} onChange={e => setClient(e.target.value)} />
+          </Form.Group>
+          <Form.Group className="mb-2">
+            <Form.Label>Bid/Proposal Details</Form.Label>
+            <Form.Control as="textarea" rows={3} value={details} onChange={e => setDetails(e.target.value)} />
+          </Form.Group>
+          <div className="d-flex gap-2 mt-3">
+            <Button variant="outline-primary" onClick={() => alert('Text Bid sent!')}>Text Bid</Button>
+            <Button variant="primary" onClick={() => alert('Email Bid sent!')}>Email Bid</Button>
+          </div>
+        </Form>
+        <div className="mt-4">
+          <h6>Preview</h6>
+          <div className="border rounded p-2 bg-light">
+            <strong>{title || 'Proposal Title'}</strong>
+            <div>{client || 'Client Name'}</div>
+            <div className="text-muted small">{details || 'Proposal details preview...'}</div>
+          </div>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>Cancel</Button>
+        <Button variant="primary" onClick={() => { onSave({ title, client, details }); onHide(); }}>Save</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+// --- Proposal Card ---
+const ProposalCard = ({ proposal, onShowLogs }) => (
+  <div className="bg-white border rounded mb-2 p-2 shadow-sm" style={{ minHeight: 110 }}>
+    <div className="fw-semibold">{proposal.title}</div>
+    <div className="text-muted small">{proposal.client}</div>
+    <div className="small">Status: <span className="fw-bold">{proposal.status}</span></div>
+    <div className="small text-muted">Last updated: {proposal.updated}</div>
+    <Button size="sm" variant="link" className="p-0 mt-1" onClick={() => onShowLogs(proposal.logs)}>
+      Stage logs
+    </Button>
+  </div>
+);
+
+// --- Replace ProposalWorkflowBoard with this Knowify-style Kanban ---
+
+const knowifyStages = [
+  { id: 'lead', title: 'Lead', color: 'dark' },
+  { id: 'bidding', title: 'Bidding', color: 'dark' },
+  { id: 'out-for-signature', title: 'Out for signature', color: 'dark' },
+  { id: 'proposal-expired', title: 'Proposal expired', color: 'dark' },
+  { id: 'active', title: 'Active', color: 'dark' },
+  { id: 'pending-changes', title: 'Pending changes', color: 'dark' },
+  { id: 'closed', title: 'Closed', color: 'dark' },
+  { id: 'rejected', title: 'Rejected', color: 'dark' }
+];
+
+const initialKnowifyProposals = [
+  { id: 1, title: 'Restaurant Painting', stage: 'bidding', type: 'proposal' },
+  { id: 2, title: 'Wally World Parking Lot', stage: 'active', type: 'invoice' },
+  { id: 3, title: 'New Home (Cost Plus)', stage: 'active', type: 'invoice' },
+  { id: 4, title: 'Kitchen Remodel (Fixed Price)', stage: 'active', type: 'invoice' },
+  { id: 5, title: 'fsdgbeehb', stage: 'closed', type: 'view' },
+  { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' }
+];
+
+const ProposalWorkflowBoard = () => {
+  const [proposals, setProposals] = useState(initialKnowifyProposals);
+  const [draggedId, setDraggedId] = useState(null);
+
+  // Drag handlers
+  const onDragStart = (e, id) => {
+    setDraggedId(id);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const onDrop = (e, stageId) => {
+    e.preventDefault();
+    setProposals(proposals =>
+      proposals.map(p =>
+        p.id === draggedId ? { ...p, stage: stageId } : p
+      )
+    );
+    setDraggedId(null);
+  };
+
+  const onDragOver = e => {
+    e.preventDefault();
+  };
+
+  return (
+    <div className="kanban-board d-flex gap-3 py-3" style={{ overflowX: 'auto', minHeight: 350 }}>
+      {knowifyStages.map(stage => (
+        <div
+          key={stage.id}
+          className="kanban-stage bg-light border rounded p-2 flex-shrink-0"
+          style={{ minWidth: 220, maxWidth: 260, minHeight: 320 }}
+          onDrop={e => onDrop(e, stage.id)}
+          onDragOver={onDragOver}
+        >
+          <div className="fw-bold mb-2 d-flex align-items-center gap-2">
+            <span className={`text-${stage.color}`} style={{ fontSize: 14 }}>
+              <span className="me-1" style={{ fontSize: 10 }}>●</span>
+              {stage.title}
+            </span>
+            <span className="badge bg-light text-dark border ms-auto">
+              {
+                proposals.filter(p => p.stage === stage.id).length > 0
+                  ? proposals.filter(p => p.stage === stage.id).length
+                  : ''
+              }
+            </span>
+          </div>
+          {proposals.filter(p => p.stage === stage.id).map(p => (
+            <div
+              key={p.id}
+              className="bg-white border rounded mb-2 p-2 shadow-sm"
+              draggable
+              onDragStart={e => onDragStart(e, p.id)}
+              style={{ cursor: 'grab', opacity: draggedId === p.id ? 0.5 : 1 }}
+            >
+              <div className="fw-semibold text-primary" style={{ cursor: 'pointer', fontSize: 15 }}>
+                {p.title}
+              </div>
+              {p.type === 'proposal' && (
+                <Button size="sm" variant="outline-secondary" className="mt-1">Edit proposal</Button>
+              )}
+              {p.type === 'invoice' && (
+                <Button size="sm" variant="outline-secondary" className="mt-1">Invoice</Button>
+              )}
+              {p.type === 'view' && (
+                <Button size="sm" variant="outline-secondary" className="mt-1">View</Button>
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const ReportsDashboard = () => {
   const reports = [
@@ -111,6 +313,7 @@ const NewContractJobPage = ({ onClose }) => {
   const [address, setAddress] = useState('');
   const [aptSuite, setAptSuite] = useState('');
 
+  // Save handler (shared by both buttons)
   const handleSave = () => {
     console.log('Saving job...', {
       jobName,
@@ -305,7 +508,7 @@ const NewContractJobPage = ({ onClose }) => {
                         className="form-select"
                         value={schedulingColor}
                         onChange={(e) => setSchedulingColor(e.target.value)}
-                        style={{backgroundColor: '#D4AF37'}}
+                        style={{backgroundColor: 'blue'}}
                       >
                         <option value="yellow">Yellow</option>
                         <option value="red">Red</option>
@@ -381,6 +584,17 @@ const NewContractJobPage = ({ onClose }) => {
                     </div>
                   </div>
                 </div>
+                {/* --- Blue Save Job button at the bottom --- */}
+                <div className="col-12 d-flex justify-content-end mt-4">
+                  <button
+                    type="button"
+                    className="btn btn-primary px-4"
+                    onClick={handleSave}
+                  >
+                    Save Job
+                  </button>
+                </div>
+                {/* --- End Save Job button --- */}
               </div>
             </div>
           </div>
@@ -526,6 +740,7 @@ const ChangeOrdersUI = () => {
 const ContractJobs = () => {
   const [showNewContractPage, setShowNewContractPage] = useState(false);
   const [activeTab, setActiveTab] = useState('manage');
+  const [workflowView, setWorkflowView] = useState('list'); // 'list' or 'workflow'
 
   const handleAddNewContract = () => {
     setShowNewContractPage(true);
@@ -547,9 +762,37 @@ const ContractJobs = () => {
           <>
             <div className="filters-bar px-4 py-3">
               <div className="d-flex flex-wrap gap-2 align-items-center">
-                <Button variant="light"  className="list-btn bg-white">
-                  <List className="me-1" /> List
-                </Button>
+                {/* --- Dropdown for List/Contract workflow --- */}
+                <Dropdown as={ButtonGroup}>
+                  <Button
+                    variant="light"
+                    className="list-btn bg-white d-flex align-items-center"
+                  >
+                    {workflowView === 'workflow' ? <Kanban className="me-1" /> : <List className="me-1" />}
+                    {workflowView === 'workflow' ? 'Contract workflow' : 'List'}
+                  </Button>
+                  <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      active={workflowView === 'list'}
+                      onClick={() => setWorkflowView('list')}
+                      className="d-flex align-items-center"
+                    >
+                      <List className="me-2" /> List
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      active={workflowView === 'workflow'}
+                      onClick={() => setWorkflowView('workflow')}
+                      className="d-flex align-items-center"
+                    >
+                      <Kanban className="me-2" /> Contract workflow
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item disabled className="d-flex align-items-center text-muted">
+                      <Plus className="me-2" /> Add workflow
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
 
                 <Form.Control type="text" placeholder="Search" className="search-box" />
 
@@ -577,63 +820,68 @@ const ContractJobs = () => {
                 <Button variant="light" size="sm" className="ms-1">&gt;</Button>
               </div>
             </div>
-            
-            <Container className="bg-white py-3">
-              <Row className="fw-bold border-bottom pb-2 mb-3">
-                <Col md={4}>Project details</Col>
-                <Col md={1}>Status</Col>
-                <Col md={2}>Revenue</Col>
-                <Col md={2}>Committed Cost</Col>
-                <Col md={3}>Profit/Loss</Col>
-              </Row>
-              {projects.map((project, index) => (
-                <Row key={index} className="align-items-start border-bottom py-3">
-                  <Col md={4}>
-                    <div className="fw-bold">{project.name}</div>
-                    <div className="text-muted">for {project.client}</div>
-                    <div className="text-muted small">{project.billing} — {project.phases}</div>
-                    <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
-                  </Col>
-                  <Col md={1}>
-                    <Badge bg="success">{project.status}</Badge>
-                  </Col>
-                  <Col md={2}>
-                    <div>{project.revenue}</div>
-                    {project.revenue !== '$0.00' && (
-                      <ProgressBar className="mt-2">
-                        <ProgressBar striped variant="success" now={40} key={1} />
-                        <ProgressBar variant="secondary" now={60} key={2} />
-                      </ProgressBar>
-                    )}
-                    {index === 1 && <div className="text-muted small">&rarr; $7,500.00 left in contract</div>}
-                    {index === 2 && (
-                      <>
-                        <div className="text-muted small">WIP $69,100.00</div>
-                        <div className="text-muted small">Retained $5,000.00</div>
-                        <div className="text-muted small">&rarr; $219,000.00 left in contract</div>
-                      </>
-                    )}
-                  </Col>
-                  <Col md={2}>
-                    <div>{project.committedCost}</div>
-                    {index === 2 && (
-                      <>
-                        <div className="text-muted small">&rarr; $96,600.00 left in budget</div>
-                        <div className="small">Materials $29,400.00</div>
-                        <div className="small">Subs $50,000.00</div>
-                      </>
-                    )}
-                  </Col>
-                  <Col md={3} className="text-center">
-                    <div>{project.profitLoss}</div>
-                    <div className={`rounded-circle border border-${project.color} text-${project.color} mt-2 mx-auto d-flex flex-column justify-content-center align-items-center`} style={{ width: '60px', height: '60px' }}>
-                      <div className="fw-bold">{project.percent}</div>
-                      <div className="small">{project.color === 'danger' ? 'Loss' : 'Profit'}</div>
-                    </div>
-                  </Col>
+
+            {/* --- Switch between List and Workflow views --- */}
+            {workflowView === 'workflow' ? (
+              <ProposalWorkflowBoard />
+            ) : (
+              <Container className="bg-white py-3">
+                <Row className="fw-bold border-bottom pb-2 mb-3">
+                  <Col md={4}>Project details</Col>
+                  <Col md={1}>Status</Col>
+                  <Col md={2}>Revenue</Col>
+                  <Col md={2}>Committed Cost</Col>
+                  <Col md={3}>Profit/Loss</Col>
                 </Row>
-              ))}
-            </Container>
+                {projects.map((project, index) => (
+                  <Row key={index} className="align-items-start border-bottom py-3">
+                    <Col md={4}>
+                      <div className="fw-bold">{project.name}</div>
+                      <div className="text-muted">for {project.client}</div>
+                      <div className="text-muted small">{project.billing} — {project.phases}</div>
+                      <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
+                    </Col>
+                    <Col md={1}>
+                      <Badge bg="success">{project.status}</Badge>
+                    </Col>
+                    <Col md={2}>
+                      <div>{project.revenue}</div>
+                      {project.revenue !== '$0.00' && (
+                        <ProgressBar className="mt-2">
+                          <ProgressBar striped variant="success" now={40} key={1} />
+                          <ProgressBar variant="secondary" now={60} key={2} />
+                        </ProgressBar>
+                      )}
+                      {index === 1 && <div className="text-muted small">&rarr; $7,500.00 left in contract</div>}
+                      {index === 2 && (
+                        <>
+                          <div className="text-muted small">WIP $69,100.00</div>
+                          <div className="text-muted small">Retained $5,000.00</div>
+                          <div className="text-muted small">&rarr; $219,000.00 left in contract</div>
+                        </>
+                      )}
+                    </Col>
+                    <Col md={2}>
+                      <div>{project.committedCost}</div>
+                      {index === 2 && (
+                        <>
+                          <div className="text-muted small">&rarr; $96,600.00 left in budget</div>
+                          <div className="small">Materials $29,400.00</div>
+                          <div className="small">Subs $50,000.00</div>
+                        </>
+                      )}
+                    </Col>
+                    <Col md={3} className="text-center">
+                      <div>{project.profitLoss}</div>
+                      <div className={`rounded-circle border border-${project.color} text-${project.color} mt-2 mx-auto d-flex flex-column justify-content-center align-items-center`} style={{ width: '60px', height: '60px' }}>
+                        <div className="fw-bold">{project.percent}</div>
+                        <div className="small">{project.color === 'danger' ? 'Loss' : 'Profit'}</div>
+                      </div>
+                    </Col>
+                  </Row>
+                ))}
+              </Container>
+            )}
           </>
         );
     }
@@ -648,26 +896,26 @@ const ContractJobs = () => {
           <div className="d-flex justify-content-between align-items-center header-bar px-4 py-3">
             <h4 className="fw-bold  mb-0">Contract jobs</h4>
             {activeTab === 'manage' && (
-              <Button className="add-btn" onClick={handleAddNewContract}>
+              <Button className="btn btn-primary" onClick={handleAddNewContract}>
                 Add new contract job
               </Button>
             )}
           </div>
 
           <div className="tabs px-4">
-            <div 
+            <div
               className={`tab ${activeTab === 'manage' ? 'active-tab' : ''}`}
               onClick={() => setActiveTab('manage')}
             >
               Manage Contract Jobs
             </div>
-            <div 
+            <div
               className={`tab ${activeTab === 'coordination' ? 'active-tab' : ''}`}
               onClick={() => setActiveTab('coordination')}
             >
               Coordination Hub <span className="badge-new">New</span>
             </div>
-            <div 
+            <div
               className={`tab ${activeTab === 'reports' ? 'active-tab' : ''}`}
               onClick={() => setActiveTab('reports')}
             >

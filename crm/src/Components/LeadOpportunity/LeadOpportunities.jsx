@@ -10,10 +10,36 @@ import {
   Tabs,
   Tab,
   Alert,
+  Toast,
+  ToastContainer,
 } from "react-bootstrap";
 
 import NotesTab from "./NotesTab.jsx";
 import BillsTab from "./BillsTab.jsx";
+
+// --- Custom Status System (admin-defined, can be loaded from backend/settings) ---
+const PROJECT_STATUSES = [
+  { key: "pending", label: "Pending", color: "secondary" },
+  { key: "in_progress", label: "In Progress", color: "info" },
+  { key: "contract_signed", label: "Contract Signed", color: "success" },
+  { key: "completed", label: "Completed", color: "primary" },
+  { key: "closed", label: "Closed", color: "dark" },
+  { key: "lost", label: "Lost", color: "danger" },
+];
+
+// --- Simulated contract signed event for demo ---
+const signedContracts = [
+  {
+    contractId: "C-2025-001",
+    title: "1001 Partridge Dr (Ventura Oncology)",
+    client: "Tal Kedmy",
+    startDate: "2025-06-07",
+    endDate: "2025-12-07",
+    assignedTeam: "Team Alpha",
+    value: "$9,740.00",
+    status: "contract_signed",
+  },
+];
 
 // Dummy data for demonstration
 const allClients = [
@@ -154,9 +180,55 @@ const allClients = [
   },
 ];
 
+const getStatusConfig = (statusKey) =>
+  PROJECT_STATUSES.find((s) => s.key === statusKey) ||
+  { label: statusKey, color: "secondary" };
+
 const LeadOpportunities = () => {
+  // --- Toast for contract-to-project conversion ---
+  const [showToast, setShowToast] = useState(false);
+
+  // --- Projects State (includes auto-converted from contracts) ---
+  const [projects, setProjects] = useState([
+    // Auto-generated from signed contracts
+    ...signedContracts.map((c) => ({
+      title: c.title,
+      date: c.startDate,
+      client: c.client,
+      status: c.status,
+      age: "0 days",
+      confidence: "100%",
+      revenue: c.value,
+      company: c.client,
+      billing: "",
+      summary: { jobTotal: c.value, payments: "$0.00", balance: c.value },
+      transactions: [],
+      contractMeta: c,
+      autoConverted: true,
+    })),
+    // ...existing leads as projects...
+    {
+      title: "1101 Stanford St",
+      date: "Nov 12, 2024, 3:36 PM",
+      client: "Pacific Cove Development...",
+      status: "pending",
+      age: "188 days",
+      confidence: "0%",
+      revenue: "$0.00",
+      company: "Pacific Cove",
+      billing: "1101 Stanford St, Santa Monica, CA",
+      summary: {
+        jobTotal: "$0.00",
+        payments: "$0.00",
+        balance: "$0.00",
+      },
+      transactions: [],
+    },
+    // ...other projects...
+  ]);
+
   const [show, setShow] = useState(false);
-  const [selectedLeadIndex, setSelectedLeadIndex] = useState(null);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
   const [activeTab, setActiveTab] = useState("transaction");
   const [selectedClient, setSelectedClient] = useState(null);
 
@@ -172,156 +244,18 @@ const LeadOpportunities = () => {
     text: "text-dark",
   };
 
-  // Example leads, you can expand this as needed
-  const leads = [
-    {
-      title: "1001 Partridge Dr (Ventura Oncol...)",
-      date: "May 6, 2025, 3:13 PM",
-      client: "Tal Kedmy",
-      status: "Open",
-      age: "13 days",
-      confidence: "0%",
-      revenue: "$0.00",
-      company: "Ben Well",
-      billing: "1804 10th St, Apt 5, Santa Monica, CA 90404",
-      summary: {
-        jobTotal: "$9,740.00",
-        payments: "$0.00",
-        balance: "$9,740.00",
-      },
-      transactions: [
-        {
-          date: "5/1/25",
-          type: "Payment",
-          no: "QB",
-          customer: "15161 Weddington St",
-          memo: "Progress Payment #1 Paid via QuickBooks Payments",
-          amount: "$5,000.00",
-          status: "Closed",
-          action: "View/Edit",
-        },
-        {
-          date: "5/3/25",
-          type: "Invoice",
-          no: "15161-0005",
-          customer: "15161 Weddington St",
-          memo: "Invoice ID 15161-0005: Progress Payment #2",
-          amount: "$5,000.00",
-          status: "Paid",
-          action: "View/Edit",
-        },
-        {
-          date: "5/6/25",
-          type: "Payment",
-          no: "QB",
-          customer: "15161 Weddington St",
-          memo: "Progress Payment #2 Paid via QuickBooks Payments",
-          amount: "$5,000.00",
-          status: "Closed",
-          action: "View/Edit",
-        },
-        {
-          date: "5/25/25",
-          type: "Invoice",
-          no: "15161-0006",
-          customer: "15161 Weddington St",
-          memo: "Invoice ID 15161-0006: Change Order - LED",
-          amount: "$4,740.00",
-          status: "Overdue 9 days<br/>Sent 5/25/25",
-          action: "Receive payment",
-        },
-        {
-          date: "5/25/25",
-          type: "Invoice",
-          no: "15161-0006",
-          customer: "15161 Weddington St",
-          memo: "Invoice ID 15161-0006: Change Order - Mud IS",
-          amount: "$5,000.00",
-          status: "Overdue 9 days<br/>Sent 5/25/25",
-          action: "Receive payment",
-        },
-      ],
-    },
-    {
-      title: "1101 Stanford St",
-      date: "Nov 12, 2024, 3:36 PM",
-      client: "Pacific Cove Development...",
-      status: "Open",
-      age: "188 days",
-      confidence: "0%",
-      revenue: "$0.00",
-      company: "Pacific Cove",
-      billing: "1101 Stanford St, Santa Monica, CA",
-      summary: {
-        jobTotal: "$0.00",
-        payments: "$0.00",
-        balance: "$0.00",
-      },
-      transactions: [],
-    },
-    {
-      title: "11056 Braddock Dr",
-      date: "Sep 26, 2024, 3:01 PM",
-      client: "Dwell LLC",
-      status: "Open",
-      age: "235 days",
-      confidence: "0%",
-      revenue: "$0.00",
-      company: "Dwell LLC",
-      billing: "11056 Braddock Dr, Los Angeles, CA",
-      summary: {
-        jobTotal: "$0.00",
-        payments: "$0.00",
-        balance: "$0.00",
-      },
-      transactions: [],
-    },
-    {
-      title: "1122 Mission St (Craig D. Cheng, ...",
-      date: "May 7, 2025, 12:53 PM",
-      client: "Garrett Construction Inc",
-      status: "Open",
-      age: "12 days",
-      confidence: "0%",
-      revenue: "$0.00",
-      company: "Garrett Construction Inc",
-      billing: "1122 Mission St, San Francisco, CA",
-      summary: {
-        jobTotal: "$0.00",
-        payments: "$0.00",
-        balance: "$0.00",
-      },
-      transactions: [],
-    },
-    {
-      title: "1161 Angelo Dr",
-      date: "Apr 12, 2025, 12:33 PM",
-      client: "Pillar Building Group",
-      status: "Open",
-      age: "32 days",
-      confidence: "0%",
-      revenue: "$0.00",
-      company: "Pillar Building Group",
-      billing: "1161 Angelo Dr, Beverly Hills, CA",
-      summary: {
-        jobTotal: "$0.00",
-        payments: "$0.00",
-        balance: "$0.00",
-      },
-      transactions: [],
-    },
-  ];
-
+  // --- Project Creation Form ---
   const [form, setForm] = useState({
     title: "",
     date: "",
     client: "",
-    status: "Open",
+    status: PROJECT_STATUSES[0].key,
     age: "",
     confidence: "0%",
     revenue: "",
   });
 
+  // --- Handle Project Creation ---
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
@@ -331,37 +265,61 @@ const LeadOpportunities = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would add the new lead to your leads array (API or state)
+    setProjects([
+      ...projects,
+      {
+        ...form,
+        company: form.client,
+        billing: "",
+        summary: { jobTotal: form.revenue, payments: "$0.00", balance: form.revenue },
+        transactions: [],
+      },
+    ]);
+    setForm({
+      title: "",
+      date: "",
+      client: "",
+      status: PROJECT_STATUSES[0].key,
+      age: "",
+      confidence: "0%",
+      revenue: "",
+    });
     handleClose();
   };
 
-  // Handle click on Opportunity Title
-  const handleLeadClick = (idx) => {
-    setSelectedLeadIndex(idx);
+  // --- Handle click on Project Title ---
+  const handleProjectClick = (idx) => {
+    setSelectedProjectIndex(idx);
     setActiveTab("transaction");
   };
 
-  // Handle back to list
+  // --- Handle back to list ---
   const handleBack = () => {
-    setSelectedLeadIndex(null);
+    setSelectedProjectIndex(null);
   };
 
-  // Handle click on client contact name
+  // --- Handle click on client contact name ---
   const handleClientContactClick = (clientName) => {
-    // Find client by displayName (unique for demo)
     const client = allClients.find((c) => c.displayName === clientName);
     setSelectedClient(client || null);
   };
 
-  // Handle back from client contact page
+  // --- Handle back from client contact page ---
   const handleBackFromClientContact = () => {
     setSelectedClient(null);
   };
 
-  const selectedLead =
-    selectedLeadIndex !== null ? leads[selectedLeadIndex] : null;
+  // --- Simulate contract signed event (UI feedback) ---
+  React.useEffect(() => {
+    if (signedContracts.length > 0) {
+      setShowToast(true);
+    }
+  }, []);
 
-  // Render client contact page if selected
+  const selectedProject =
+    selectedProjectIndex !== null ? projects[selectedProjectIndex] : null;
+
+  // --- Render client contact page if selected ---
   if (selectedClient) {
     return (
       <div className="container mt-4">
@@ -463,11 +421,11 @@ const LeadOpportunities = () => {
             </Row>
           </Card.Body>
         </Card>
-        <h4 className="fw-bold mb-3">Lead Opportunities</h4>
+        <h4 className="fw-bold mb-3">Projects</h4>
         <Table bordered hover responsive>
           <thead className="table-light">
             <tr>
-              <th>Opportunity Title</th>
+              <th>Project Title</th>
               <th>Status</th>
               <th>Created Date</th>
               <th>Sold Date</th>
@@ -490,7 +448,7 @@ const LeadOpportunities = () => {
     );
   }
 
-  // Dummy daily logs data for demonstration
+  // --- Dummy daily logs data for demonstration ---
   const dailyLogs = [
     {
       date: "Thu, Feb 13",
@@ -529,12 +487,177 @@ const LeadOpportunities = () => {
     },
   ];
 
+  // --- Simulated sync status for transactions ---
+  const [syncStatus, setSyncStatus] = useState({
+    connected: true, // Simulate QuickBooks connection
+    lastError: null,
+    transactions: [
+      // Example: [{ id: 1, status: "synced" | "pending" | "failed" }]
+    ],
+    syncLog: [
+      // Example: { id, timestamp, direction, type, status }
+    ],
+  });
+
+  // --- Simulated transaction data for selected project ---
+  // (In real app, this would come from backend or project.transactions)
+  const getProjectTransactions = (project) =>
+    project.transactions && project.transactions.length
+      ? project.transactions
+      : [
+          {
+            id: 1,
+            date: "2025-06-01",
+            type: "Invoice",
+            no: "INV-001",
+            customer: project.client,
+            memo: "Initial deposit",
+            amount: "$2,000.00",
+            status: "Synced",
+            syncStatus: "synced",
+            action: "View",
+          },
+          {
+            id: 2,
+            date: "2025-06-05",
+            type: "Payment",
+            no: "PAY-001",
+            customer: project.client,
+            memo: "Payment received",
+            amount: "$2,000.00",
+            status: "Pending",
+            syncStatus: "pending",
+            action: "View",
+          },
+          {
+            id: 3,
+            date: "2025-06-10",
+            type: "Invoice",
+            no: "INV-002",
+            customer: project.client,
+            memo: "Final payment",
+            amount: "$7,740.00",
+            status: "Failed",
+            syncStatus: "failed",
+            action: "Retry",
+          },
+        ];
+
+  // --- Simulated sync log data ---
+  const syncLogData = [
+    {
+      id: 1,
+      timestamp: "2025-06-01 10:00",
+      direction: "CRM → QB",
+      type: "Invoice",
+      status: "Success",
+    },
+    {
+      id: 2,
+      timestamp: "2025-06-05 12:00",
+      direction: "QB → CRM",
+      type: "Payment",
+      status: "Success",
+    },
+    {
+      id: 3,
+      timestamp: "2025-06-10 09:30",
+      direction: "CRM → QB",
+      type: "Invoice",
+      status: "Failed",
+    },
+  ];
+
+  // --- Simulate sync retry ---
+  const handleRetrySync = (transactionId) => {
+    setSyncStatus((prev) => ({
+      ...prev,
+      lastError: null,
+      transactions: prev.transactions.map((t) =>
+        t.id === transactionId ? { ...t, syncStatus: "pending" } : t
+      ),
+    }));
+    setShowToast(true);
+  };
+
+  // --- Simulate connection toggle ---
+  const handleReconnect = () => {
+    setSyncStatus((prev) => ({
+      ...prev,
+      connected: true,
+      lastError: null,
+    }));
+    setShowToast(true);
+  };
+
+  // --- Toast for sync failure ---
+  const [showSyncError, setShowSyncError] = useState(false);
+
   return (
     <div className={`container mt-4 `}>
-      {selectedLead === null ? (
+      {/* Connection Status UI */}
+      <div className="mb-2 d-flex align-items-center gap-2">
+        <span>
+          QuickBooks Status:{" "}
+          {syncStatus.connected ? (
+            <span className="badge bg-success">Connected ✅</span>
+          ) : (
+            <span className="badge bg-danger">Disconnected ❌</span>
+          )}
+        </span>
+        {!syncStatus.connected && (
+          <Button
+            size="sm"
+            variant="outline-danger"
+            onClick={handleReconnect}
+            title="Try to reconnect to QuickBooks"
+          >
+            Reconnect
+          </Button>
+        )}
+        <span className="ms-2 text-muted" style={{ fontSize: "0.9em" }}>
+          {syncStatus.connected
+            ? "Live sync enabled"
+            : "Sync unavailable. Please reconnect."}
+        </span>
+      </div>
+
+      {/* Toast for contract-to-project conversion */}
+      <ToastContainer position="top-end" className="p-3">
+        <Toast
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={5000}
+          autohide
+          bg="success"
+        >
+          <Toast.Header>
+            <strong className="me-auto">Project Created</strong>
+          </Toast.Header>
+          <Toast.Body className="text-white">
+            Project created from signed contract.
+          </Toast.Body>
+        </Toast>
+        <Toast
+          show={showSyncError}
+          onClose={() => setShowSyncError(false)}
+          delay={7000}
+          autohide
+          bg="danger"
+        >
+          <Toast.Header>
+            <strong className="me-auto">Sync Error</strong>
+          </Toast.Header>
+          <Toast.Body className="text-white">
+            ⚠️ Sync with QuickBooks failed. Please try again or check the connection.
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      {selectedProject === null ? (
         <>
           <div className="d-flex justify-content-between align-items-center mb-3 ">
-            <h4 className={`fw-bold ${theme.text}`}>Lead Opportunities</h4>
+            <h4 className={`fw-bold ${theme.text}`}>Projects</h4>
             <div className="d-flex flex-wrap gap-2">
               <Button variant="outline-secondary">⚙️</Button>
               <Button variant="outline-secondary">More</Button>
@@ -545,7 +668,7 @@ const LeadOpportunities = () => {
               </Button>
               <Button variant="outline-secondary">Filter (1)</Button>
               <Button variant="success" onClick={handleShow}>
-                + New Lead Opportunity
+                + New Project
               </Button>
             </div>
           </div>
@@ -561,103 +684,134 @@ const LeadOpportunities = () => {
                 <th>
                   <Form.Check />
                 </th>
-                <th>Opportunity Title</th>
+                <th>Project Title</th>
                 <th>Created Date</th>
                 <th>Client Contact</th>
-                <th>Lead Status</th>
+                <th>Status</th>
                 <th>Age</th>
                 <th>Confidence</th>
                 <th>Estimated Revenue Min</th>
               </tr>
             </thead>
             <tbody>
-              {leads.map((lead, index) => (
+              {projects.map((project, index) => (
                 <tr key={index}>
                   <td>
                     <Form.Check />
                   </td>
                   <td>
-                    <span className="badge bg-primary me-2">New</span>
+                    {project.autoConverted && (
+                      <span className="badge bg-success me-2">Auto</span>
+                    )}
                     <span className="fw-semibold">
                       <Button
                         variant="link"
                         className="p-0 align-baseline text-primary text-decoration-none"
-                        onClick={() => handleLeadClick(index)}
+                        onClick={() => handleProjectClick(index)}
                         style={{ fontWeight: 600 }}
                       >
-                        {lead.title}
+                        {project.title}
                       </Button>
                     </span>
                   </td>
-                  <td>{lead.date}</td>
+                  <td>{project.date}</td>
                   <td>
-                    {/* Make client contact a link */}
                     <a
                       href="#"
                       className="text-primary"
                       style={{ textDecoration: "none" }}
                       onClick={(e) => {
                         e.preventDefault();
-                        handleClientContactClick(lead.client);
+                        handleClientContactClick(project.client);
                       }}
                     >
-                      {lead.client}
+                      {project.client}
                     </a>
                   </td>
                   <td>
-                    <span className="badge bg-info text-dark">
-                      {lead.status}
+                    <span
+                      className={`badge bg-${getStatusConfig(project.status).color} text-white`}
+                    >
+                      {getStatusConfig(project.status).label}
                     </span>
                   </td>
-                  <td>{lead.age}</td>
+                  <td>{project.age}</td>
                   <td>
                     <div className="progress" style={{ height: "8px" }}>
                       <div
                         className="progress-bar bg-primary"
                         role="progressbar"
-                        style={{ width: lead.confidence }}
+                        style={{ width: project.confidence }}
                       ></div>
                     </div>
                   </td>
-                  <td>{lead.revenue}</td>
+                  <td>{project.revenue}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </>
       ) : (
-        // Lead Details UI with Tabs
+        // --- Project Details UI with Tabs ---
         <div className="bg-white rounded shadow-sm p-3">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
               <Button variant="link" className="p-0 me-4 text-dark text-decoration-none" onClick={handleBack}>
                 &larr; Back
               </Button>
-              <span className="fw-bold fs-5">{selectedLead.title}</span>
-              <span className="ms-2 text-muted">
-                <i className="bi bi-telephone"></i>
-              </span>
+              <span className="fw-bold fs-5">{selectedProject.title}</span>
+              {selectedProject.autoConverted && selectedProject.contractMeta && (
+                <span className="ms-2 badge bg-success">
+                  Linked to Contract: {selectedProject.contractMeta.contractId}
+                </span>
+              )}
             </div>
             <div>
               <span className="me-3">
                 Company:{" "}
-                <span className="fw-semibold">{selectedLead.company}</span>
+                <span className="fw-semibold">{selectedProject.company}</span>
               </span>
               <span>
                 Billing address:{" "}
-                <span className="fw-semibold">{selectedLead.billing}</span>
+                <span className="fw-semibold">{selectedProject.billing}</span>
               </span>
             </div>
           </div>
-         
+          {/* --- Show contract metadata if available --- */}
+          {selectedProject.autoConverted && selectedProject.contractMeta && (
+            <Card className="mb-3">
+              <Card.Body>
+                <div className="mb-2">
+                  <strong>Contract Title:</strong> {selectedProject.contractMeta.title}
+                </div>
+                <div className="mb-2">
+                  <strong>Client:</strong> {selectedProject.contractMeta.client}
+                </div>
+                <div className="mb-2">
+                  <strong>Start Date:</strong> {selectedProject.contractMeta.startDate}
+                </div>
+                <div className="mb-2">
+                  <strong>End Date:</strong> {selectedProject.contractMeta.endDate}
+                </div>
+                <div className="mb-2">
+                  <strong>Assigned Team:</strong> {selectedProject.contractMeta.assignedTeam}
+                </div>
+                <div className="mb-2">
+                  <strong>Contract Value:</strong> {selectedProject.contractMeta.value}
+                </div>
+              </Card.Body>
+            </Card>
+          )}
+          {/* --- Tabs and rest of UI remain unchanged, just use selectedProject --- */}
           <Tabs
             activeKey={activeTab}
             onSelect={(k) => setActiveTab(k)}
             className="mb-3"
             justify
           >
-            <Tab eventKey="transaction" title="TRANSACTION LIST">
-              <Table bordered hover responsive  className="bg-white rounded">
+            {/* --- Financials Tab: Transaction List with Sync Status --- */}
+            <Tab eventKey="financials" title="FINANCIALS">
+              <Table bordered hover responsive className="bg-white rounded">
                 <thead>
                   <tr>
                     <th>DATE</th>
@@ -667,49 +821,134 @@ const LeadOpportunities = () => {
                     <th>MEMO</th>
                     <th>AMOUNT</th>
                     <th>STATUS</th>
+                    <th>SYNC</th>
                     <th>ACTION</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedLead.transactions &&
-                  selectedLead.transactions.length > 0 ? (
-                    selectedLead.transactions.map((t, idx) => (
-                      <tr key={idx}>
-                        <td>{t.date}</td>
-                        <td>{t.type}</td>
-                        <td>{t.no}</td>
-                        <td>{t.customer}</td>
-                        <td>{t.memo}</td>
-                        <td>{t.amount}</td>
-                        <td>
-                          {t.status.includes("Closed") ||
-                          t.status.includes("Paid") ? (
-                            <span className="badge bg-success">
-                              {t.status.replace(/<br\/?>/g, " ")}
-                            </span>
-                          ) : (
-                            <span className="badge bg-warning text-dark">
-                              {t.status.replace(/<br\/?>/g, " ")}
-                            </span>
-                          )}
-                        </td>
-                        <td>
-                          <Button variant="link" className="p-0  text-decoration-none">
-                            {t.action}
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={8} className="text-center text-muted">
-                        No transactions available.
+                  {getProjectTransactions(selectedProject).map((t, idx) => (
+                    <tr key={t.id || idx}>
+                      <td>{t.date}</td>
+                      <td>{t.type}</td>
+                      <td>{t.no}</td>
+                      <td>{t.customer}</td>
+                      <td>{t.memo}</td>
+                      <td>{t.amount}</td>
+                      <td>
+                        {t.status === "Closed" || t.status === "Paid" ? (
+                          <span className="badge bg-success">
+                            {t.status}
+                          </span>
+                        ) : t.status === "Pending" ? (
+                          <span className="badge bg-warning text-dark">
+                            {t.status}
+                          </span>
+                        ) : t.status === "Failed" ? (
+                          <span className="badge bg-danger">
+                            {t.status}
+                          </span>
+                        ) : (
+                          <span className="badge bg-secondary">
+                            {t.status}
+                          </span>
+                        )}
+                      </td>
+                      <td>
+                        {/* Live Sync Indicator */}
+                        {t.syncStatus === "synced" && (
+                          <span className="badge bg-success">Synced</span>
+                        )}
+                        {t.syncStatus === "pending" && (
+                          <span className="badge bg-warning text-dark">Pending</span>
+                        )}
+                        {t.syncStatus === "failed" && (
+                          <>
+                            <span className="badge bg-danger me-2">Failed</span>
+                            <Button
+                              size="sm"
+                              variant="outline-danger"
+                              onClick={() => {
+                                setShowSyncError(true);
+                                handleRetrySync(t.id);
+                              }}
+                              title="Retry sync"
+                            >
+                              Retry
+                            </Button>
+                          </>
+                        )}
+                      </td>
+                      <td>
+                        <Button variant="link" className="p-0 text-decoration-none">
+                          {t.action}
+                        </Button>
                       </td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </Table>
             </Tab>
+
+            {/* --- Sync Log Tab --- */}
+            <Tab eventKey="syncLog" title="SYNC LOG">
+              <div className="my-3">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <h5 className="fw-bold mb-0">QuickBooks Sync Log</h5>
+                  {/* Filter/Sort controls (static for demo) */}
+                  <div>
+                    <Form.Select size="sm" className="d-inline w-auto me-2">
+                      <option>All Types</option>
+                      <option>Invoice</option>
+                      <option>Payment</option>
+                      <option>Client Info</option>
+                    </Form.Select>
+                    <Form.Select size="sm" className="d-inline w-auto me-2">
+                      <option>All Status</option>
+                      <option>Success</option>
+                      <option>Failed</option>
+                    </Form.Select>
+                    <Form.Select size="sm" className="d-inline w-auto">
+                      <option>Newest First</option>
+                      <option>Oldest First</option>
+                    </Form.Select>
+                  </div>
+                </div>
+                <Table bordered hover responsive className="bg-white rounded">
+                  <thead>
+                    <tr>
+                      <th>Timestamp</th>
+                      <th>Direction</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {syncLogData.map((log) => (
+                      <tr key={log.id}>
+                        <td>{log.timestamp}</td>
+                        <td>
+                          {log.direction === "CRM → QB" ? (
+                            <span className="badge bg-primary">{log.direction}</span>
+                          ) : (
+                            <span className="badge bg-info text-dark">{log.direction}</span>
+                          )}
+                        </td>
+                        <td>{log.type}</td>
+                        <td>
+                          {log.status === "Success" ? (
+                            <span className="badge bg-success">Success</span>
+                          ) : (
+                            <span className="badge bg-danger">Failed</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Tab>
+
+            {/* --- Other Tabs (Daily Logs, Bills, Notes, etc.) --- */}
             <Tab eventKey="daily" title="DAILY LOGS">
               <div className="my-3">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -842,7 +1081,7 @@ const LeadOpportunities = () => {
                           <Form.Label>Job</Form.Label>
                           <Form.Select>
                             <option>
-                              {selectedLead?.title || "Select Job"}
+                              {selectedProject?.title || "Select Job"}
                             </option>
                           </Form.Select>
                         </Form.Group>
@@ -1068,7 +1307,7 @@ const LeadOpportunities = () => {
             <Tab eventKey="change" title="CHANGE ORDERS">
               <div className="my-3">
                 <h5 className="fw-bold mb-3">
-                  {selectedLead?.title || ""} Change Order
+                  {selectedProject?.title || ""} Change Order
                 </h5>
                 <Card className="mb-4">
                   <Card.Body>
@@ -1219,15 +1458,15 @@ const LeadOpportunities = () => {
         </div>
       )}
 
-      {/* Add New Lead Modal */}
+      {/* --- Add New Project Modal --- */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title className="fw-bold">Add New Lead</Modal.Title>
+          <Modal.Title className="fw-bold">Add New Project</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Opportunity Title</Form.Label>
+              <Form.Label>Project Title</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
@@ -1257,15 +1496,17 @@ const LeadOpportunities = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Lead Status</Form.Label>
+              <Form.Label>Status</Form.Label>
               <Form.Select
                 name="status"
                 value={form.status}
                 onChange={handleChange}
               >
-                <option>Open</option>
-                <option>Closed</option>
-                <option>In Progress</option>
+                {PROJECT_STATUSES.map((status) => (
+                  <option key={status.key} value={status.key}>
+                    {status.label}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
@@ -1304,7 +1545,7 @@ const LeadOpportunities = () => {
                 Cancel
               </Button>
               <Button variant="primary" type="submit">
-                Save Lead
+                Save Project
               </Button>
             </div>
           </Form>
