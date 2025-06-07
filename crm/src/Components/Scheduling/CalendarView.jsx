@@ -18,7 +18,7 @@ const CalendarView = () => {
   ];
 
   return (
-    <Container className="mt-4">
+    <div className="container-fluid p-4">
       {/* Back Button above heading */}
       <div className="mb-2">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>
@@ -382,7 +382,7 @@ const CalendarView = () => {
         </div>
       )}
       {showModal && <div className="modal-backdrop fade show"></div>}
-    </Container>
+    </div>
   );
 };
 

@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BsSearch, BsList } from "react-icons/bs";
+// FontAwesome (fa)
+import { FaHome, FaUserFriends, FaClipboardList, FaReceipt, FaShoppingCart } from 'react-icons/fa';
+
+// Bootstrap (bs)
+import { BsSearch, BsList } from 'react-icons/bs';
+;
+
 import {
     FaBell,
     FaUser,
@@ -26,6 +32,25 @@ import { Button, Modal, Form } from "react-bootstrap";
 import bonbonlogo from "../assets/Supplyblack.png";
 
 const Header = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const wrapperRef = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const recentItems = [
+
+    ];
     const [showDropdown, setShowDropdown] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -102,16 +127,72 @@ const Header = () => {
                     </Link>
 
                     {/* Search Bar - Hidden on mobile */}
-                    <div className="input-group d-none d-md-flex">
-                        <span className="input-group-text bg-white border-end-0">
-                            <BsSearch />
-                        </span>
-                        <input
-                            type="text"
-                            className="form-control border-start-0"
-                            placeholder="Search or jump to..."
-                            style={{ maxWidth: "200px" }}
-                        />
+                    <div className="position-relative" ref={wrapperRef}>
+                        <div className="input-group d-none d-md-flex">
+                            <span className="input-group-text bg-white border-end-0">
+                                <BsSearch />
+                            </span>
+                            <input
+                                type="text"
+                                className="form-control border-start-0"
+                                placeholder="Search or jump to..."
+                                style={{ maxWidth: "200px" }}
+                                onFocus={() => setIsOpen(true)}
+                            />
+                        </div>
+
+                        {isOpen && (
+                            <div className="position-absolute bg-white border rounded shadow p-2" style={{ width: "300px", top: "100%", zIndex: 10 }}>
+                                <div className="mb-2">
+                                    <strong>Jump to section</strong>
+                                    <ul className="list-unstyled ps-2 mt-1">
+                                        <li>
+                                            <Link to="/home" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaHome /> Home
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/BillsTab" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaReceipt /> Bills
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/ClientsData" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaUserFriends /> Clients
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/ContractJobs" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaClipboardList /> Contract Jobs
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/InvoiceDashboard" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaFileInvoice /> Invoices
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/purchasesData" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaShoppingCart /> Purchases
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/VendorsPage" className="text-decoration-none text-dark d-flex align-items-center gap-2">
+                                                <FaTruck /> Vendors
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <strong>Recently viewed</strong> <span className="text-primary" style={{ cursor: 'pointer' }}>Clear recent</span>
+                                    <ul className="list-unstyled ps-2 mt-1">
+                                        {recentItems.map((item, idx) => (
+                                            <li key={idx}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Add New Button - Hidden on mobile */}
@@ -448,15 +529,133 @@ const Header = () => {
                     </div>
 
                     {/* Mobile Search */}
-                    <div className="input-group mb-4">
-                        <span className="input-group-text bg-white border-end-0">
-                            <BsSearch />
-                        </span>
-                        <input
-                            type="text"
-                            className="form-control border-start-0"
-                            placeholder="Search or jump to..."
-                        />
+                    <div className="position-relative" ref={wrapperRef}>
+                        {/* Desktop Search Bar */}
+                        <div className="input-group d-none d-md-flex">
+                            <span className="input-group-text bg-white border-end-0">
+                                <BsSearch />
+                            </span>
+                            <input
+                                type="text"
+                                className="form-control border-start-0"
+                                placeholder="Search or jump to..."
+                                style={{ maxWidth: "200px" }}
+                                onFocus={() => setIsOpen(true)}
+                            />
+                        </div>
+
+                        {/* Mobile Search Bar */}
+                        <div className="d-flex d-md-none align-items-center mb-3">
+                            <button
+                                className="btn btn-light w-100 me-2"
+                                style={{ border: "1px solid #ddd", flex: 1 }}
+                                onClick={() => setIsOpen((v) => !v)}
+                                aria-label="Open search"
+                            >
+                                <div className="d-flex align-items-center justify-content-center w-100">
+                                    <BsSearch className="me-2" />
+                                    <span style={{ flex: 1, textAlign: "left" }}>Search or jump to...</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        {isOpen && (
+                            <div
+                                className="position-absolute bg-white border rounded shadow p-3 w-100"
+                                style={{
+                                    maxWidth: "100%", // Ensures it adapts to screen size
+                                    top: "100%",
+                                    left: 0,
+                                    zIndex: 10,
+                                }}
+                            >
+                                <div className="mb-3">
+                                    <strong>Jump to section</strong>
+                                    <ul className="list-unstyled ps-2 mt-2">
+                                        <li>
+                                            <Link
+                                                to="/home"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaHome /> Home
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/BillsTab"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaReceipt /> Bills
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/ClientsData"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaUserFriends /> Clients
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/ContractJobs"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaClipboardList /> Contract Jobs
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/InvoiceDashboard"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaFileInvoice /> Invoices
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/purchasesData"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaShoppingCart /> Purchases
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/VendorsPage"
+                                                className="text-decoration-none text-dark d-flex align-items-center gap-2"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <FaTruck /> Vendors
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="mt-3">
+                                    <strong>Recently viewed</strong>{" "}
+                                    <span
+                                        className="text-primary"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => console.log("Clear recent clicked")}
+                                    >
+                                        Clear recent
+                                    </span>
+                                    <ul className="list-unstyled ps-2 mt-2">
+                                        {recentItems.map((item, idx) => (
+                                            <li key={idx}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        )}
                     </div>
 
                     {/* Mobile Menu Items */}

@@ -11,7 +11,7 @@ const BillsTab = () => {
   const handleClear = () => setSearchInput("");
 
   return (
-    <div>
+    <div className="">
       <div className="d-flex justify-content-between align-items-center my-3">
         <h3>Bills</h3>
         <Button variant="primary" onClick={handleModalShow}>

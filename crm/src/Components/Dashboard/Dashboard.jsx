@@ -228,7 +228,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container-fluid py-4 bg-light">
+    <div className="container-fluid p-4 py-4 bg-light">
       {/* Back Button above heading */}
       <div className="mb-2">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>

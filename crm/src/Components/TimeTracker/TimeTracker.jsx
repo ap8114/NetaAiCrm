@@ -10,7 +10,7 @@ const TimeTracker = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mt-4">
+    <div className="col-12 p-4 mt-4">
       {/* Back Button above heading */}
       <div className="mb-2">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>

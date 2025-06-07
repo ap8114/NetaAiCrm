@@ -189,7 +189,7 @@ const getStatusConfig = (statusKey) =>
 const LeadOpportunities = () => {
   // --- Toast for contract-to-project conversion ---
   const [showToast, setShowToast] = useState(false);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // --- Projects State (includes auto-converted from contracts) ---
   const [projects, setProjects] = useState([
@@ -325,8 +325,7 @@ const LeadOpportunities = () => {
   // --- Render client contact page if selected ---
   if (selectedClient) {
     return (
-      <div className="container mt-4">
-      
+      <div className="container-fluid p-4 mt-4">
         <Card className="mb-4">
           <Card.Body>
             <Row>
@@ -502,43 +501,43 @@ const LeadOpportunities = () => {
     project.transactions && project.transactions.length
       ? project.transactions
       : [
-          {
-            id: 1,
-            date: "2025-06-01",
-            type: "Invoice",
-            no: "INV-001",
-            customer: project.client,
-            memo: "Initial deposit",
-            amount: "$2,000.00",
-            status: "Synced",
-            syncStatus: "synced",
-            action: "View",
-          },
-          {
-            id: 2,
-            date: "2025-06-05",
-            type: "Payment",
-            no: "PAY-001",
-            customer: project.client,
-            memo: "Payment received",
-            amount: "$2,000.00",
-            status: "Pending",
-            syncStatus: "pending",
-            action: "View",
-          },
-          {
-            id: 3,
-            date: "2025-06-10",
-            type: "Invoice",
-            no: "INV-002",
-            customer: project.client,
-            memo: "Final payment",
-            amount: "$7,740.00",
-            status: "Failed",
-            syncStatus: "failed",
-            action: "Retry",
-          },
-        ];
+        {
+          id: 1,
+          date: "2025-06-01",
+          type: "Invoice",
+          no: "INV-001",
+          customer: project.client,
+          memo: "Initial deposit",
+          amount: "$2,000.00",
+          status: "Synced",
+          syncStatus: "synced",
+          action: "View",
+        },
+        {
+          id: 2,
+          date: "2025-06-05",
+          type: "Payment",
+          no: "PAY-001",
+          customer: project.client,
+          memo: "Payment received",
+          amount: "$2,000.00",
+          status: "Pending",
+          syncStatus: "pending",
+          action: "View",
+        },
+        {
+          id: 3,
+          date: "2025-06-10",
+          type: "Invoice",
+          no: "INV-002",
+          customer: project.client,
+          memo: "Final payment",
+          amount: "$7,740.00",
+          status: "Failed",
+          syncStatus: "failed",
+          action: "Retry",
+        },
+      ];
 
   // --- Simulated sync log data ---
   const syncLogData = [
@@ -591,7 +590,7 @@ const LeadOpportunities = () => {
   const [showSyncError, setShowSyncError] = useState(false);
 
   return (
-    <div className={`container mt-4 `}>
+    <div className="p-4 mt-4">
       {/* Back Button above heading */}
       <div className="mb-2">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>
@@ -759,7 +758,7 @@ const LeadOpportunities = () => {
         <div className="bg-white rounded shadow-sm p-3">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
-           
+
               <span className="fw-bold fs-5">{selectedProject.title}</span>
               {selectedProject.autoConverted && selectedProject.contractMeta && (
                 <span className="ms-2 badge bg-success">
