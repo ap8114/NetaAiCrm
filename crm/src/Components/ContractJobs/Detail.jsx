@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import "./Detail.css";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import ClientProposalForm from "./ClientProposalForm";
+import Draftpurposal from "./Draftpurposal";
 
 const Detail = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("#b5a14f"); // Store selected color
+  const [selectedColor, setSelectedColor] = useState("#b5a14f");
   const [activeTab, setActiveTab] = useState("Summary");
-  const navigate = useNavigate(); // Add this line
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const job = location.state;
+  console.log(job.p.stage);
+
+  const stage = job.p.stage; // Default to "Draft" if stage is not defined
 
   const handleEditClick = () => setIsEditing(true);
   const handleCancel = () => setIsEditing(false);
@@ -24,9 +32,227 @@ const Detail = () => {
     "#fbbc05",
     "#e91e63",
     "#9c27b0",
-  ]; // Predefined color options
+  ];
 
-  const renderTabContent = () => {
+  const renderTabContent = (stage) => {
+    // Handle stage-specific tab rendering
+    switch (stage) {
+      case "bidding":
+        if (activeTab === "Client Proposal") {
+          return <ClientProposalForm />;
+        }
+        break;
+      case "lead":
+        return <ClientProposalForm />;
+      case "Active":
+        if (activeTab === "Contract & Change Orders") {
+          return (
+           <div className="bg-white p-4 rounded shadow-sm mb-4">
+          {/* Header */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <span className="badge bg-success me-2">Active</span>
+              <span className="fw-bold">Fixed price | AIA-style billing</span>
+            </div>
+            <div>
+              <button className="btn btn-success btn-sm me-2">
+                Invoice now
+              </button>
+              <button className="btn btn-link text-dark btn-sm">
+                <i className="bi bi-three-dots-vertical"></i>
+              </button>
+            </div>
+          </div>
+          {/* Value Summary */}
+          <div className="row text-center mb-4">
+            <div className="col">
+              <div className="text-muted small">Value</div>
+              <div className="fw-bold">$264,000.00</div>
+            </div>
+            <div className="col">
+              <div className="text-muted small">Invoiced</div>
+              <div className="fw-bold">$45,000.00</div>
+            </div>
+            <div className="col">
+              <div className="text-muted small">Retained</div>
+              <div className="fw-bold">$5,000.00</div>
+            </div>
+          </div>
+          {/* Details */}
+          <div className="row mb-3">
+            <div className="col-md-6">
+              <div>
+                Attn: <span className="text-muted">n/a</span>
+              </div>
+              <div>
+                GC RFP#: <span className="text-muted">n/a</span>
+              </div>
+              <div>
+                GC Contract#: <span className="text-muted">4235</span>
+              </div>
+              <div>
+                GC contract date: <span className="text-muted">11/1/22</span>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div>
+                Estimated start date: <span className="text-muted">n/a</span>
+              </div>
+              <div>
+                Estimated end date: <span className="text-muted">n/a</span>
+              </div>
+              <div>
+                Retainage for work: <span className="text-muted">10%</span>
+              </div>
+              <div>
+                Retainage for materials: <span className="text-muted">10%</span>
+              </div>
+              <div>
+                Payment terms: <span className="text-muted">NET7</span>
+              </div>
+            </div>
+          </div>
+          <div className="mb-3">
+            <a href="#" className="text-primary small">
+              <i className="bi bi-pencil"></i> Edit this information
+            </a>
+          </div>
+          {/* Schedule of Values */}
+          <div className="border rounded mb-4">
+            <div
+              className="border-bottom px-3 py-2 bg-light text-center fw-bold"
+              style={{ letterSpacing: "1px" }}
+            >
+              SCHEDULE OF VALUES
+            </div>
+            <div className="px-3 py-3 border-bottom">
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <span className="fw-bold">1. Demolition / Clear Out</span>
+                  <span className="ms-2 text-muted">
+                    <i className="bi bi-files"></i>{" "}
+                    <i className="bi bi-link-45deg"></i>
+                  </span>
+                </div>
+                <div className="text-end">
+                  <div>
+                    Value: <span className="fw-bold">$108,000.00</span>
+                  </div>
+                  <div className="small text-muted">Invoiced: 46.30%</div>
+                  <div className="small">Balance: $58,000.00</div>
+                </div>
+              </div>
+            </div>
+            <div className="px-3 py-3">
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <span className="fw-bold">2. Asphalt</span>
+                  <span className="ms-2 text-muted">
+                    <i className="bi bi-files"></i>{" "}
+                    <i className="bi bi-link-45deg"></i>
+                  </span>
+                </div>
+                <div className="text-end">
+                  <div>
+                    Value: <span className="fw-bold">$156,000.00</span>
+                  </div>
+                  <div className="small text-muted">Invoiced: 0%</div>
+                  <div className="small">Balance: $156,000.00</div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="px-3 py-3 text-center border-top"
+              style={{ background: "#fafbfc" }}
+            >
+              <button className="btn btn-primary btn-sm">
+                Add change order
+              </button>
+            </div>
+          </div>
+          {/* Contract Summary Table */}
+          <div className="mb-4 p-3 rounded" style={{ background: "#eafbe2" }}>
+            <div className="row mb-2">
+              <div className="col-8">A1. Original bid Sum:</div>
+              <div className="col-4 text-end fw-bold">$264,000.00</div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-8">A2. Original contract sum:</div>
+              <div className="col-4 text-end fw-bold">$264,000.00</div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-8">B1. Pending change orders:</div>
+              <div className="col-4 text-end fw-bold">$0.00</div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-8">
+                B2. Net change by approved change orders:
+              </div>
+              <div className="col-4 text-end fw-bold">$0.00</div>
+            </div>
+            <div className="row mb-2">
+              <div className="col-8 fw-bold">
+                C. Contract sum to date (A1+A2+B1+B2):
+              </div>
+              <div className="col-4 text-end fw-bold">$264,000.00</div>
+            </div>
+            <div className="row">
+              <div className="col-8 fw-bold">
+                D. Approved contract sum to date (A1+B2):
+              </div>
+              <div className="col-4 text-end fw-bold">$264,000.00</div>
+            </div>
+          </div>
+          {/* Additional Options */}
+          <div className="border rounded mb-4">
+            <div
+              className="border-bottom px-3 py-2 bg-light fw-bold"
+              style={{ letterSpacing: "1px" }}
+            >
+              ADDITIONAL OPTIONS
+            </div>
+            <div className="px-3 py-3">
+              <div className="row align-items-center">
+                <div className="col-md-3 col-6">Output style:</div>
+                <div className="col-md-6 col-6">
+                  <select className="form-select form-select-sm">
+                    <option>Display line item subtotals</option>
+                    <option>Display summary only</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Terms and Conditions */}
+          <div className="border rounded">
+            <div
+              className="border-bottom px-3 py-2 bg-light fw-bold"
+              style={{ letterSpacing: "1px" }}
+            >
+              TERMS AND CONDITIONS
+            </div>
+            <div className="px-3 py-3 small text-muted">
+              The above price is valid for 30 days. Test Data agrees that they
+              will enter into a standard AIA subcontract with General
+              Contractor, and that basic provisions such as insurance and W-9
+              shall be in place prior to start.
+            </div>
+          </div>
+        </div>
+          );
+        }
+        break;
+      case "Completed":
+        return (
+          <div className="wwd-completed">
+            <h5 className="text-center">Job Completed</h5>
+          </div>
+        );
+      default:
+        break;
+    }
+
+    // Handle common tabs for all stages
     if (activeTab === "Summary") {
       return (
         <div className="row">
@@ -67,8 +293,8 @@ const Detail = () => {
                             : ""
                         }`}
                         style={{ backgroundColor: color }}
-                        onClick={() => setSelectedColor(color)} // Update color on click
-                        title={color} // Tooltip showing the color value
+                        onClick={() => setSelectedColor(color)}
+                        title={color}
                       ></span>
                     ))}
                   </div>
@@ -107,7 +333,7 @@ const Detail = () => {
               <button
                 className="btn btn-success position-absolute"
                 style={{ top: 16, right: 16, zIndex: 2 }}
-                onClick={handleEditClick} // <-- Add this line
+                onClick={handleEditClick}
               >
                 Edit job
               </button>
@@ -209,6 +435,7 @@ const Detail = () => {
         </div>
       );
     }
+
     if (activeTab === "Plan & Track") {
       return (
         <div className="wwd-plantrack bg-white p-4 rounded shadow-sm mb-4">
@@ -442,202 +669,20 @@ const Detail = () => {
         </div>
       );
     }
+
     if (activeTab === "Contract & Change Orders") {
       return (
         <div className="bg-white p-4 rounded shadow-sm mb-4">
-          {/* Header */}
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <span className="badge bg-success me-2">Active</span>
-              <span className="fw-bold">Fixed price | AIA-style billing</span>
-            </div>
-            <div>
-              <button className="btn btn-success btn-sm me-2">
-                Invoice now
-              </button>
-              <button className="btn btn-link text-dark btn-sm">
-                <i className="bi bi-three-dots-vertical"></i>
-              </button>
-            </div>
-          </div>
-          {/* Value Summary */}
-          <div className="row text-center mb-4">
-            <div className="col">
-              <div className="text-muted small">Value</div>
-              <div className="fw-bold">$264,000.00</div>
-            </div>
-            <div className="col">
-              <div className="text-muted small">Invoiced</div>
-              <div className="fw-bold">$45,000.00</div>
-            </div>
-            <div className="col">
-              <div className="text-muted small">Retained</div>
-              <div className="fw-bold">$5,000.00</div>
-            </div>
-          </div>
-          {/* Details */}
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <div>
-                Attn: <span className="text-muted">n/a</span>
-              </div>
-              <div>
-                GC RFP#: <span className="text-muted">n/a</span>
-              </div>
-              <div>
-                GC Contract#: <span className="text-muted">4235</span>
-              </div>
-              <div>
-                GC contract date: <span className="text-muted">11/1/22</span>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div>
-                Estimated start date: <span className="text-muted">n/a</span>
-              </div>
-              <div>
-                Estimated end date: <span className="text-muted">n/a</span>
-              </div>
-              <div>
-                Retainage for work: <span className="text-muted">10%</span>
-              </div>
-              <div>
-                Retainage for materials: <span className="text-muted">10%</span>
-              </div>
-              <div>
-                Payment terms: <span className="text-muted">NET7</span>
-              </div>
-            </div>
-          </div>
-          <div className="mb-3">
-            <a href="#" className="text-primary small">
-              <i className="bi bi-pencil"></i> Edit this information
-            </a>
-          </div>
-          {/* Schedule of Values */}
-          <div className="border rounded mb-4">
-            <div
-              className="border-bottom px-3 py-2 bg-light text-center fw-bold"
-              style={{ letterSpacing: "1px" }}
-            >
-              SCHEDULE OF VALUES
-            </div>
-            <div className="px-3 py-3 border-bottom">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <span className="fw-bold">1. Demolition / Clear Out</span>
-                  <span className="ms-2 text-muted">
-                    <i className="bi bi-files"></i>{" "}
-                    <i className="bi bi-link-45deg"></i>
-                  </span>
-                </div>
-                <div className="text-end">
-                  <div>
-                    Value: <span className="fw-bold">$108,000.00</span>
-                  </div>
-                  <div className="small text-muted">Invoiced: 46.30%</div>
-                  <div className="small">Balance: $58,000.00</div>
-                </div>
-              </div>
-            </div>
-            <div className="px-3 py-3">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <span className="fw-bold">2. Asphalt</span>
-                  <span className="ms-2 text-muted">
-                    <i className="bi bi-files"></i>{" "}
-                    <i className="bi bi-link-45deg"></i>
-                  </span>
-                </div>
-                <div className="text-end">
-                  <div>
-                    Value: <span className="fw-bold">$156,000.00</span>
-                  </div>
-                  <div className="small text-muted">Invoiced: 0%</div>
-                  <div className="small">Balance: $156,000.00</div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="px-3 py-3 text-center border-top"
-              style={{ background: "#fafbfc" }}
-            >
-              <button className="btn btn-primary btn-sm">
-                Add change order
-              </button>
-            </div>
-          </div>
-          {/* Contract Summary Table */}
-          <div className="mb-4 p-3 rounded" style={{ background: "#eafbe2" }}>
-            <div className="row mb-2">
-              <div className="col-8">A1. Original bid Sum:</div>
-              <div className="col-4 text-end fw-bold">$264,000.00</div>
-            </div>
-            <div className="row mb-2">
-              <div className="col-8">A2. Original contract sum:</div>
-              <div className="col-4 text-end fw-bold">$264,000.00</div>
-            </div>
-            <div className="row mb-2">
-              <div className="col-8">B1. Pending change orders:</div>
-              <div className="col-4 text-end fw-bold">$0.00</div>
-            </div>
-            <div className="row mb-2">
-              <div className="col-8">
-                B2. Net change by approved change orders:
-              </div>
-              <div className="col-4 text-end fw-bold">$0.00</div>
-            </div>
-            <div className="row mb-2">
-              <div className="col-8 fw-bold">
-                C. Contract sum to date (A1+A2+B1+B2):
-              </div>
-              <div className="col-4 text-end fw-bold">$264,000.00</div>
-            </div>
-            <div className="row">
-              <div className="col-8 fw-bold">
-                D. Approved contract sum to date (A1+B2):
-              </div>
-              <div className="col-4 text-end fw-bold">$264,000.00</div>
-            </div>
-          </div>
-          {/* Additional Options */}
-          <div className="border rounded mb-4">
-            <div
-              className="border-bottom px-3 py-2 bg-light fw-bold"
-              style={{ letterSpacing: "1px" }}
-            >
-              ADDITIONAL OPTIONS
-            </div>
-            <div className="px-3 py-3">
-              <div className="row align-items-center">
-                <div className="col-md-3 col-6">Output style:</div>
-                <div className="col-md-6 col-6">
-                  <select className="form-select form-select-sm">
-                    <option>Display line item subtotals</option>
-                    <option>Display summary only</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Terms and Conditions */}
-          <div className="border rounded">
-            <div
-              className="border-bottom px-3 py-2 bg-light fw-bold"
-              style={{ letterSpacing: "1px" }}
-            >
-              TERMS AND CONDITIONS
-            </div>
-            <div className="px-3 py-3 small text-muted">
-              The above price is valid for 30 days. Test Data agrees that they
-              will enter into a standard AIA subcontract with General
-              Contractor, and that basic provisions such as insurance and W-9
-              shall be in place prior to start.
-            </div>
-          </div>
+          <h5>Contract & Change Orders</h5>
+          <p>Contract and change orders content goes here.</p>
         </div>
       );
     }
+
+    if (activeTab === "Client Proposal") {
+      return <ClientProposalForm />;
+    }
+
     if (activeTab === "Documents") {
       return (
         <div className="bg-white p-4 rounded shadow-sm mb-4">
@@ -688,7 +733,6 @@ const Detail = () => {
                       <input type="checkbox" />
                     </td>
                     <td className="d-flex align-items-center">
-                    
                       Wally World Parking Lot 11/9/2022.pdf
                     </td>
                     <td>5/29/25 8:26 PM</td>
@@ -710,6 +754,7 @@ const Detail = () => {
         </div>
       );
     }
+
     if (activeTab === "Logs") {
       return (
         <div className="bg-white p-4 rounded shadow-sm mb-4">
@@ -1145,7 +1190,7 @@ const Detail = () => {
           </ul>
 
           {/* Tab Content */}
-          {renderTabContent()}
+          {renderTabContent(stage)}
         </>
       ) : (
         <EditJob

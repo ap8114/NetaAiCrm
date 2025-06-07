@@ -787,7 +787,8 @@ const ContractJobs = () => {
     { id: 3, title: 'New Home (Cost Plus)', stage: 'active', type: 'invoice' },
     { id: 4, title: 'Kitchen Remodel (Fixed Price)', stage: 'active', type: 'invoice' },
     { id: 5, title: 'fsdgbeehb', stage: 'closed', type: 'view' },
-    { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' }
+    { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' },
+       { id: 7, title: 'Lighting Install', stage: 'lead', type: 'view' }
   ]);
   const navigate = useNavigate();
 
@@ -900,16 +901,17 @@ const ContractJobs = () => {
                     size="sm"
                     variant="outline-secondary"
                     className="mt-1"
-                    onClick={() => navigate('/detail')}
+                    onClick={() => navigate('/detail', { state: { p } })}
                   >
                     Edit proposal
                   </Button>
                 )}
                 {p.type === 'invoice' && (
-                  <Button size="sm" variant="outline-secondary" className="mt-1">Invoice</Button>
+                  <Button size="sm" variant="outline-secondary" className="mt-1" onClick={() => navigate('/detail', { state: { p } })}
+                  >Invoice</Button>
                 )}
                 {p.type === 'view' && (
-                  <Button size="sm" variant="outline-secondary" className="mt-1">View</Button>
+                  <Button size="sm" variant="outline-secondary" className="mt-1" onClick={() => navigate('/detail', { state: { p } })}>View</Button>
                 )}
               </div>
             ))}
