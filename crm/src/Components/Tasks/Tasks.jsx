@@ -26,7 +26,8 @@ const PROJECTS = [
 const USERS = [
   { id: 1, name: "Simon Mashiah" },
   { id: 2, name: "Carl Wilson" },
-  { id: 3, name: "Brian Willon" },
+  { id: 3, name: "Brian Wilon" },
+];
 
 // Priority badge color map
 const PRIORITY_COLORS = {
