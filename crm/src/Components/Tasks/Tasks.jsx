@@ -236,7 +236,7 @@ export default function Tasks() {
       </div>
       <TaskAnalytics />
       <Tabs id="main-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-4">
-        <Tab eventKey="catalog" title="Manage Catalog">
+        <Tab eventKey="catalog" title="Manage Tasks">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className='fw-bold'>Tasks Catalog</h4>
             <Button variant="success" onClick={handleShow}>Add new</Button>
