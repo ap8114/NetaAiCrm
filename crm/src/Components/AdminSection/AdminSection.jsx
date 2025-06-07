@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./AdminSection.css";
+import {  Modal, Button, Form, InputGroup } from 'react-bootstrap';
+import { FaChevronDown, FaChevronUp, FaCopy, FaBold, FaItalic } from 'react-icons/fa';
+
 
 const initialUsers = [
     {
@@ -178,6 +181,70 @@ const initialResourceCost = [
 
 const AdminSection = () => {
 
+     const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+     const [rates, setRates] = useState([
+    { name: 'Non taxable', rate: '0.000%' }
+  ]);
+
+  const handleAddRate = () => {
+    setRates([...rates, { name: '', rate: '' }]);
+  };
+
+  const handleChange = (index, field, value) => {
+    const updatedRates = [...rates];
+    updatedRates[index][field] = value;
+    setRates(updatedRates);
+  };
+
+     const [openDropdown, setOpenDropdown] = useState(null);
+  const [text, setText] = useState("");
+
+  const toggleDropdown = (key) => {
+    setOpenDropdown((prev) => (prev === key ? null : key));
+  };
+
+  const handleFormat = (tag) => {
+    const selection = window.getSelection().toString();
+    if (!selection) return;
+    const formatted = `<${tag}>${selection}</${tag}>`;
+    setText((prev) => prev.replace(selection, formatted));
+  };
+
+    const [showTerms, setShowTerms] = useState(false);
+
+
+ 
+    const [subject, setSubject] = useState("Invoice #^InvoiceNumber^");
+    const [message, setMessage] = useState(
+        "Please find attached Invoice #^InvoiceNumber^ for our services.\n\nThank you,\n\n^UserName^"
+    );
+    const [showCompanyCam, setShowCompanyCam] = useState(false);
+    const [showSquare, setShowSquare] = useState(false);
+    const [paymentOption, setPaymentOption] = useState("Include card payment link in all invoices by default");
+    const [showQuickBooks, setShowQuickBooks] = useState(false);
+    const [showTimeImport, setShowTimeImport] = useState(false);
+    const [enableImport, setEnableImport] = useState(false);
+    const [showPaychex, setShowPaychex] = useState(false);
+    const [customerId, setCustomerId] = useState('abc');
+    const [showApiKey, setShowApiKey] = useState(false);
+    const [apiKey, setApiKey] = useState('');
+    const [copied, setCopied] = useState(false);
+
+    const generateKey = () => {
+        const newKey = '2b65ddacc34d9867d738793d8efd028e5359ff7061e18c609ac5a2a2f1ba';
+        setApiKey(newKey);
+        setShowApiKey(true);
+    };
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(apiKey);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
     const [isOpen, setIsOpen] = useState(false);
     const [purchaseOrder, setPurchaseOrder] = useState(1);
     const [invoiceNumber, setInvoiceNumber] = useState(1);
@@ -622,7 +689,7 @@ const AdminSection = () => {
                                     <td>
                                         {user.onboarding && (
                                             <span
-                                                className="badge bg-light text-primary"
+                                                className="badge bg-light text-dark"
                                                 style={{ cursor: "pointer", fontSize: 11 }}
                                                 onClick={() => openOnboardingModal(user)}
                                             >
@@ -956,47 +1023,166 @@ const AdminSection = () => {
                                         Every business is different, that is why you can adjust Knowify to fit your particular needs. Contact us at support@knowify.com if you would like us to help you. Our setup is complimentary!
                                     </div>
                                     <div className="mt-2">
-                                        <table className="table table-bordered" style={{ maxWidth: 400 }}>
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Rate</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input className="form-control form-control-sm" value="Non taxable" readOnly />
-                                                    </td>
-                                                    <td>
-                                                        <input className="form-control form-control-sm" value="0.000%" readOnly />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <a href="#" style={{ fontSize: 13 }}>+ add a rate</a>
-                                        <div className="form-check mt-3">
-                                            <input className="form-check-input" type="checkbox" id="defaultTaxes" />
-                                            <label className="form-check-label" htmlFor="defaultTaxes">
-                                                Set line items in proposals taxable by default.
-                                            </label>
-                                        </div>
-                                    </div>
+      <table className="table table-bordered" style={{ maxWidth: 400 }}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rates.map((item, index) => (
+            <tr key={index}>
+              <td>
+                <input
+                  className="form-control form-control-sm"
+                  value={item.name}
+                  onChange={(e) => handleChange(index, 'name', e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  className="form-control form-control-sm"
+                  value={item.rate}
+                  onChange={(e) => handleChange(index, 'rate', e.target.value)}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <a href="#" onClick={e => { e.preventDefault(); handleAddRate(); }} style={{ fontSize: 13 }}>
+        + add a rate
+      </a>
+
+      <div className="form-check mt-3">
+        <input className="form-check-input" type="checkbox" id="defaultTaxes" />
+        <label className="form-check-label" htmlFor="defaultTaxes">
+          Set line items in proposals taxable by default.
+        </label>
+      </div>
+    </div>
                                 </>
                             )}
                             {customizeTab === "defaults" && (
-                                <>
-                                    <div>
-                                        Every business is different, that is why you can adjust Knowify to fit your particular needs. Contact us at support@knowify.com if you would like us to help you. Our setup is complimentary!
-                                    </div>
-                                    <div className="mt-2">
-                                        <div>&#x25B6; Invoice Email</div>
-                                        <div>&#x25B6; eSignature Email</div>
-                                        <div>&#x25B6; PO Email</div>
-                                        <div>&#x25B6; Service Tickets Email</div>
-                                        <div>&#x25B6; Terms & Exclusions Language</div>
-                                    </div>
-                                </>
+                                 <>
+      <div>
+        Every business is different, that is why you can adjust Knowify to fit your particular needs...
+      </div>
+
+      {[
+        { key: "invoice", label: "Invoice Email" },
+        { key: "esignature", label: "eSignature Email" },
+        { key: "po", label: "PO Email" },
+        { key: "service", label: "Service Tickets Email" },
+        { key: "terms", label: "Terms & Exclusions Language" },
+      ].map(({ key, label }) => (
+        <div className="mb-4" key={key}>
+          <div
+            className="d-flex align-items-center mb-2"
+            style={{ cursor: "pointer" }}
+            onClick={() => toggleDropdown(key)}
+          >
+            {openDropdown === key ? (
+              <FaChevronUp className="me-2 text-dark" />
+            ) : (
+              <FaChevronDown className="me-2 text-dark" />
+            )}
+            <span className="fw-bold text-dark">{label}</span>
+          </div>
+
+          {openDropdown === key && (
+            <div className="ps-4 row">
+              {key === "terms" ? (
+                <div>
+                  <div className="mb-2">
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark btn-sm me-2"
+                      onClick={() => handleFormat("b")}
+                    >
+                      <FaBold />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-dark btn-sm me-2"
+                      onClick={() => handleFormat("i")}
+                    >
+                      <FaItalic />
+                    </button>
+                  </div>
+                  <textarea
+                    className="form-control"
+                    rows="5"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Write terms or exclusions here..."
+                  />
+                  <div className="mt-3">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => alert("Terms saved!")}
+                    >
+                      Save Contract Terms And Exclusions
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="col-md-8 mb-3">
+                    <div className="mb-3">
+                      <label className="form-label fw-bold">Subject</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label fw-bold">Message</label>
+                      <textarea
+                        className="form-control"
+                        rows="6"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                    </div>
+                    <a href="#" className="text-primary d-inline-block mb-3">
+                      Preview Email
+                    </a>
+                    <br />
+                    <button className="btn btn-primary">
+                      Save {label}
+                    </button>
+                  </div>
+
+                  <div className="col-md-4">
+                    <h6 className="fw-bold">Available Tags</h6>
+                    <ul className="list-unstyled small">
+                      {key === "invoice" && (
+                        <>
+                          <li><code>^JobName^</code> for job name</li>
+                          <li><code>^ContactName^</code> for contact name</li>
+                          <li><code>^InvoiceNumber^</code> for Invoice number</li>
+                          <li><code>^TotalAmount^</code> for total amount</li>
+                          <li><code>^UserName^</code> for user name</li>
+                          <li><code>^UserEmail^</code> for user email</li>
+                          <li><code>^UserPhone^</code> for user phone</li>
+                          <li><code>^UserRole^</code> for user role</li>
+                        </>
+                      )}
+                      {/* Add other tags per dropdown type if needed */}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </>
                             )}
                             {customizeTab === "integrations" && (
                                 <>
@@ -1004,14 +1190,177 @@ const AdminSection = () => {
                                         Every business is different, that is why you can adjust Knowify to fit your particular needs. Contact us at support@knowify.com if you would like us to help you. Our setup is complimentary!
                                     </div>
                                     <div className="mt-2">
-                                        <div>&#x25B6; API key</div>
-                                        <div>&#x25B6; Payroll by Paychex</div>
-                                        <div>&#x25B6; Time Import</div>
-                                        <div>&#x25B6; Online Payments by QuickBooks Payments</div>
-                                        <div>&#x25B6; Online Payments by Square</div>
-                                        <div>&#x25B6; Photos and portal by CompanyCam</div>
-                                        <div>&#x25B6; Time Tracking by QuickBooks Time</div>
-                                    </div>
+                                        <div className="mb-3">
+                                            <div onClick={() => setShowApiKey(!showApiKey)} style={{ cursor: 'pointer' }} className="d-flex align-items-center mb-2">
+                                                {showApiKey ? <FaChevronUp className="me-2" /> : <FaChevronDown className="me-2" />}
+                                                <span className="fw-bold text-dark">API key</span>
+                                            </div>
+
+                                            {showApiKey ? (
+                                                apiKey ? (
+                                                    <InputGroup>
+                                                        <Form.Control type="text" value={apiKey} readOnly />
+                                                        <Button variant="outline-secondary" onClick={copyToClipboard}>
+                                                            <FaCopy />
+                                                        </Button>
+                                                    </InputGroup>
+                                                ) : (
+                                                    <Button variant="primary" onClick={generateKey}>
+                                                        Generate Key
+                                                    </Button>
+                                                )
+                                            ) : null}
+
+                                            {copied && <small className="text-primary mt-1 d-block">Copied to clipboard!</small>}
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <div onClick={() => setShowPaychex(!showPaychex)} style={{ cursor: 'pointer' }} className="d-flex align-items-center mb-2">
+                                                {showPaychex ? <FaChevronUp className="me-2" /> : <FaChevronDown className="me-2" />}
+                                                <span className="fw-bold text-dark">Payroll by Paychex</span>
+                                            </div>
+
+                                            {showPaychex && (
+                                                <>
+                                                    <Form.Group className="mb-2">
+                                                        <Form.Label>Paychex Customer Id</Form.Label>
+                                                        <Form.Control
+                                                            value={customerId}
+                                                            onChange={(e) => setCustomerId(e.target.value)}
+                                                        />
+                                                    </Form.Group>
+                                                    <Button variant="primary" className="border-dark">Save Changes</Button>
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="mb-3">
+                                            <div onClick={() => setShowTimeImport(!showTimeImport)} style={{ cursor: 'pointer' }} className="d-flex align-items-center mb-2">
+                                                {showTimeImport ? <FaChevronUp className="me-2" /> : <FaChevronDown className="me-2" />}
+                                                <span className="fw-bold text-dark">Time Import</span>
+                                            </div>
+
+                                            {showTimeImport && (
+                                                <div className="ps-4">
+                                                    <p className="mb-1">
+                                                        If you are tracking time with BusyBusy, ExakTime, Clockshark or any other time tracking solution, you can easily import those time entries into Knowify. View demo <a href="#">here</a>.
+                                                    </p>
+                                                    <Form.Check
+                                                        type="checkbox"
+                                                        id="enable-time-import"
+                                                        label="Enables time Import in Review Time."
+                                                        checked={enableImport}
+                                                        onChange={() => setEnableImport(!enableImport)}
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="mb-3">
+                                            <div onClick={() => setShowQuickBooks(!showQuickBooks)} style={{ cursor: 'pointer' }} className="d-flex align-items-center mb-2">
+                                                {showQuickBooks ? <FaChevronUp className="me-2" /> : <FaChevronDown className="me-2" />}
+                                                <span className="fw-bold text-dark">Online Payments by QuickBooks Payments</span>
+                                            </div>
+
+                                            {showQuickBooks && (
+                                                <div className="ps-4">
+                                                    <p className="mb-1">
+                                                        Optionally accept online payments when sending invoices to customers with QuickBooks Payments (requires online payments feature to be enabled on QuickBooks).
+                                                    </p>
+                                                    <p className="mb-2">
+                                                        Click Connect to QuickBooks below to enable QuickBooks Payments on your Knowify account.
+                                                    </p>
+                                                    <Button variant="primary">Connect to QuickBooks</Button>
+                                                </div>
+                                            )}
+                                        </div>
+
+
+                                        <div className="mb-3">
+                                            <div onClick={() => setShowSquare(!showSquare)} style={{ cursor: 'pointer' }} className="d-flex align-items-center mb-2">
+                                                {showSquare ? <FaChevronUp className="me-2" /> : <FaChevronDown className="me-2" />}
+                                                <span className="fw-bold text-dark">Online Payments by Square</span>
+                                            </div>
+
+                                            {showSquare && (
+                                                <div className="ps-4">
+                                                    <p>
+                                                        Bring electronic payments to the next level with Square. Connect your Square account with Knowify now.
+                                                    </p>
+
+                                                    <div className="mb-3 d-flex gap-2">
+                                                        <Button variant="dark">Connect to Square</Button>
+                                                        <Button variant="outline-dark">View demo</Button>
+                                                    </div>
+
+                                                    <Form.Select
+                                                        value={paymentOption}
+                                                        onChange={(e) => setPaymentOption(e.target.value)}
+                                                        className="w-100"
+                                                    >
+                                                        <option>Include card and ACH payment link in all invoices by default</option>
+                                                        <option>Include card payment link in all invoices by default</option>
+                                                        <option>Include ACH payment link in all invoices by default</option>
+                                                        <option>Do not include payment link in all invoices by default</option>
+                                                    </Form.Select>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="mb-3">
+                                            <div
+                                                className="d-flex align-items-center mb-2"
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => setShowCompanyCam(!showCompanyCam)}
+                                            >
+                                                {showCompanyCam ? (
+                                                    <FaChevronUp className="me-2 text-dark" />
+                                                ) : (
+                                                    <FaChevronDown className="me-2 text-dark" />
+                                                )}
+                                                <span className="fw-bold text-dark">Photos and portal by CompanyCam</span>
+                                            </div>
+
+                                            {showCompanyCam && (
+                                                <div className="ps-4">
+                                                    <p className="mb-2">
+                                                        Easily manage job site photos and client access using CompanyCam.
+                                                        Connect your CompanyCam account to get started.
+                                                    </p>
+                                                    <div className="d-flex gap-2">
+                                                        <button className="btn btn-primary">Connect to CompanyCam</button>
+                                                        <button className="btn btn-outline-secondary">View demo</button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="mb-4">
+                                            <div
+                                                className="d-flex align-items-center mb-2"
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => setIsOpen(!isOpen)}
+                                            >
+                                                {isOpen ? (
+                                                    <FaChevronUp className="me-2 text-dark" />
+                                                ) : (
+                                                    <FaChevronDown className="me-2 text-dark" />
+                                                )}
+                                                <span className="fw-bold text-dark">Time Tracking by QuickBooks Time</span>
+                                            </div>
+
+                                            {isOpen && (
+                                                <div className="ps-4">
+                                                    <p>
+                                                        Knowify is excited to partner with QuickBooks Time to bring you world-class time tracking integrated directly
+                                                        into Knowify. Get the best time tracking features and sync your time entries with Knowify for accurate job costing.
+                                                    </p>
+                                                    <p>
+                                                        If you already have a QuickBooks Time account, you can link it now. If you are new and would like to enable
+                                                        time tracking, start your <strong>FREE 14-day trial now!</strong>
+                                                    </p>
+                                                    <button className="btn btn-primary">
+                                                        Link an existing QuickBooks Time account
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>                                    </div>
                                 </>
                             )}
                             {customizeTab === "tags" && (
@@ -1135,7 +1484,39 @@ const AdminSection = () => {
                                 <div className="bg-light p-3 text-center">
                                     <div className="fw-bold">$311.00/month</div>
                                     <div className="text-muted" style={{ fontSize: 13 }}>
-                                        <a href="#" style={{ color: "#2eafec" }}>Current Price<br />(see details)</a>
+                                        {/* Link that opens the modal */}
+      <a href="#" onClick={(e) => { e.preventDefault(); handleShow(); }} style={{ color: "#2eafec" }}>
+        Current Price<br />(see details)
+      </a>
+
+      {/* Bootstrap Modal */}
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Upcoming Invoice Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-2"><strong>Subscription to Advanced, including:</strong></p>
+          <ul className="mb-3 ps-3">
+            <li>1 Regular user — <strong>USD $311.00</strong></li>
+            <li>1 Additional regular user — <strong>USD $10.00</strong></li>
+          </ul>
+          <hr />
+          <p className="d-flex justify-content-between">
+            <span><strong>Subtotal</strong></span>
+            <span><strong>USD $321.00</strong></span>
+          </p>
+          <p className="d-flex justify-content-between">
+            <span><strong>Amount due</strong></span>
+            <span><strong>USD $321.00</strong></span>
+          </p>
+          <p className="text-muted mt-3"><em>**Plus sales tax, where applicable</em></p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
                                     </div>
                                 </div>
                             </div>
