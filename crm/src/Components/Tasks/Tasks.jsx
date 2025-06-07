@@ -1,6 +1,73 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Table, Button, Modal, Form, Row, Col, InputGroup, FormControl } from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
+import {
+  Tabs,
+  Tab,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  Badge,
+  Dropdown,
+  Toast,
+  ToastContainer,
+} from 'react-bootstrap';
+import { FaSearch, FaUserCircle, FaBell, FaFlag, FaChevronDown } from 'react-icons/fa';
+
+// Dummy data for projects and users
+const PROJECTS = [
+  { id: 1, name: "Kitchen Remodel" },
+  { id: 2, name: "Office Buildout" },
+  { id: 3, name: "HQ Renovation" },
+];
+const USERS = [
+  { id: 1, name: "Simon Mashiah" },
+  { id: 2, name: "Carl Wilson" },
+  { id: 3, name: "Brian Wilon" },
+];
+
+// Priority badge color map
+const PRIORITY_COLORS = {
+  Low: "success",
+  Medium: "warning",
+  High: "danger",
+};
+
+// Status options
+const STATUS_OPTIONS = [
+  "To Do",
+  "In Progress",
+  "Blocked",
+  "Done",
+];
+
+// Dummy tasks data
+const INITIAL_TASKS = [
+  {
+    id: 1,
+    description: "yyhy",
+    status: "To Do",
+    deadline: "2025-06-06",
+    createdBy: "Simon Mashiah",
+    createdOn: "2025-06-05",
+    completedOn: "",
+    projectId: 1,
+    assignedTo: [2, 3],
+    comment: "ttes",
+    tags: [],
+    priority: "Medium",
+    statusHistory: [
+      { status: "To Do", user: "Simon Mashiah", timestamp: "2025-06-05 09:00" },
+    ],
+    logs: [
+      { type: "created", user: "Simon Mashiah", timestamp: "2025-06-05 09:00" },
+    ],
+    subtasks: [],
+  },
+];
 
 export default function Tasks() {
   const [key, setKey] = useState('catalog');
