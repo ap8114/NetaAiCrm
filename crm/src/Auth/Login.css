@@ -23,3 +23,22 @@
   color: white;
   width: 100%;
 }
+
+
+
+.ai-premium-btn {
+  border: 1px solid black;
+  color: black;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  backdrop-filter: none;
+  background: transparent;
+}
+
+.ai-premium-btn:hover {
+  color: white;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid black;
+}

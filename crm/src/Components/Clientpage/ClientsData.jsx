@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Table, Form, InputGroup, Modal, Tabs, Tab } from "react-bootstrap";
-import { FaSearch, FaEdit, FaUser, FaBuilding, FaUsers, FaFileExport } from "react-icons/fa";
+import { FaSearch, FaEdit, FaUser, FaBuilding, FaUsers, FaFileExport, FaArrowLeft } from "react-icons/fa"; // Add FaArrowLeft
+import { useNavigate } from "react-router-dom"; // Add useNavigate
 
 // Example client data structure with parent-child and projects/leads
 const CLIENTS = [
@@ -47,6 +48,7 @@ const ClientsData = () => {
   const [showExport, setShowExport] = React.useState(false);
   const [selectedClient, setSelectedClient] = React.useState(null);
   const [clientType, setClientType] = React.useState("person");
+  const navigate = useNavigate(); // Add this line
 
   const handleAddOpen = () => setShowAdd(true);
   const handleAddClose = () => setShowAdd(false);
@@ -122,6 +124,12 @@ const ClientsData = () => {
 
   return (
     <div className="p-4">
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Clients</h4>
         <div className="d-flex gap-2">

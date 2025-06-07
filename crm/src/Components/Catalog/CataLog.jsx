@@ -11,12 +11,14 @@ import {
   Col,
   InputGroup,
 } from "react-bootstrap";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaPlus, FaSearch, FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const CatalogTabs = () => {
   const [activeTab, setActiveTab] = useState("manage");
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -64,8 +66,14 @@ const CatalogTabs = () => {
   const totalCost = materials.reduce((acc, mat) => acc + (mat.quantity * mat.cost), 0);
 
   return (
-    <Container fluid  className="p-4">
-      <h4 className=" fw-bold mb-4">Catalog</h4>
+    <Container fluid className="p-4">
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
+      <h4 className="fw-bold mb-4">Catalog</h4>
       <Tabs
         activeKey={activeTab}
         onSelect={(k) => setActiveTab(k)}
@@ -82,7 +90,7 @@ const CatalogTabs = () => {
               />
               <InputGroup.Text><FaSearch /></InputGroup.Text>
             </InputGroup>
-            <Button variant="success" onClick={handleShow}>
+            <Button variant="primary" onClick={handleShow}>
               <FaPlus className="me-1" /> Add new
             </Button>
           </div>
@@ -173,7 +181,7 @@ const CatalogTabs = () => {
 
             <div className="d-flex justify-content-end gap-2">
               <Button variant="secondary">Cancel</Button>
-              <Button variant="success">Submit</Button>
+              <Button variant="primary">Submit</Button>
             </div>
           </div>
         </Tab>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Table, Form } from 'react-bootstrap';
-import { FaFileExport, FaCheckSquare, FaPrint, FaFilter, FaCalendarAlt } from 'react-icons/fa';
+import { FaFileExport, FaCheckSquare, FaPrint, FaFilter, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa'; // Add FaArrowLeft
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const invoices = [
   {
@@ -28,17 +29,36 @@ const invoices = [
 const InvoiceDashboard = () => {
   const [activeTab, setActiveTab] = useState('invoices');
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
   return (
     <div className="p-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className='fw-bold'>Invoices</h4>
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
+      <div className="mb-4">
+        {/* Row 1: Back button + Right Buttons */}
+        <div className="d-flex align-items-center mb-2">
+          {/* Left: (empty, since back button is above) */}
+          <div className="ms-auto d-flex gap-2">
+            <Button variant="outline-dark">
+              View report
+            </Button>
+            <Button variant="primary" onClick={handleOpenModal}>
+              Add new invoice
+            </Button>
+          </div>
+        </div>
+
+        {/* Row 2: Heading */}
         <div>
-          <Button variant="outline-dark" className="me-2">View report</Button>
-          <Button variant="success" onClick={handleOpenModal}>Add new invoice</Button>
+          <h4 className="fw-bold mb-0">Invoice</h4>
         </div>
       </div>
 

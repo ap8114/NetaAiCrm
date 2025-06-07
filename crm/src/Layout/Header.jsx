@@ -4,13 +4,12 @@ import { BsSearch, BsList } from "react-icons/bs";
 import {
     FaBell,
     FaUser,
-    FaLock,
     FaCogs,
     FaRegBell,
-    FaQuestionCircle,
-    FaBook,
-    FaFileContract,
-    FaShieldAlt,
+    FaTimes,
+    FaCommentDots,
+    FaMapMarkerAlt,
+    FaDollarSign,
     FaFileAlt,
     FaProjectDiagram,
     FaHandHoldingUsd,
@@ -21,11 +20,6 @@ import {
     FaUserTie,
     FaTruck,
     FaCube,
-    FaBriefcase,
-    FaTimes,
-    FaCommentDots,
-    FaMapMarkerAlt,
-    FaDollarSign,
 } from "react-icons/fa";
 import "./Header.css";
 import { Button, Modal, Form } from "react-bootstrap";
@@ -36,10 +30,11 @@ const Header = () => {
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showMobileAddNew, setShowMobileAddNew] = useState(false);
-    const [showNotificationModal, setShowNotificationModal] = useState(false); // <-- Modal state
+    const [showNotificationModal, setShowNotificationModal] = useState(false);
     const [emailAlert, setEmailAlert] = useState(true);
     const [activityAlert, setActivityAlert] = useState(true);
     const [showActivityPanel, setShowActivityPanel] = useState(false);
+    const [isAdmin] = useState(true); // Default to true for demo purposes
 
     const dropdownRef = useRef(null);
     const profileRef = useRef(null);
@@ -57,7 +52,7 @@ const Header = () => {
         setShowDropdown(false);
     };
 
-    // ✅ Toggle Mobile Menu – MISSING before
+    // Toggle Mobile Menu
     const toggleMobileMenu = () => {
         setShowMobileMenu((prev) => !prev);
         setShowDropdown(false);
@@ -96,13 +91,15 @@ const Header = () => {
                         <BsList size={24} />
                     </button>
 
-                    <div className="fw-bold fs-4 d-flex align-items-center text-primary">
-                        <img
-                            src={bonbonlogo}
-                            alt="logo"
-                            style={{ height: 38, width: "auto", maxWidth: 170, objectFit: "contain" }}
-                        />
-                    </div>
+                    <Link to="/home">
+                        <div className="fw-bold fs-4 d-flex align-items-center text-primary">
+                            <img
+                                src={bonbonlogo}
+                                alt="logo"
+                                style={{ height: 38, width: "auto", maxWidth: 170, objectFit: "contain" }}
+                            />
+                        </div>
+                    </Link>
 
                     {/* Search Bar - Hidden on mobile */}
                     <div className="input-group d-none d-md-flex">
@@ -120,12 +117,12 @@ const Header = () => {
                     {/* Add New Button - Hidden on mobile */}
                     <div className="position-relative d-none d-md-block" ref={dropdownRef}>
                         <button
-                            className="btn btn-outline-dark d-flex align-items-center px-3 py-1"
+                            className="btn custom-add-btn d-flex align-items-center px-3 py-1"
                             onClick={toggleDropdown}
-                            style={{ fontSize: "0.9rem", gap: "0.4rem", whiteSpace: "nowrap" }}
                         >
                             Add new <span style={{ fontSize: "0.75rem" }}>▼</span>
                         </button>
+
 
                         {showDropdown && (
                             <div
@@ -200,7 +197,7 @@ const Header = () => {
                 <div className="d-flex align-items-center gap-3" ref={profileRef}>
                     {/* Home Button - Hidden on mobile */}
                     <Link to="/home" className="d-none d-md-block">
-                        <Button className="btn btn-secondary bg-light text-dark border border-dark py-1">
+                        <Button className="custom-add-btn py-1">
                             Home
                         </Button>
                     </Link>
@@ -240,7 +237,7 @@ const Header = () => {
                                     className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
                                     style={{ width: 36, height: 36 }}
                                 >
-                                    sM
+                                    SM
                                 </div>
                                 <div className="ms-2">
                                     <strong>Adamo</strong>
@@ -251,37 +248,26 @@ const Header = () => {
 
                             <div className="mb-2 small text-muted">ACCOUNT</div>
 
-                            <Link to="/forgot-password" className="text-dark text-decoration-none">
-                                <div className="mb-1">
-                                    <FaLock className="me-2" /> Change password
-                                </div>
-                            </Link>
-
                             <Link to="/adminsection" className="text-dark text-decoration-none">
                                 <div className="mb-1">
                                     <FaCogs className="me-2" /> Admin section
                                 </div>
                             </Link>
 
-                            {/* Notification settings – now opens modal */}
-                            <button
-                                className="mb-1 btn btn-link text-dark text-decoration-none p-0"
-                                style={{ fontSize: "1rem" }}
-                                onClick={() => setShowNotificationModal(true)}
-                                type="button"
-                            >
-                                <FaRegBell className="me-2" /> Notification settings
-                            </button>
+                            {/* Notification settings - only for admins */}
+                            {isAdmin && (
+                                <button
+                                    className="mb-1 btn btn-link text-dark text-decoration-none p-0"
+                                    style={{ fontSize: "1rem" }}
+                                    onClick={() => setShowNotificationModal(true)}
+                                    type="button"
+                                >
+                                    <FaRegBell className="me-2" /> Notification settings
+                                </button>
+                            )}
 
-                            <div className="mt-3 mb-2 small text-muted">ABOUT BONBON</div>
-                            <p className="mb-1">
-                                <FaFileContract className="me-2" /> Terms of service
-                            </p>
-                            <p className="mb-3">
-                                <FaShieldAlt className="me-2" /> Privacy policy
-                            </p>
                             <Link to="/" className="text-decoration-none">
-                                <button className="btn btn-success w-100">Log out</button>
+                                <button className="btn btn-primary w-100">Log out</button>
                             </Link>
                         </div>
                     )}
@@ -429,7 +415,7 @@ const Header = () => {
                             <Button variant="light" onClick={() => setShowNotificationModal(false)}>
                                 Cancel
                             </Button>
-                            <Button variant="success" onClick={() => setShowNotificationModal(false)}>
+                            <Button variant="primary" onClick={() => setShowNotificationModal(false)}>
                                 Save changes
                             </Button>
                         </div>
@@ -454,7 +440,7 @@ const Header = () => {
                             className="btn btn-light border-0"
                             onClick={() => {
                                 setShowMobileMenu(false);
-                                setShowMobileAddNew(false); // <-- Also close Add New dropdown
+                                setShowMobileAddNew(false);
                             }}
                         >
                             <FaTimes size={24} />
@@ -474,7 +460,6 @@ const Header = () => {
                     </div>
 
                     {/* Mobile Menu Items */}
-                    {/* Mobile Menu Items */}
                     <div className="mb-4">
                         <div className="d-flex flex-column gap-3">
                             <Link
@@ -482,13 +467,13 @@ const Header = () => {
                                 className="text-decoration-none"
                                 onClick={() => setShowMobileMenu(false)}
                             >
-                                <Button className="btn btn-secondary bg-light text-dark border border-dark py-1 w-100 text-aling-center">
+                                <Button className="custom-add-btn py-1 w-100 text-aling-center">
                                     Home
                                 </Button>
                             </Link>
                             {!showMobileAddNew ? (
                                 <button
-                                    className="btn btn-outline-dark w-100"
+                                    className="btn custom-add-btn w-100"
                                     onClick={() => setShowMobileAddNew(true)}
                                 >
                                     Add new
@@ -496,10 +481,10 @@ const Header = () => {
                             ) : (
                                 <div className="p-3 border rounded bg-light mt-2">
                                     <button
-                                        className="btn btn-light border-0 d-lg-none" // ✅ only shows on small devices
+                                        className="btn btn-light border-0 d-lg-none"
                                         onClick={() => {
                                             setShowMobileMenu(false);
-                                            setShowMobileAddNew(false); // ✅ ensures both close
+                                            setShowMobileAddNew(false);
                                         }}
                                     >
                                         <FaTimes size={24} />
@@ -574,9 +559,6 @@ const Header = () => {
                         </div>
 
                         <div className="mb-2 small text-muted">ACCOUNT</div>
-                        <p className="mb-2 ps-3">
-                            <FaLock className="me-2" /> Change password
-                        </p>
 
                         <Link to="/adminsection" className="text-decoration-none text-dark" onClick={() => setShowMobileMenu(false)}>
                             <div className="mb-2 ps-3">
@@ -584,20 +566,15 @@ const Header = () => {
                             </div>
                         </Link>
 
-                        <p className="mb-2 ps-3">
-                            <FaRegBell className="me-2" /> Notification settings
-                        </p>
-
-                        <div className="mt-3 mb-2 small text-muted">ABOUT BonBon</div>
-                        <p className="mb-2 ps-3">
-                            <FaFileContract className="me-2" /> Terms of service
-                        </p>
-                        <p className="mb-3 ps-3">
-                            <FaShieldAlt className="me-2" /> Privacy policy
-                        </p>
+                        {/* Notification settings - only for admins */}
+                        {isAdmin && (
+                            <div className="mb-2 ps-3">
+                                <FaRegBell className="me-2" /> Notification settings
+                            </div>
+                        )}
 
                         <Link to="/" className="text-decoration-none" onClick={() => setShowMobileMenu(false)}>
-                            <button className="btn btn-success w-100">Log out</button>
+                            <button className="btn btn-primary w-100">Log out</button>
                         </Link>
                     </div>
                 </div>

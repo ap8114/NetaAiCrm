@@ -275,3 +275,20 @@
     max-width: 150px;
   }
 }
+
+
+.custom-add-btn {
+  border: 1px solid black;
+  color: black;
+  font-size: 0.9rem;
+  gap: 0.4rem;
+  white-space: nowrap;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.custom-add-btn:hover {
+  color: white;
+  backdrop-filter: blur(4px);
+  background-color: #0d6efd; /* subtle blur effect */
+}

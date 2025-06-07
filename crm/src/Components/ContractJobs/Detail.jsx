@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import "./WallyWorld.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import EditJob from "./EditJob"; // ✅ Import the new EditJob component
+import "./Detail.css";
+import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-const WallyWorldDetail = () => {
+const Detail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedColor, setSelectedColor] = useState("#b5a14f"); // Store selected color
   const [activeTab, setActiveTab] = useState("Summary");
+  const navigate = useNavigate(); // Add this line
 
   const handleEditClick = () => setIsEditing(true);
   const handleCancel = () => setIsEditing(false);
@@ -1103,52 +1105,58 @@ const WallyWorldDetail = () => {
 
   return (
     <div className="wwd-container container">
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary mt-1" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
       {!isEditing ? (
-      <>
-        {/* Header */}
-        <div className="wwd-header d-flex justify-content-between align-items-center py-3">
-          <div>
-            <h4 className="mb-0">Wally World Parking Lot</h4>
-            <p className="text-muted small">For Griswold Enterprises</p>
+        <>
+          {/* Header */}
+          <div className="wwd-header d-flex justify-content-between align-items-center py-3">
+            <div>
+              <h4 className="mb-0">Wally World Parking Lot</h4>
+              <p className="text-muted small">For Griswold Enterprises</p>
+            </div>
           </div>
-        </div>
 
-        {/* Tabs */}
-        <ul className="nav nav-tabs wwd-tabs mb-4">
-          {[
-            "Summary",
-            "Plan & Track",
-            "Contract & Change Orders",
-            "Documents",
-            "Logs",
-            "Activity",
-            "Reports",
-          ].map((tab, i) => (
-            <li className="nav-item" key={i}>
-              <button
-                className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                style={{ background: "none", border: "none" }}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            </li>
-          ))}
-        </ul>
+          {/* Tabs */}
+          <ul className="nav nav-tabs wwd-tabs mb-4">
+            {[
+              "Summary",
+              "Plan & Track",
+              "Contract & Change Orders",
+              "Documents",
+              "Logs",
+              "Activity",
+              "Reports",
+            ].map((tab, i) => (
+              <li className="nav-item" key={i}>
+                <button
+                  className={`nav-link ${activeTab === tab ? "active" : ""}`}
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-        {/* Tab Content */}
-        {renderTabContent()}
-      </>
-    ) : (
-      <EditJob
-        onCancel={handleCancel}
-        onSave={handleSave}
-        selectedColor={selectedColor}
-        setSelectedColor={setSelectedColor}
-      />
-    )}
-  </div>
+          {/* Tab Content */}
+          {renderTabContent()}
+        </>
+      ) : (
+        <EditJob
+          onCancel={handleCancel}
+          onSave={handleSave}
+          selectedColor={selectedColor}
+          setSelectedColor={setSelectedColor}
+        />
+      )}
+    </div>
   );
 };
 
-export default WallyWorldDetail;
+export default Detail;

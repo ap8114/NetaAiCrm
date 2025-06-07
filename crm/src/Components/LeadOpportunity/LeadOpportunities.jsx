@@ -13,6 +13,8 @@ import {
   Toast,
   ToastContainer,
 } from "react-bootstrap";
+import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import NotesTab from "./NotesTab.jsx";
 import BillsTab from "./BillsTab.jsx";
@@ -187,6 +189,7 @@ const getStatusConfig = (statusKey) =>
 const LeadOpportunities = () => {
   // --- Toast for contract-to-project conversion ---
   const [showToast, setShowToast] = useState(false);
+   const navigate = useNavigate();
 
   // --- Projects State (includes auto-converted from contracts) ---
   const [projects, setProjects] = useState([
@@ -323,13 +326,7 @@ const LeadOpportunities = () => {
   if (selectedClient) {
     return (
       <div className="container mt-4">
-        <Button
-          variant="link"
-          className="p-0 mb-3 text-decoration-none text-dark"
-          onClick={handleBackFromClientContact}
-        >
-          &larr; Back
-        </Button>
+      
         <Card className="mb-4">
           <Card.Body>
             <Row>
@@ -595,6 +592,12 @@ const LeadOpportunities = () => {
 
   return (
     <div className={`container mt-4 `}>
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
       {/* Connection Status UI */}
       <div className="mb-2 d-flex align-items-center gap-2">
         <span>
@@ -756,9 +759,7 @@ const LeadOpportunities = () => {
         <div className="bg-white rounded shadow-sm p-3">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
-              <Button variant="link" className="p-0 me-4 text-dark text-decoration-none" onClick={handleBack}>
-                &larr; Back
-              </Button>
+           
               <span className="fw-bold fs-5">{selectedProject.title}</span>
               {selectedProject.autoConverted && selectedProject.contractMeta && (
                 <span className="ms-2 badge bg-success">
@@ -954,7 +955,7 @@ const LeadOpportunities = () => {
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5 className="fw-bold mb-0">Daily Logs</h5>
                   <Button
-                    variant="success
+                    variant="primary
                     
                     "
                     onClick={() => setShowEditModal(true)}
@@ -1231,7 +1232,7 @@ const LeadOpportunities = () => {
                     <Form.Text muted>Supported: PDF, DOCX, JPG, PNG</Form.Text>
                   </Form.Group>
 
-                  <Button variant="success" type="submit">
+                  <Button variant="primary" type="submit">
                     Upload Document
                   </Button>
                 </Form>
@@ -1341,7 +1342,7 @@ const LeadOpportunities = () => {
                         </Col>
                       </Row>
                       <div className="d-flex align-items-center mb-2">
-                        <span className="badge bg-success">
+                        <span className="badge bg-primary">
                           Approved manually by Sara Yakov on Jun 17, 2024
                         </span>
                       </div>
@@ -1352,13 +1353,13 @@ const LeadOpportunities = () => {
                       <h6 className="fw-bold">Price Information</h6>
                       <div className="d-flex align-items-center mb-2">
                         <Button
-                          variant="outline-success"
+                          variant="outline-primary"
                           size="sm"
                           className="me-2 active"
                         >
                           Flat Fee
                         </Button>
-                        <Button variant="outline-success" size="sm">
+                        <Button variant="outline-primary" size="sm">
                           Line Items
                         </Button>
                         <Form.Check

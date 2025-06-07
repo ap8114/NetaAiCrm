@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import { FaSearch, FaEdit, FaUser } from "react-icons/fa";
+import { FaArrowLeft, FaSearch, FaEdit, FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const VendorsPage = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="container-fluid p-4">
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <button className="btn btn-outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </button>
+      </div>
+
       {/* Add Vendor Modal */}
       <div className={`modal fade ${showAddModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ background: showAddModal ? 'rgba(0,0,0,0.3)' : 'none' }}>
         <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -56,7 +65,7 @@ const VendorsPage = () => {
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-              <button className="btn btn-success">Submit</button>
+              <button className="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
@@ -106,7 +115,7 @@ const VendorsPage = () => {
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-              <button className="btn btn-success">Save Changes</button>
+              <button className="btn btn-primary">Save Changes</button>
             </div>
           </div>
         </div>
@@ -134,7 +143,7 @@ const VendorsPage = () => {
 
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="fw-bold">Vendors</h4>
-        <button className="btn btn-success" onClick={() => setShowAddModal(true)}>Add new vendor</button>
+        <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>Add new vendor</button>
       </div>
 
       {/* Tabs */}

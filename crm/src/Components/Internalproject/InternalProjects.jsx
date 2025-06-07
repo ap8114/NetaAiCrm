@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Table, InputGroup, FormControl, Modal, Dropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom"; // Add this import
+import { FaArrowLeft } from "react-icons/fa"; // Add this import
 
 const colorGrid = [
   ["#aab8b8", "#b7c7d6", "#e6e25a", "#e6e25a"],
@@ -20,6 +22,8 @@ const InternalProjects = () => {
   const [color, setColorValue] = useState("#d67d7d");
   const [showColorGrid, setShowColorGrid] = useState(false);
 
+  const navigate = useNavigate(); // Add this line
+
   const projects = [
     { title: "Unallocated", subtitle: "for fg" },
     { title: "Unallocated", subtitle: "for hfn" },
@@ -29,9 +33,20 @@ const InternalProjects = () => {
 
   return (
     <div className="p-4" style={{ backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="fw-bold">Internal projects</h4>
-        <Button variant="success" onClick={() => setShowModal(true)}>
+        <div className="mb-3">
+          {/* Row 2: Heading */}
+          <div>
+            <h4 className="fw-bold mb-0">Internal projects</h4>
+          </div>
+        </div>
+        <Button variant="primary" onClick={() => setShowModal(true)}>
           Add internal project
         </Button>
       </div>
@@ -146,7 +161,7 @@ const InternalProjects = () => {
             <Button variant="outline-secondary" onClick={() => setShowModal(false)}>
               Discard
             </Button>
-            <Button variant="success">Save Job</Button>
+            <Button variant="primary">Save Job</Button>
           </div>
         </Modal.Body>
       </Modal>
@@ -179,7 +194,7 @@ const InternalProjects = () => {
                   <div className="text-muted small">{project.subtitle}</div>
                 </td>
                 <td>
-                  <span className="badge bg-success rounded-pill px-3 py-2">Open</span>
+                  <span className="badge bg-primary rounded-pill px-3 py-2">Open</span>
                 </td>
               </tr>
             ))}

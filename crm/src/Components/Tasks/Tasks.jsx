@@ -15,7 +15,8 @@ import {
   Toast,
   ToastContainer,
 } from 'react-bootstrap';
-import { FaSearch, FaUserCircle, FaBell, FaFlag, FaChevronDown } from 'react-icons/fa';
+import { FaArrowLeft, FaBell, FaSearch, FaUserCircle, FaFlag, FaChevronDown } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 
 // Dummy data for projects and users
 const PROJECTS = [
@@ -88,6 +89,7 @@ export default function Tasks() {
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [showNotif, setShowNotif] = useState(false);
+  const navigate = useNavigate();
 
   // Analytics
   const completionRate = Math.round(
@@ -227,6 +229,12 @@ export default function Tasks() {
 
   return (
     <div className="p-4">
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
       {/* Notification Bell */}
       <div className="d-flex justify-content-end mb-2">
         <Button variant="outline-warning" onClick={() => setShowNotif(false)}>
@@ -239,7 +247,7 @@ export default function Tasks() {
         <Tab eventKey="catalog" title="Manage Tasks">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className='fw-bold'>Tasks Catalog</h4>
-            <Button variant="success" onClick={handleShow}>Add new</Button>
+            <Button variant="primary" onClick={handleShow}>Add new</Button>
           </div>
           <InputGroup className="mb-3">
             <FormControl placeholder="Search item" />
@@ -270,7 +278,7 @@ export default function Tasks() {
         <Tab eventKey="tasks" title="Tasks">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4>Tasks</h4>
-            <Button variant="success" onClick={handleShow}>Add new task</Button>
+            <Button variant="primary" onClick={handleShow}>Add new task</Button>
           </div>
           <Row className="mb-3">
             <Col md={4}>

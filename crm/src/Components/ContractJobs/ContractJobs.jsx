@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Dropdown, ButtonGroup, Badge, Container, Row, Col, ProgressBar, Modal } from 'react-bootstrap';
-import { FunnelFill, List } from 'react-bootstrap-icons';
-import { Kanban, Plus } from 'react-bootstrap-icons'; // Add Kanban and Plus icons
+import { FunnelFill, Link, List } from 'react-bootstrap-icons';
+import { Kanban, Plus } from 'react-bootstrap-icons';
+import { FaArrowLeft } from "react-icons/fa"; // Add this import
+import { useNavigate } from "react-router-dom";
 
 import './Jobs.css';
 
@@ -55,7 +57,7 @@ const projects = [
     client: "Ramesh Kumar",
     billing: "Fixed Price",
     phases: "2 phases",
-    status: "Active",
+    status: "lead",
     revenue: "$120,000.00",
     committedCost: "$80,000.00",
     profitLoss: "$40,000.00",
@@ -161,17 +163,7 @@ const knowifyStages = [
   { id: 'rejected', title: 'Rejected', color: 'dark' }
 ];
 
-const initialKnowifyProposals = [
-  { id: 1, title: 'Restaurant Painting', stage: 'bidding', type: 'proposal' },
-  { id: 2, title: 'Wally World Parking Lot', stage: 'active', type: 'invoice' },
-  { id: 3, title: 'New Home (Cost Plus)', stage: 'active', type: 'invoice' },
-  { id: 4, title: 'Kitchen Remodel (Fixed Price)', stage: 'active', type: 'invoice' },
-  { id: 5, title: 'fsdgbeehb', stage: 'closed', type: 'view' },
-  { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' }
-];
-
-const ProposalWorkflowBoard = () => {
-  const [proposals, setProposals] = useState(initialKnowifyProposals);
+const ProposalWorkflowBoard = ({ proposals, onNavigate }) => {
   const [draggedId, setDraggedId] = useState(null);
 
   // Drag handlers
@@ -229,7 +221,14 @@ const ProposalWorkflowBoard = () => {
                 {p.title}
               </div>
               {p.type === 'proposal' && (
-                <Button size="sm" variant="outline-secondary" className="mt-1">Edit proposal</Button>
+                <Button
+                  size="sm"
+                  variant="outline-secondary"
+                  className="mt-1"
+                  onClick={() => onNavigate('/detail')}
+                >
+                  Edit proposal
+                </Button>
               )}
               {p.type === 'invoice' && (
                 <Button size="sm" variant="outline-secondary" className="mt-1">Invoice</Button>
@@ -301,7 +300,7 @@ const ReportsDashboard = () => {
   );
 };
 
-const NewContractJobPage = ({ onClose }) => {
+const NewContractJobPage = ({ onClose, onSave }) => {
   const [jobName, setJobName] = useState('');
   const [clientName, setClientName] = useState('Bob Belcher');
   const [billingType, setBillingType] = useState('fixed-price');
@@ -315,18 +314,20 @@ const NewContractJobPage = ({ onClose }) => {
 
   // Save handler (shared by both buttons)
   const handleSave = () => {
-    console.log('Saving job...', {
-      jobName,
-      clientName,
-      billingType,
-      tags,
-      bidDueDate,
-      schedulingColor,
-      salesLead,
-      projectManager,
-      address,
-      aptSuite
-    });
+    if (onSave) {
+      onSave({
+        jobName,
+        clientName,
+        billingType,
+        tags,
+        bidDueDate,
+        schedulingColor,
+        salesLead,
+        projectManager,
+        address,
+        aptSuite
+      });
+    }
     onClose();
   };
 
@@ -403,7 +404,7 @@ const NewContractJobPage = ({ onClose }) => {
                   <div className="row g-3">
                     <div className="col-md-4">
                       <div 
-                        className={`card h-100 ${billingType === 'fixed-price' ? 'border-success border-2' : 'border'}`}
+                        className={`card h-100 ${billingType === 'fixed-price' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('fixed-price')}
                         style={{cursor: 'pointer'}}
                       >
@@ -422,7 +423,7 @@ const NewContractJobPage = ({ onClose }) => {
 
                     <div className="col-md-4">
                       <div 
-                        className={`card h-100 ${billingType === 'fixed-price-aia' ? 'border-success border-2' : 'border'}`}
+                        className={`card h-100 ${billingType === 'fixed-price-aia' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('fixed-price-aia')}
                         style={{cursor: 'pointer'}}
                       >
@@ -441,7 +442,7 @@ const NewContractJobPage = ({ onClose }) => {
 
                     <div className="col-md-4">
                       <div 
-                        className={`card h-100 ${billingType === 'cost-plus' ? 'border-success border-2' : 'border'}`}
+                        className={`card h-100 ${billingType === 'cost-plus' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('cost-plus')}
                         style={{cursor: 'pointer'}}
                       >
@@ -740,14 +741,182 @@ const ChangeOrdersUI = () => {
 const ContractJobs = () => {
   const [showNewContractPage, setShowNewContractPage] = useState(false);
   const [activeTab, setActiveTab] = useState('manage');
-  const [workflowView, setWorkflowView] = useState('list'); // 'list' or 'workflow'
+  const [workflowView, setWorkflowView] = useState('list');
+  const [jobs, setJobs] = useState([
+    {
+      name: "Sunrise Apartments (Plus)",
+      client: "Ramesh Kumar",
+      billing: "Fixed Price",
+      phases: "2 phases",
+      status: "Active",
+      revenue: "$120,000.00",
+      committedCost: "$80,000.00",
+      profitLoss: "$40,000.00",
+      percent: "33%",
+      color: "success"
+    },
+    {
+      name: "Metro Mall Renovation",
+      client: "Sunita Singh",
+      billing: "AIA-style",
+      phases: "1 phase",
+      status: "Active",
+      revenue: "$15,000.00",
+      committedCost: "$7,500.00",
+      profitLoss: "$7,500.00",
+      percent: "50%",
+      color: "info"
+    },
+    {
+      name: "Greenfield School",
+      client: "Ajay Mehra",
+      billing: "Cost Plus",
+      phases: "3 phases",
+      status: "Active",
+      revenue: "$290,000.00",
+      committedCost: "$193,400.00",
+      profitLoss: "$96,600.00",
+      percent: "33%",
+      color: "danger"
+    }
+  ]);
+  const [workflowProposals, setWorkflowProposals] = useState([
+    // Initial proposals for workflow board
+    { id: 1, title: 'Restaurant Painting', stage: 'bidding', type: 'proposal' },
+    { id: 2, title: 'Wally World Parking Lot', stage: 'active', type: 'invoice' },
+    { id: 3, title: 'New Home (Cost Plus)', stage: 'active', type: 'invoice' },
+    { id: 4, title: 'Kitchen Remodel (Fixed Price)', stage: 'active', type: 'invoice' },
+    { id: 5, title: 'fsdgbeehb', stage: 'closed', type: 'view' },
+    { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' }
+  ]);
+  const navigate = useNavigate();
 
+  // Add new job handler
   const handleAddNewContract = () => {
     setShowNewContractPage(true);
   };
 
+  // Save new job and close form
+  const handleSaveNewContract = (newJob) => {
+    // 1. Add to jobs list with status 'lead'
+    setJobs(prev => [
+      {
+        name: newJob.jobName,
+        client: newJob.clientName,
+        billing: newJob.billingType === "fixed-price" ? "Fixed Price" : newJob.billingType === "fixed-price-aia" ? "AIA-style" : "Cost Plus",
+        phases: "1 phase",
+        status: "lead", // <-- Set status to 'lead'
+        revenue: "$0.00",
+        committedCost: "$0.00",
+        profitLoss: "$0.00",
+        percent: "0%",
+        color: "success"
+      },
+      ...prev
+    ]);
+    // 2. Add to workflow board in 'lead' stage
+    setWorkflowProposals(prev => [
+      {
+        id: Date.now(),
+        title: newJob.jobName,
+        stage: 'lead',
+        type: 'proposal'
+      },
+      ...prev
+    ]);
+    setShowNewContractPage(false);
+    setWorkflowView('workflow'); // Switch to workflow view
+  };
+
   const handleCloseNewContract = () => {
     setShowNewContractPage(false);
+  };
+
+  // Pass workflowProposals to ProposalWorkflowBoard
+  const ProposalWorkflowBoard = () => {
+    const [proposals, setProposals] = useState(workflowProposals);
+    const [draggedId, setDraggedId] = useState(null);
+
+    useEffect(() => {
+      setProposals(workflowProposals);
+    }, [workflowProposals]);
+
+    // Drag handlers
+    const onDragStart = (e, id) => {
+      setDraggedId(id);
+      e.dataTransfer.effectAllowed = "move";
+    };
+
+    const onDrop = (e, stageId) => {
+      e.preventDefault();
+      setProposals(proposals =>
+        proposals.map(p =>
+          p.id === draggedId ? { ...p, stage: stageId } : p
+        )
+      );
+      setDraggedId(null);
+    };
+
+    const onDragOver = e => {
+      e.preventDefault();
+    };
+
+    return (
+      <div className="kanban-board d-flex gap-3 py-3" style={{ overflowX: 'auto', minHeight: 350 }}>
+        {knowifyStages.map(stage => (
+          <div
+            key={stage.id}
+            className="kanban-stage bg-light border rounded p-2 flex-shrink-0"
+            style={{ minWidth: 220, maxWidth: 260, minHeight: 320 }}
+            onDrop={e => onDrop(e, stage.id)}
+            onDragOver={onDragOver}
+          >
+            <div className="fw-bold mb-2 d-flex align-items-center gap-2">
+              <span className={`text-${stage.color}`} style={{ fontSize: 14 }}>
+                <span className="me-1" style={{ fontSize: 10 }}>●</span>
+                {stage.title}
+              </span>
+              <span className="badge bg-light text-dark border ms-auto">
+                {
+                  proposals.filter(p => p.stage === stage.id).length > 0
+                    ? proposals.filter(p => p.stage === stage.id).length
+                    : ''
+                }
+              </span>
+            </div>
+            {proposals.filter(p => p.stage === stage.id).map(p => (
+              <div
+                key={p.id}
+                className="bg-white border rounded mb-2 p-2 shadow-sm"
+                draggable
+                onDragStart={e => onDragStart(e, p.id)}
+                style={{ cursor: 'grab', opacity: draggedId === p.id ? 0.5 : 1 }}
+              >
+                <div className="fw-semibold text-primary" style={{ cursor: 'pointer', fontSize: 15 }}>
+                  {p.title}
+                </div>
+                {p.type === 'proposal' && (
+                  <Button
+                    size="sm"
+                    variant="outline-secondary"
+                    className="mt-1"
+                    onClick={() => navigate('/detail')}
+                  >
+                    Edit proposal
+                  </Button>
+                )}
+                {p.type === 'invoice' && (
+                  <Button size="sm" variant="outline-secondary" className="mt-1">Invoice</Button>
+                )}
+                {p.type === 'view' && (
+                  <Button size="sm" variant="outline-secondary" className="mt-1">View</Button>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const renderTabContent = () => {
@@ -823,7 +992,7 @@ const ContractJobs = () => {
 
             {/* --- Switch between List and Workflow views --- */}
             {workflowView === 'workflow' ? (
-              <ProposalWorkflowBoard />
+              <ProposalWorkflowBoard proposals={workflowProposals} onNavigate={navigate} />
             ) : (
               <Container className="bg-white py-3">
                 <Row className="fw-bold border-bottom pb-2 mb-3">
@@ -833,7 +1002,7 @@ const ContractJobs = () => {
                   <Col md={2}>Committed Cost</Col>
                   <Col md={3}>Profit/Loss</Col>
                 </Row>
-                {projects.map((project, index) => (
+                {jobs.map((project, index) => (
                   <Row key={index} className="align-items-start border-bottom py-3">
                     <Col md={4}>
                       <div className="fw-bold">{project.name}</div>
@@ -890,9 +1059,18 @@ const ContractJobs = () => {
   return (
     <>
       {showNewContractPage ? (
-        <NewContractJobPage onClose={handleCloseNewContract} />
+        <NewContractJobPage
+          onClose={handleCloseNewContract}
+          onSave={handleSaveNewContract} // Pass save handler
+        />
       ) : (
         <div className="contract-jobs-wrapper">
+          {/* Back Button above heading */}
+          <div className="mb-2 px-4 bg-light">
+            <Button variant="outline-secondary mt-1 bg-light" onClick={() => navigate(-1)}>
+              <FaArrowLeft className="me-1" /> Back
+            </Button>
+          </div>
           <div className="d-flex justify-content-between align-items-center header-bar px-4 py-3">
             <h4 className="fw-bold  mb-0">Contract jobs</h4>
             {activeTab === 'manage' && (
@@ -901,7 +1079,6 @@ const ContractJobs = () => {
               </Button>
             )}
           </div>
-
           <div className="tabs px-4">
             <div
               className={`tab ${activeTab === 'manage' ? 'active-tab' : ''}`}

@@ -14,7 +14,7 @@ const BillsTab = () => {
     <div>
       <div className="d-flex justify-content-between align-items-center my-3">
         <h3>Bills</h3>
-        <Button variant="success" onClick={handleModalShow}>
+        <Button variant="primary" onClick={handleModalShow}>
           Add new bill
         </Button>
       </div>
@@ -107,7 +107,7 @@ const BillsTab = () => {
           <Button variant="secondary" onClick={handleClear}>
             Clear data
           </Button>
-          <Button variant="success" onClick={handleModalClose}>
+          <Button variant="primary" onClick={handleModalClose}>
             Verify & Submit
           </Button>
         </Modal.Footer>

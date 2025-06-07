@@ -1,6 +1,6 @@
 :root {
     --kn-primary: #0052a3;
-    --kn-success: #28a745;
+    --kn-primary: #28a745;
     --kn-light-bg: #f8f9fa;
     --kn-card-bg: #ffffff;
     --kn-text-muted: #6c757d;
@@ -297,7 +297,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: var(--kn-success);
+    background-color: var(--kn-primary);
     color: white;
     display: flex;
     align-items: center;
@@ -339,7 +339,7 @@
 }
 
 .kn-quickbooks-card {
-    background: linear-gradient(135deg, var(--kn-success) 0%, #dceb11 100%);
+    background: linear-gradient(135deg, var(--kn-primary) 0%, #dceb11 100%);
     border-radius: 12px;
     padding: 2rem;
     color: white;

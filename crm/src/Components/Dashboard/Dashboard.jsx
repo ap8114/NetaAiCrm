@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 
 import CountUp from 'react-countup';
 import { Calendar, Clock, Search } from 'react-bootstrap-icons';
+import { useNavigate } from "react-router-dom"; // Add this import
+import { Button } from 'react-bootstrap';
+import { FaArrowLeft } from "react-icons/fa"; // Add this import
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const navigate = useNavigate();
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -31,7 +35,7 @@ const Dashboard = () => {
                     </div>
 
                     <div className="text-center mb-4">
-                      <div className="h3 text-success fw-bold">
+                      <div className="h3 text-primary fw-bold">
                         $<CountUp end={226500} duration={2} separator="," decimals={2} decimal="." />
                       </div>
                       <div className="text-uppercase small text-muted">Unbilled Value</div>
@@ -67,7 +71,7 @@ const Dashboard = () => {
 
                     <div className="position-relative bg-white border rounded" style={{ height: '350px' }}>
                       {/* Grid Background */}
-                      <div 
+                      <div
                         className="position-absolute top-0 start-0 w-100 h-100"
                         style={{
                           backgroundImage: `
@@ -92,7 +96,7 @@ const Dashboard = () => {
                           <small className="text-muted">Mount Hope<br />Cemetery</small>
                         </div>
                         <div className="text-center">
-                          <div className="bg-success rounded-circle mx-auto mb-1" style={{ width: '8px', height: '8px' }}></div>
+                          <div className="bg-primary rounded-circle mx-auto mb-1" style={{ width: '8px', height: '8px' }}></div>
                           <small className="text-muted">Beth Olom<br />Cemetery</small>
                         </div>
                       </div>
@@ -139,17 +143,17 @@ const Dashboard = () => {
                       <div className="col-12 col-md-4 mb-3 mb-md-0">
                         <div className="fw-bold">45.1%</div>
                         <div className="text-muted small">17.0%</div>
-                        <div className="text-success">$219,000.00</div>
+                        <div className="text-primary">$219,000.00</div>
                       </div>
                       <div className="col-12 col-md-4 mb-3 mb-md-0">
                         <div className="fw-bold">N/A</div>
                         <div className="text-muted small">0.0%</div>
-                        <div className="text-success">$0.00</div>
+                        <div className="text-primary">$0.00</div>
                       </div>
                       <div className="col-12 col-md-4">
                         <div className="fw-bold">N/A</div>
                         <div className="text-muted small">31.8%</div>
-                        <div className="text-success">$7,500.00</div>
+                        <div className="text-primary">$7,500.00</div>
                       </div>
                     </div>
 
@@ -168,7 +172,7 @@ const Dashboard = () => {
                             <h6 className="card-title text-muted">Invoices</h6>
 
                             <div className="d-flex justify-content-between align-items-center mb-2">
-                              <div className="fw-bold text-success">$48,500.00</div>
+                              <div className="fw-bold text-primary">$48,500.00</div>
                               <div className="badge bg-light text-dark">OPEN</div>
                             </div>
 
@@ -192,7 +196,7 @@ const Dashboard = () => {
                             <h6 className="card-title text-muted">Bills</h6>
 
                             <div className="d-flex justify-content-between align-items-center mb-2">
-                              <div className="fw-bold text-success">$15,400.00</div>
+                              <div className="fw-bold text-primary">$15,400.00</div>
                               <div className="badge bg-light text-dark">OPEN</div>
                             </div>
 
@@ -225,15 +229,25 @@ const Dashboard = () => {
 
   return (
     <div className="container-fluid py-4 bg-light">
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
       {/* Header */}
       <div className="mb-4">
-        <h4 className="h3 fw-bold text-dark mb-3">Dashboard</h4>
+        <div className="d-flex align-items-center mb-3">
+          
+          <h4 className="h3 fw-bold text-dark mb-0">Dashboard</h4>
+        </div>
+
 
         {/* Navigation Tabs */}
         <ul className="nav nav-tabs border-bottom mb-4">
           <li className="nav-item">
-            <button 
-              className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`} 
+            <button
+              className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
               type="button"
               onClick={() => setActiveTab('overview')}
             >
@@ -241,8 +255,8 @@ const Dashboard = () => {
             </button>
           </li>
           <li className="nav-item">
-            <button 
-              className={`nav-link ${activeTab === 'activity' ? 'active' : ''}`} 
+            <button
+              className={`nav-link ${activeTab === 'activity' ? 'active' : ''}`}
               type="button"
               onClick={() => setActiveTab('activity')}
             >
@@ -250,8 +264,8 @@ const Dashboard = () => {
             </button>
           </li>
           <li className="nav-item">
-            <button 
-              className={`nav-link ${activeTab === 'job-costing' ? 'active' : ''} text-primary`} 
+            <button
+              className={`nav-link ${activeTab === 'job-costing' ? 'active' : ''} text-primary`}
               type="button"
               onClick={() => setActiveTab('job-costing')}
             >
@@ -297,7 +311,7 @@ const CompanyFeed = () => {
 
 const ActivitySearch = () => {
   return (
-   <div className="container-fluid p-4">
+    <div className="container-fluid p-4">
 
       {/* Search Bar */}
       <div className="row mb-3">
@@ -351,7 +365,7 @@ const ActivitySearch = () => {
           </div>
         </div>
       </div>
-      
+
     </div>
   );
 };

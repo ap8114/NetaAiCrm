@@ -25,6 +25,9 @@ import AdminSection from './Components/AdminSection/AdminSection';
 import InvoiceDashboard from './Components/Invoice/InvoiceDashboard';
 import TimeTracker from './Components/TimeTracker/TimeTracker';
 import CalendarView from './Components/Scheduling/CalendarView';
+import CopyFromSpreadsheetModal from './Components/Purchasepage/CopyFromSpreadsheetModal';
+
+import Detail from './Components/ContractJobs/Detail';
 
 
 function AppContent() {
@@ -41,9 +44,11 @@ function AppContent() {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/ClientsData" element={<ClientsData />} />
         <Route path="/ContractJobs" element={<ContractJobs />} />
+        <Route path="/detail" element={<Detail />} />
         <Route path="/InternalProjects" element={<InternalProjects />} />
         <Route path="/LeadOpportunities" element={<LeadOpportunities />} />
         <Route path="/purchasesData" element={<Purchases />} />
+          <Route path="/copyfromspreadsheetmodal" element={<CopyFromSpreadsheetModal />} />
         <Route path="/ReportsPage" element={<Reports />} />
         <Route path="/VendorsPage" element={<VendorsPage />} />
         <Route path="/CataLog" element={<CatalogTabs />} />

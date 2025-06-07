@@ -47,7 +47,7 @@ const SignUp = () => {
       //   phone_number: formData.phone_number
       // });
       // const data = response.data;
-      alert("Sign up successful!");
+      alert("Sign up primaryful!");
       navigate("/login");
     } finally {
       setLoading(false);
@@ -71,7 +71,7 @@ const SignUp = () => {
               <Link to="/">
                 <img
                   src={bonbonlogo}
-                  alt="NETA Logo"
+                  alt="Bon-Bon Logo"
                   className="img-fluid"
                   style={{ maxWidth: "110px" }}
                 />

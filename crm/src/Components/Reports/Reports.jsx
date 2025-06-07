@@ -1,10 +1,20 @@
 import React from 'react';
-
+import { Button } from 'react-bootstrap';
+import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Reports = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="container-fluid" style={{ backgroundColor: '#f6f6f7', minHeight: '100vh' }}>
       <div className="pt-4 px-4">
+        {/* Back Button above heading */}
+        <div className="mb-2">
+          <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+            <FaArrowLeft className="me-1" /> Back
+          </Button>
+        </div>
         <h4 className="fw-bold">Reports</h4>
 
         <div className="mt-3">

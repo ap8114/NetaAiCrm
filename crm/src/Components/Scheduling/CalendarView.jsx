@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Tab, Tabs, Button, Table, InputGroup, FormControl, Form } from 'react-bootstrap';
-import { FaPrint } from 'react-icons/fa';
+import { FaPrint, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom"; // Add this import
 
 const CalendarView = () => {
   const [key, setKey] = useState('calendar');
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const weekDates = [
     ['26', '27', '28', '29', '30'],
@@ -17,10 +19,18 @@ const CalendarView = () => {
 
   return (
     <Container className="mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className='fw-bold'>Scheduling</h4>
-        <Button variant="success" onClick={() => setShowModal(true)}>Add new allocation</Button>
+      {/* Back Button above heading */}
+      <div className="mb-2">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
       </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        {/* You can remove the old back button here if present */}
+        <div></div>
+        <Button variant="primary" onClick={() => setShowModal(true)}>Add new allocation</Button>
+      </div>
+      <h4 className='fw-bold mt-3 mb-3'>Scheduling</h4>
 
       <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3 border-bottom">
         <Tab eventKey="calendar" title={<span className="fw-semibold">Corporate Calendar</span>}>
@@ -164,7 +174,7 @@ const CalendarView = () => {
         <i className="bi bi-chevron-right"></i>
       </button>
       <div className="fw-bold text-white bg-primary px-3 py-1 rounded me-3">THU<br />6/5/25</div>
-      <div className="flex-grow-1">NETA Admin</div>
+      <div className="flex-grow-1">Bon-Bon Admin</div>
       <div><i className="bi bi-chevron-down"></i></div>
     </div>
 
@@ -235,11 +245,11 @@ const CalendarView = () => {
       {/* Left Side */}
       <div className="col-md-4 bg-white p-3">
         <div className="d-flex align-items-start">
-          <div className="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
+          <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style={{ width: '32px', height: '32px' }}>
             1
           </div>
           <div>
-            <div className="fw-bold">NETA Admin</div>
+            <div className="fw-bold">Bon-Bon Admin</div>
             <div className="d-flex flex-column text-muted mt-1" style={{ fontSize: '14px' }}>
               <span><i className="bi bi-box-arrow-in-right me-1"></i> 9:00 AM</span>
               <span><i className="bi bi-box-arrow-left me-1"></i> 5:01 PM</span>
@@ -363,7 +373,7 @@ const CalendarView = () => {
                 <Button variant="light" onClick={() => setShowModal(false)}>
                   Cancel
                 </Button>
-                <Button variant="success">
+                <Button variant="primary">
                   Add New Allocation
                 </Button>
               </div>
