@@ -679,81 +679,87 @@ const AdminSection = () => {
                         </div>
                     </div>
                 </div>
-                <div className="tab-pane fade" id="users" role="tabpanel">
-                    <div className="d-flex align-items-center mb-3">
-                        <input
-                            className="form-control me-2"
-                            style={{ maxWidth: 200 }}
-                            placeholder="Search"
-                        />
-                        <button className="btn btn-primary" onClick={openAddModal}>
-                            + Add User
-                        </button>
-                        <div className="form-check ms-3">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="showInactive"
-                            />
-                            <label
-                                className="form-check-label"
-                                htmlFor="showInactive"
-                            >
-                                Show Inactive
-                            </label>
-                        </div>
-                        <div className="ms-auto">
-                            <span style={{ fontSize: 12 }}>Regular (6), No access (7)</span>
-                        </div>
-                    </div>
-                    <table className="table table-borderless align-middle">
-                        <tbody>
-                            {users.map((user, idx) => (
-                                <tr key={user.id}>
-                                    <td>
-                                        <span
-                                            style={{
-                                                color: user.onboarding ? "#2eafec" : "#222",
-                                            }}
-                                        >
-                                            <i className="bi bi-person-fill me-1" />
-                                            {user.name}
-                                        </span>
-                                    </td>
-                                    <td>{user.role}</td>
-                                    <td>
-                                        {user.onboarding && (
-                                            <span
-                                                className="badge bg-light text-dark"
-                                                style={{ cursor: "pointer", fontSize: 11 }}
-                                                onClick={() => openOnboardingModal(user)}
-                                            >
-                                                <i className="bi bi-info-circle me-1" />
-                                                INCOMPLETE MOBILE ONBOARDING
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td className="text-end">
-                                        <button
-                                            className="btn btn-link btn-sm"
-                                            title="Edit"
-                                            onClick={() => openEditModal(user)}
-                                        >
-                                            <i className="bi bi-pencil-square" />
-                                        </button>
-                                        <button
-                                            className="btn btn-link btn-sm"
-                                            title="Message"
-                                            disabled
-                                        >
-                                            <i className="bi bi-envelope" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+              <div className="tab-pane fade" id="users" role="tabpanel">
+  {/* Controls Row */}
+  <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+    <input
+      className="form-control"
+      style={{ maxWidth: 200 }}
+      placeholder="Search"
+    />
+    
+    <button className="btn btn-primary" onClick={openAddModal}>
+      + Add User
+    </button>
+
+    <div className="form-check ms-2">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id="showInactive"
+      />
+      <label className="form-check-label" htmlFor="showInactive">
+        Show Inactive
+      </label>
+    </div>
+
+    <div className="ms-auto mt-2 mt-sm-0">
+      <span style={{ fontSize: 12 }}>Regular (6), No access (7)</span>
+    </div>
+  </div>
+
+  {/* Responsive Table Wrapper */}
+  <div className="table-responsive">
+    <table className="table table-borderless align-middle">
+      <tbody>
+        {users.map((user, idx) => (
+          <tr key={user.id}>
+            <td>
+              <span
+                style={{
+                  color: user.onboarding ? "#2eafec" : "#222",
+                }}
+              >
+                <i className="bi bi-person-fill me-1" />
+                {user.name}
+              </span>
+            </td>
+            <td>{user.role}</td>
+            <td>
+              {user.onboarding && (
+                <span
+                  className="badge bg-light text-dark"
+                  style={{ cursor: "pointer", fontSize: 11 }}
+                  onClick={() => openOnboardingModal(user)}
+                >
+                  <i className="bi bi-info-circle me-1" />
+                  INCOMPLETE MOBILE ONBOARDING
+                </span>
+              )}
+            </td>
+            <td className="text-end">
+              <button
+                className="btn btn-link btn-sm"
+                title="Edit"
+                onClick={() => openEditModal(user)}
+              >
+                <i className="bi bi-pencil-square" />
+              </button>
+              <button
+                className="btn btn-link btn-sm"
+                title="Message"
+                disabled
+              >
+                <i className="bi bi-envelope" />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
                 <div className="tab-pane fade" id="rates" role="tabpanel">
                     {/* Resource Cost Section */}
                     <div>
@@ -1467,43 +1473,59 @@ const AdminSection = () => {
                     </div>
                 </div>
                 <div className="tab-pane fade" id="quickbooks" role="tabpanel">
-                    <div className="container py-4">
-                        <h5>QuickBooks Connection</h5>
-                        <div className="row mb-4">
-                            <div className="col-md-8 d-flex">
-                                <div className="border rounded p-3 flex-fill me-3" style={{ minWidth: 220, background: "#fafbfc" }}>
-                                    <div className="text-danger mb-2" style={{ fontWeight: 500 }}>Not Connected to QuickBooks</div>
-                                    <hr className="my-2" />
-                                    <div className="text-muted" style={{ fontSize: 13 }}>Status</div>
-                                </div>
-                                <div className="border rounded p-3 flex-fill" style={{ minWidth: 220, background: "#fafbfc" }}>
-                                    <div className="mb-2" style={{ fontWeight: 500 }}>Would you like to connect? Click here:</div>
-                                    <button className="btn btn-primary mb-2">Connect to QuickBooks</button>
-                                    <hr className="my-2" />
-                                    <div className="text-muted" style={{ fontSize: 13 }}>What to do now?</div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div style={{ color: "#2eafec", fontWeight: 600, fontSize: 16, marginBottom: 8 }}>Why?</div>
-                                <div style={{ fontSize: 14 }}>
-                                    Knowify seamlessly integrates with QuickBooks. If you sync with your QuickBooks account now, Knowify will import your QuickBooks list of employees, clients, vendors, products, services and taxes, and will sync new bills and invoices.
-                                    <br /><br />
-                                    <span style={{ color: "#222" }}>
-                                        Important note: The import process might take up to 5 minutes, depending on the size of your QuickBooks account. Knowify will only import data from QuickBooks. No data will be changed or removed in your QuickBooks account.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="alert alert-info d-flex align-items-center p-2" style={{ background: "#f5faff", borderColor: "#e3f0fb" }}>
-                            <i className="bi bi-info-circle me-2" style={{ fontSize: 20, color: "#2eafec" }}></i>
-                            <div className="flex-grow-1">
-                                <strong>Interested in QuickBooks Online?</strong>
-                                <br />
-                                With our partnership with Intuit, we can bundle Knowify and QuickBooks Online and offer a price no one can beat.
-                            </div>
-                            <a href="#" className="ms-3" style={{ color: "#2eafec", textDecoration: "underline", fontSize: 14 }}>Learn more</a>
-                        </div>
-                    </div>
+                   <div className="container py-4">
+  <h5>QuickBooks Connection</h5>
+
+  {/* Responsive Layout */}
+  <div className="row gy-3 mb-4">
+    {/* Left Side Boxes */}
+    <div className="col-12 col-lg-8">
+      <div className="row g-3">
+        {/* Box 1 */}
+        <div className="col-12 col-md-6">
+          <div className="border rounded p-3 h-100" style={{ background: "#fafbfc" }}>
+            <div className="text-danger mb-2 fw-semibold">Not Connected to QuickBooks</div>
+            <hr className="my-2" />
+            <div className="text-muted" style={{ fontSize: 13 }}>Status</div>
+          </div>
+        </div>
+        {/* Box 2 */}
+        <div className="col-12 col-md-6">
+          <div className="border rounded p-3 h-100" style={{ background: "#fafbfc" }}>
+            <div className="mb-2 fw-semibold">Would you like to connect? Click here:</div>
+            <button className="btn btn-primary mb-2 w-100">Connect to QuickBooks</button>
+            <hr className="my-2" />
+            <div className="text-muted" style={{ fontSize: 13 }}>What to do now?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Right Side Text */}
+    <div className="col-12 col-lg-4">
+      <div className="mb-2" style={{ color: "#2eafec", fontWeight: 600, fontSize: 16 }}>Why?</div>
+      <div style={{ fontSize: 14 }}>
+        BonBon seamlessly integrates with QuickBooks. If you sync with your QuickBooks account now, Knowify will import your QuickBooks list of employees, clients, vendors, products, services and taxes, and will sync new bills and invoices.
+        <br /><br />
+        <span style={{ color: "#222" }}>
+          <strong>Important note:</strong> The import process might take up to 5 minutes, depending on the size of your QuickBooks account. Knowify will only import data from QuickBooks. No data will be changed or removed in your QuickBooks account.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {/* Info Alert Box */}
+  <div className="alert alert-info d-flex flex-column flex-md-row align-items-start align-items-md-center p-3 gap-3" style={{ background: "#f5faff", borderColor: "#e3f0fb" }}>
+    <i className="bi bi-info-circle" style={{ fontSize: 20, color: "#2eafec" }}></i>
+    <div className="flex-grow-1">
+      <strong>Interested in QuickBooks Online?</strong>
+      <br />
+      With our partnership with Intuit, we can bundle Knowify and QuickBooks Online and offer a price no one can beat.
+    </div>
+    <a href="#" className="text-decoration-underline text-primary" style={{ fontSize: 14 }}>Learn more</a>
+  </div>
+</div>
+
                 </div>
                 <div className="tab-pane fade" id="subscription" role="tabpanel">
                     <div className="container py-3">

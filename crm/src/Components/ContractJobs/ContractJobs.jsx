@@ -87,6 +87,18 @@ const projects = [
     profitLoss: "$96,600.00",
     percent: "33%",
     color: "danger"
+  },
+   {
+    name: "Greenfield School",
+    client: "Ajay Mehra",
+    billing: "Cost Plus",
+    phases: "3 phases",
+    status: "Biding",
+    revenue: "$290,000.00",
+    committedCost: "$193,400.00",
+    profitLoss: "$96,600.00",
+    percent: "33%",
+    color: "danger"
   }
 ];
 
