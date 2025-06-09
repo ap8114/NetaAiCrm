@@ -835,6 +835,7 @@ const ContractJobs = () => {
         stage: 'lead',
         type: 'proposal'
       },
+      
       ...prev
     ]);
     setShowNewContractPage(false);
@@ -979,7 +980,7 @@ const ContractJobs = () => {
 
                 <Form.Control type="text" placeholder="Search" className="search-box" />
 
-                <Button variant="light" className="view-btn">View</Button>
+                <Button variant="light" className="view-btn">sf</Button>
 
                 <Dropdown as={ButtonGroup}>
                   <Button variant="light">Lead +5</Button>
