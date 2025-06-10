@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 // ...existing imports...
 import React, { useState } from 'react';
 import { Container, Tab, Tabs, Button, Table, InputGroup, FormControl, Form } from 'react-bootstrap';
-import { FaPrint, FaArrowLeft } from 'react-icons/fa';
+import { FaPrint, FaArrowLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom"; // Add this import
 
 
@@ -39,6 +39,8 @@ const CalendarView = () => {
   const [selectedUser, setSelectedUser] = useState("BonBon Admin");
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [currentDate, setCurrentDate] = useState(dayjs());
+  const [calendarMonth, setCalendarMonth] = useState(dayjs().month()); // 0-indexed
+const [calendarYear, setCalendarYear] = useState(dayjs().year());
 
   const goToPreviousDay = () => {
     setCurrentDate(currentDate.subtract(1, "day"));
@@ -47,6 +49,29 @@ const CalendarView = () => {
   const goToNextDay = () => {
     setCurrentDate(currentDate.add(1, "day"));
   };
+
+  function getCalendarWeeks(month, year) {
+    const start = dayjs(`${year}-${month + 1}-01`);
+    const firstDay = start.day() === 0 ? 6 : start.day() - 1; // Monday start
+    const daysInMonth = start.daysInMonth();
+    const weeks = [];
+    let week = [];
+    let dayNum = 1 - firstDay;
+    while (dayNum <= daysInMonth) {
+      for (let i = 0; i < 5; i++) {
+        if (dayNum > 0 && dayNum <= daysInMonth) {
+          week.push(dayNum);
+        } else {
+          week.push("");
+        }
+        dayNum++;
+      }
+      weeks.push(week);
+      week = [];
+    }
+    return weeks;
+  }
+  const calendarWeeks = getCalendarWeeks(calendarMonth, calendarYear);
 
   return (
     <div className="container-fluid p-4">
@@ -74,14 +99,47 @@ const CalendarView = () => {
           </InputGroup>
 
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <h4>June 2025</h4>
+            <h4>
+              {dayjs().month(calendarMonth).year(calendarYear).format("MMMM YYYY")}
+            </h4>
             <div>
-              <Button variant="outline-secondary" className="me-2">
-                <FaPrint className="me-1" /> Print
+              <Button
+                variant="outline-secondary"
+                className="me-2"
+                onClick={() => {
+                  if (calendarMonth === 0) {
+                    setCalendarMonth(11);
+                    setCalendarYear(calendarYear - 1);
+                  } else {
+                    setCalendarMonth(calendarMonth - 1);
+                  }
+                }}
+              >
+                <FaChevronLeft className="me-1" /> Prev
               </Button>
-              <Button variant="outline-secondary" className="me-2">Today</Button>
-              <Button variant="outline-secondary" className="me-1">&#8592;</Button>
-              <Button variant="outline-secondary">&#8594;</Button>
+              <Button
+                variant="outline-secondary"
+                className="me-2"
+                onClick={() => {
+                  setCalendarMonth(dayjs().month());
+                  setCalendarYear(dayjs().year());
+                }}
+              >
+                Today
+              </Button>
+              <Button
+                variant="outline-secondary"
+                onClick={() => {
+                  if (calendarMonth === 11) {
+                    setCalendarMonth(0);
+                    setCalendarYear(calendarYear + 1);
+                  } else {
+                    setCalendarMonth(calendarMonth + 1);
+                  }
+                }}
+              >
+                Next <FaChevronRight className="ms-1" />
+              </Button>
             </div>
           </div>
 
@@ -96,7 +154,7 @@ const CalendarView = () => {
               </tr>
             </thead>
             <tbody>
-              {weekDates.map((week, i) => (
+              {calendarWeeks.map((week, i) => (
                 <tr key={i}>
                   {week.map((day, j) => (
                     <td
@@ -104,17 +162,16 @@ const CalendarView = () => {
                       style={{
                         height: '60px',
                         verticalAlign: 'top',
-                        backgroundColor: i === 1 && j === 4 ? '#ddd' : ''
+                        backgroundColor: day === dayjs().date() && calendarMonth === dayjs().month() && calendarYear === dayjs().year() ? '#c2e04f' : ''
                       }}
                       onClick={() => {
-                        setSelectedCellDate(`5/${day}/25`); // You can adjust month logic as needed
-                        setShowScheduleJobModal(true);
+                        if (day) {
+                          setSelectedCellDate(`${calendarMonth + 1}/${day}/${calendarYear}`);
+                          setShowScheduleJobModal(true);
+                        }
                       }}
                     >
                       <div className="small fw-bold">{day}</div>
-                      {i === 1 && j === 4 && (
-                        <div className="small text-white bg-secondary rounded px-2 mt-1">1 due task</div>
-                      )}
                     </td>
                   ))}
                 </tr>

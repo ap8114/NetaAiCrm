@@ -35,7 +35,16 @@ const InternalProjects = () => {
     <div className="p-4" style={{ backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
       {/* Back Button above heading */}
       <div className="mb-2">
-        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+        <Button
+          variant="outline-secondary"
+          onClick={() => {
+            if (window.history.length > 2) {
+              navigate(-1);
+            } else {
+              navigate("/home"); // fallback route, change "/" to your dashboard/home route if needed
+            }
+          }}
+        >
           <FaArrowLeft className="me-1" /> Back
         </Button>
       </div>

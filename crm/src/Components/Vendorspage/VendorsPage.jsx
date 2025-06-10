@@ -189,13 +189,8 @@ const VendorsPage = () => {
         <li className="nav-item">
           <a
             className="nav-link"
-            href="/subcontractor-report.excel"
-            download
-            onClick={e => {
-              // Optional: Prevent navigation if you want only download
-              // e.preventDefault();
-              // window.open('/subcontractor-report.pdf');
-            }}
+              href="/subcontractor-report.xlsx"
+            download="subcontractor-report.xlsx"
           >
             Subcontractor Report
           </a>

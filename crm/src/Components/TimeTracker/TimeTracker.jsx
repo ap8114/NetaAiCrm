@@ -1,13 +1,296 @@
 import React, { useState } from "react";
-import { Tab, Nav, Table, Dropdown, Button, ButtonGroup, Form ,Container} from "react-bootstrap";
+import { Tab, Nav, Table, Dropdown, Button, ButtonGroup, Form, Container, Modal } from "react-bootstrap";
 import { FaChevronLeft, FaChevronRight, FaSearch, FaBuilding, FaTrashAlt, FaArrowUp, FaTools, FaBoxOpen, FaCommentDots, FaCommentAlt, FaCalculator, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+// --- Check In/Out Location Modal ---
+const CheckInOutLocationModal = ({ show, onHide, data }) => {
+  const [selectedDate, setSelectedDate] = useState(data?.date || "");
+  const [selectedTime, setSelectedTime] = useState(data?.time || "");
+
+  return (
+    <Modal show={show} onHide={onHide} centered size="lg" backdrop="static">
+      <Modal.Header closeButton style={{ background: "#fcfcf6" }}>
+        <Modal.Title className="fw-normal" style={{ fontSize: "1.1rem" }}>
+          Check In/Out Location
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="mb-2">
+          <div className="fw-bold">{data?.location || "Wally World Parking Lot"}</div>
+          <div className="text-muted">{data?.type || "Asphalt"}</div>
+        </div>
+        <div className="fw-bold">{data?.user || "NETA Admin"}</div>
+        <div className="fw-bold mb-2">
+          <Form.Control
+            type="date"
+            value={selectedDate}
+            onChange={e => setSelectedDate(e.target.value)}
+            style={{ display: "inline-block", width: 160, marginRight: 8 }}
+          />
+        </div>
+        <div className="mb-2">
+          <Form.Label className="me-2 mb-0">Time</Form.Label>
+          <Form.Control
+            type="time"
+            value={selectedTime}
+            onChange={e => setSelectedTime(e.target.value)}
+            style={{ display: "inline-block", width: 120 }}
+          />
+        </div>
+        <div className="mb-2">
+          <span style={{ display: "inline-block", marginRight: 16 }}>
+            <span style={{ display: "inline-block", width: 12, height: 12, background: "#000", borderRadius: "50%", marginRight: 4 }}></span>
+            Job Site
+          </span>
+          <span style={{ display: "inline-block", marginRight: 16 }}>
+            <span style={{ display: "inline-block", width: 12, height: 12, background: "#0f0", borderRadius: "50%", marginRight: 4 }}></span>
+            Check In (9:00 AM)
+          </span>
+          <span>
+            <span style={{ display: "inline-block", width: 12, height: 12, background: "#00f", borderRadius: "50%", marginRight: 4 }}></span>
+            Check out (5:01 PM)
+          </span>
+        </div>
+        <div>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Map_of_Indiana_highlighting_Clark_County.svg/2560px-Map_of_Indiana_highlighting_Clark_County.svg.png"
+            alt="Map"
+            className="img-fluid rounded"
+            style={{ maxHeight: 250, width: "100%", objectFit: "cover" }}
+          />
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="light" onClick={onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+// --- End Check In/Out Location Modal ---
+
+// --- Edit Job Modal Component ---
+const EditJobModal = ({ show, onHide, job }) => {
+  if (!show || !job) return null;
+  return (
+    <>
+      <div className="modal fade show" tabIndex="-1" style={{ display: 'block', background: 'rgba(0,0,0,0.2)' }}>
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <div>
+                <div style={{ fontSize: "0.95em" }}>
+                  Time entry <span className="badge bg-warning text-dark ms-2" style={{ fontSize: '0.9em' }}>Submitted</span>
+                </div>
+                <div className="fw-bold" style={{ fontSize: "2rem" }}>{job.title?.replace(" | 8:05 Straight", "")}</div>
+              </div>
+              <button type="button" className="btn-close" aria-label="Close" onClick={onHide}></button>
+            </div>
+            <div className="modal-body">
+              <Form>
+                <div className="row mb-3">
+                  <div className="col-md-3">
+                    <Form.Label>Date</Form.Label>
+                    <Form.Control type="text" defaultValue="6/5/25" />
+                  </div>
+                  <div className="col-md-3">
+                    <Form.Label>Check in</Form.Label>
+                    <Form.Control type="text" defaultValue="9:00 AM" />
+                  </div>
+                  <div className="col-md-3">
+                    <Form.Label>Check out</Form.Label>
+                    <Form.Control type="text" defaultValue="5:01 PM" />
+                  </div>
+                  <div className="col-md-3">
+                    <Form.Label>Type</Form.Label>
+                    <Form.Select defaultValue="Straight">
+                      <option>Straight</option>
+                      <option>Other</option>
+                    </Form.Select>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-md-3">
+                    <Form.Label>Hours</Form.Label>
+                    <Form.Control type="text" defaultValue="8:05" />
+                    <div className="form-text"><FaCalculator /> Manually adjusted</div>
+                  </div>
+                  <div className="col-md-5">
+                    <Form.Label>Allocated to</Form.Label>
+                    <div className="fw-semibold">Wally World Parking Lot For Griswold Enterprises</div>
+                    <Form.Control type="text" defaultValue="Asphalt" />
+                  </div>
+                  <div className="col-md-4">
+                    <Form.Label>Role</Form.Label>
+                    <Form.Control type="text" defaultValue="Office manager" />
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <Form.Label>User description</Form.Label>
+                  <Form.Control as="textarea" rows={2} placeholder="User description" />
+                </div>
+                <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <Button variant="link" className="p-0">Resource burden rate (hourly)</Button>
+                  <span className="fw-bold">$0.00</span>
+                </div>
+                <div className="mb-3">
+                  <Form.Check label="Add adjustment" />
+                </div>
+                <div className="mb-3 d-flex align-items-center justify-content-between">
+                  <span>Total cost</span>
+                  <span>$0.00</span>
+                </div>
+                <div className="mb-3">
+                  <Form.Check label="Billable" defaultChecked />
+                </div>
+                <div className="mb-3">
+                  <Form.Label>Reviewer's note</Form.Label>
+                  <Form.Control as="textarea" rows={2} placeholder="Comment" />
+                </div>
+                <div className="d-flex justify-content-end gap-2">
+                  <Button variant="light" onClick={onHide}>Cancel</Button>
+                  <Button variant="success">Save</Button>
+                </div>
+              </Form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal-backdrop fade show"></div>
+    </>
+  );
+};
+// --- End Edit Job Modal ---
+
+// --- Job Detail Modal Component ---
+const JobDetailModal = ({ show, onHide, job, onEdit }) => {
+  if (!show || !job) return null;
+  return (
+    <>
+      <div className="modal fade show" tabIndex="-1" style={{ display: 'block', background: 'rgba(0,0,0,0.2)' }}>
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div className="modal-content border-0">
+            <div className="modal-header">
+              <h5 className="modal-title fw-bold">
+                {job.title}
+                <span className="badge bg-warning text-dark ms-2" style={{ fontSize: '0.9em' }}>Submitted</span>
+              </h5>
+              <button type="button" className="btn-close" aria-label="Close" onClick={onHide}></button>
+            </div>
+            <div className="modal-body">
+              <div className="mb-2 text-muted" style={{ fontSize: '0.95em' }}>
+                {job.date} &bull; {job.time}
+              </div>
+              <div className="row mb-2">
+                <div className="col-md-6">
+                  <div className="mb-1 text-muted" style={{ fontSize: '0.95em' }}>Allocated to</div>
+                  <div>
+                    <strong className="text-primary">{job.allocatedTo}</strong>
+                    <div>{job.for}</div>
+                    <div>{job.type}</div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="mb-1 text-muted" style={{ fontSize: '0.95em' }}>Role</div>
+                  <div>{job.role}</div>
+                </div>
+              </div>
+              <div className="mb-2">
+                <div className="text-muted" style={{ fontSize: '0.95em' }}>Description</div>
+                <div>No description available</div>
+              </div>
+              <div className="mb-2">
+                <span className="text-muted" style={{ fontSize: '0.95em' }}>Cost</span>
+                <span className="ms-2 text-danger">$0.00 <FaTools /></span>
+              </div>
+              <div className="mb-2">
+                <Form.Check type="checkbox" label="Billable" checked readOnly />
+              </div>
+              <div className="mb-2">
+                <span className="text-muted" style={{ fontSize: '0.95em' }}>Reviewer's note</span>
+                <div>No description available</div>
+              </div>
+              <div className="mb-2">
+                <strong>Activity</strong>
+                <ul className="list-unstyled mt-2">
+                  <li>
+                    <FaBoxOpen className="me-2" />Check in by {job.resource} - {job.checkIn}
+                  </li>
+                  <li>
+                    <FaBoxOpen className="me-2" />Check out after {job.duration} hours by {job.resource} - {job.checkOut}
+                  </li>
+                  <li>
+                    <FaCommentAlt className="me-2" />Time updated by {job.resource} - {job.updated}
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Map_of_Indiana_highlighting_Clark_County.svg/2560px-Map_of_Indiana_highlighting_Clark_County.svg.png" alt="Map" className="img-fluid rounded" style={{ maxHeight: 180 }} />
+                <div className="mt-2">
+                  <span className="badge bg-primary me-2">Check in</span>
+                  <span className="badge bg-secondary">Check out</span>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <Button variant="success" onClick={onEdit}>Edit</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal-backdrop fade show"></div>
+    </>
+  );
+};
+// --- End Job Detail Modal ---
 
 const TimeTracker = () => {
   const [key, setKey] = useState("overview");
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [showCheckInModal, setShowCheckInModal] = useState(false);
+  const [showJobModal, setShowJobModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showCheckInOutLocationModal, setShowCheckInOutLocationModal] = useState(false);
+  const [checkInOutModalData, setCheckInOutModalData] = useState(null);
   const navigate = useNavigate();
+
+  // Handler for job cell click
+  const handleJobClick = () => {
+    setSelectedJob({
+      title: "NETA Admin | 8:05 Straight",
+      date: "Jun 05, 2025",
+      time: "9:00 AM - 5:01 PM",
+      allocatedTo: "Wally World Parking Lot",
+      for: "for Griswold Enterprises",
+      type: "Asphalt",
+      role: "Office manager",
+      resource: "NETA Admin",
+      checkIn: "Jun 05, 2025 @ 5:01 PM",
+      checkOut: "Jun 05, 2025 @ 5:01 PM",
+      duration: "08:05",
+      updated: "Jun 10, 2025 @ 3:29 PM"
+    });
+    setShowJobModal(true);
+  };
+
+  // Handler for Edit button in modal
+  const handleEditClick = () => {
+    setShowJobModal(false);
+    setShowEditModal(true);
+  };
+
+  // Handler for Check In/Out cell click
+  const handleCheckInOutCellClick = (type) => {
+    setCheckInOutModalData({
+      location: "Wally World Parking Lot",
+      type: "Asphalt",
+      user: "NETA Admin",
+      date: "2025-06-05",
+      time: type === "in" ? "09:00" : "17:01"
+    });
+    setShowCheckInOutLocationModal(true);
+  };
 
   return (
     <div className="col-12 p-4 mt-4">
@@ -260,17 +543,26 @@ const TimeTracker = () => {
                   <tr>
                     <td>THU</td>
                     <td>Bon-Bon Admin</td>
-                    <td>
-                      Wally World Parking Lot<br />
-                      <em>for Griswold Enterprises</em><br />
-                      Asphalt
+                    <td
+                      style={{ cursor: "pointer" }}
+                      onClick={handleJobClick}
+                    >
+                      <div className="fw-semibold text-primary text-decoration-underline">Wally World Parking Lot</div>
+                      <div className="text-muted">for Griswold Enterprises</div>
+                      <div className="text-muted">Asphalt</div>
                     </td>
-                    <td>
-                      <a href="#" className="text-primary text-decoration-none">6/5/25 9:00 AM</a><br />
+                    <td
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleCheckInOutCellClick("in")}
+                    >
+                      <a className="text-primary text-decoration-none">6/5/25 9:00 AM</a><br />
                       <span className="text-primary">Manually checked in</span>
                     </td>
-                    <td>
-                      <a href="#" className="text-primary text-decoration-none">6/5/25 5:01 PM</a><br />
+                    <td
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleCheckInOutCellClick("out")}
+                    >
+                      <a className="text-primary text-decoration-none">6/5/25 5:01 PM</a><br />
                       <span className="text-primary">Manually checked out</span>
                     </td>
                     <td>8:05</td>
@@ -312,6 +604,21 @@ const TimeTracker = () => {
               </div>
             )}
             {showCheckInModal && <div className="modal-backdrop fade show"></div>}
+
+            {/* Job Detail Modal */}
+            <JobDetailModal show={showJobModal} onHide={() => setShowJobModal(false)} job={selectedJob} onEdit={handleEditClick} />
+            {/* Edit Job Modal */}
+            <EditJobModal
+              show={showEditModal}
+              onHide={() => setShowEditModal(false)}
+              job={selectedJob}
+            />
+            {/* Check In/Out Location Modal */}
+            <CheckInOutLocationModal
+              show={showCheckInOutLocationModal}
+              onHide={() => setShowCheckInOutLocationModal(false)}
+              data={checkInOutModalData}
+            />
           </Tab.Pane>
 
           <Tab.Pane eventKey="reviewTime">
