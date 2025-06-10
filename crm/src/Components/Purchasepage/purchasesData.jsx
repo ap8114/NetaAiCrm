@@ -55,9 +55,9 @@ function AddPurchaseModal({ show, onHide }) {
         backdrop={showSpreadsheetModal ? "static" : true}
         keyboard={!showSpreadsheetModal}
       >
-        <div 
-          style={showSpreadsheetModal ? { 
-            pointerEvents: "none", 
+        <div
+          style={showSpreadsheetModal ? {
+            pointerEvents: "none",
             opacity: 0.5,
             height: '100%',
             display: 'flex',
@@ -91,7 +91,7 @@ function AddPurchaseModal({ show, onHide }) {
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <h6 className="mb-0">Item</h6>
                 <div>
-                  <Button 
+                  <Button
                     variant="outline-secondary"
                     size="sm"
                     onClick={() => setShowSpreadsheetModal(true)}
@@ -105,7 +105,7 @@ function AddPurchaseModal({ show, onHide }) {
                   </Button>
                 </div>
               </div>
-              
+
               <div style={{ maxHeight: '40vh', overflowY: 'auto' }}>
                 {items.map((item, index) => (
                   <Row key={index} className="mb-2 align-items-end">
@@ -167,7 +167,7 @@ function AddPurchaseModal({ show, onHide }) {
             <Button variant="light" onClick={onHide}>
               Cancel
             </Button>
-            <Button variant="success">✔ Verify & Submit</Button>
+            <Button variant="primary">✔ Verify & Submit</Button>
           </Modal.Footer>
         </div>
       </Modal>
@@ -276,8 +276,8 @@ export default function Purchases() {
         <Button variant="outline-secondary">Export to XLS</Button>
       </div>
 
-     <Table bordered hover responsive style={{ overflowX: "hidden" }}>
-     
+      <Table bordered hover responsive style={{ overflowX: "hidden" }}>
+
         <thead>
           <tr>
             <th>Status</th>

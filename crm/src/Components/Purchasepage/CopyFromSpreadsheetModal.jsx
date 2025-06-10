@@ -84,13 +84,13 @@ const CopyFromSpreadsheetModal = ({ show, onHide }) => {
           {step === 1 ? (
             <>
               <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-              <Button variant="success" onClick={handleVerify}>Verify Data (1/2)</Button>
+              <Button variant="primary" onClick={handleVerify}>Verify Data (1/2)</Button>
             </>
           ) : (
             <>
               <Button variant="outline-secondary" onClick={() => setStep(1)}>Copy Data Again</Button>
               <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-              <Button variant="success" onClick={handleImport}>Import Now! (2/2)</Button>
+              <Button variant="primary" onClick={handleImport}>Import Now! (2/2)</Button>
             </>
           )}
         </Modal.Footer>

@@ -232,7 +232,7 @@ if (activeTab === "Contract & Change Orders") {
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h5 className="fw-bold">Fixed price | AIA-style billing</h5>
-        <button className="btn btn-success">Invoice now</button>
+        <button className="btn btn-primary">Invoice now</button>
       </div>
 
       {/* Value summary */}
@@ -281,7 +281,7 @@ if (activeTab === "Contract & Change Orders") {
       </div>
 
       {/* Financial Summary */}
-      <div className="bg-success bg-opacity-10 p-3 rounded mb-4">
+      <div className="bg-primary bg-opacity-10 p-3 rounded mb-4">
         <div className="row mb-2">
           <div className="col-md-6"><strong>A1. Original bid Sum:</strong></div>
           <div className="col-md-6 text-md-end">$264,000.00</div>
@@ -368,7 +368,7 @@ if (activeTab === "Contract & Change Orders") {
       {/* Buttons */}
       <div className="d-flex justify-content-center gap-2 mt-3">
         <button className="btn btn-outline-secondary">Add folder</button>
-        <button className="btn btn-success" onClick={handleUploadClick}>
+        <button className="btn btn-primary" onClick={handleUploadClick}>
           Upload file
         </button>
         <input
@@ -382,7 +382,7 @@ if (activeTab === "Contract & Change Orders") {
       {/* Uploaded File Display */}
       {uploadedFile && (
         <div className="mt-3">
-          <p className="text-success">Uploaded: {uploadedFile}</p>
+          <p className="text-primary">Uploaded: {uploadedFile}</p>
         </div>
       )}
     </div>
@@ -399,7 +399,7 @@ if (activeTab === "Logs") {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="mb-0">Logs</h4>
         <div className="d-flex gap-2">
-          <button className="btn btn-success" onClick={openModal}>
+          <button className="btn btn-primary" onClick={openModal}>
             Add log
           </button>
           <button className="btn btn-outline-secondary">
@@ -481,7 +481,7 @@ if (activeTab === "Logs") {
               >
                 Cancel
               </button>
-              <button type="button" className="btn btn-success">
+              <button type="button" className="btn btn-primary">
                 Save
               </button>
             </div>

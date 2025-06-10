@@ -63,7 +63,7 @@ const projects = [
     committedCost: "$80,000.00",
     profitLoss: "$40,000.00",
     percent: "33%",
-    color: "success"
+    color: "primary"
   },
   {
     name: "Metro Mall Renovation",
@@ -763,7 +763,7 @@ const ContractJobs = () => {
       committedCost: "$80,000.00",
       profitLoss: "$40,000.00",
       percent: "33%",
-      color: "success"
+      color: "primary"
     },
     {
       name: "Metro Mall Renovation",
@@ -821,7 +821,7 @@ const ContractJobs = () => {
         committedCost: "$0.00",
         profitLoss: "$0.00",
         percent: "0%",
-        color: "success"
+        color: "primary"
       },
       ...prev
     ]);
@@ -1026,13 +1026,13 @@ const ContractJobs = () => {
                       <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
                     </Col>
                     <Col md={1}>
-                      <Badge bg="success">{project.status}</Badge>
+                      <Badge bg="primary">{project.status}</Badge>
                     </Col>
                     <Col md={2}>
                       <div>{project.revenue}</div>
                       {project.revenue !== '$0.00' && (
                         <ProgressBar className="mt-2">
-                          <ProgressBar striped variant="success" now={40} key={1} />
+                          <ProgressBar striped variant="primary" now={40} key={1} />
                           <ProgressBar variant="secondary" now={60} key={2} />
                         </ProgressBar>
                       )}

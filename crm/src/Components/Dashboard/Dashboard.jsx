@@ -135,7 +135,7 @@ const Dashboard = () => {
                     <div className="row text-center mb-4">
                       <div className="col-md-4 animate__animated animate__fadeInUp">
                           <span className="fw-bold">BUDGET</span>
-                        <div className="fw-bold fs-5 text-success mt-2">45.1%</div>
+                        <div className="fw-bold fs-5 text-primary mt-2">45.1%</div>
                         <div className="text-muted small">17.0%</div>
                         <div className="text-primary fw-semibold">$219,000.00</div>
                       </div>
@@ -205,7 +205,7 @@ const Dashboard = () => {
 
         <div className="d-flex justify-content-between">
           <div className="text-muted">$0.00</div>
-          <span className="badge bg-success-subtle text-success">PAID LAST 30 DAYS</span>
+          <span className="badge bg-primary-subtle text-primary">PAID LAST 30 DAYS</span>
         </div>
       </div>
     </div>
@@ -337,7 +337,7 @@ const CompanyFeed = () => {
               <div className="ps-2 flex-grow-1">
                 {i === 1 && (
                   <div
-                    className="text-success small px-2 py-1"
+                    className="text-primary small px-2 py-1"
                     style={{
                       background: `repeating-linear-gradient(
                         45deg,

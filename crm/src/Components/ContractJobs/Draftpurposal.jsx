@@ -26,7 +26,7 @@ const Draftpurposal = () => {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5><span className="badge bg-primary">Draft</span> Fixed price</h5>
         <div>
-          <button className="btn btn-success me-2">Save changes</button>
+          <button className="btn btn-primary me-2">Save changes</button>
           <button className="btn btn-outline-secondary">Send out for signature</button>
         </div>
       </div>
@@ -76,7 +76,7 @@ const Draftpurposal = () => {
       ))}
       <button className="btn btn-primary mb-4" onClick={addLineItem}>+ Add new line item</button>
 
-      <div className="bg-success bg-opacity-10 p-3 mb-4 border rounded">
+      <div className="bg-primary bg-opacity-10 p-3 mb-4 border rounded">
         <div className="row">
           <div className="col-md-6">
             <label>Applicable tax rate:</label>

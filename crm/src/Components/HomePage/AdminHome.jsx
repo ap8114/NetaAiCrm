@@ -193,13 +193,13 @@ const Home = () => {
                 <h3 className="category-title">TRANSACTIONS</h3>
                 <div className="menu-items">
                   <Link to="/purchasesdata" className="menu-item">
-                    <div className="menu-icon bg-success">
+                    <div className="menu-icon bg-primary">
                       <i className="fas fa-shopping-cart"></i>
                     </div>
                     <span className="menu-text">Purchases</span>
                   </Link>
                   <Link to="/BillsTab" className="menu-item">
-                    <div className="menu-icon bg-success">
+                    <div className="menu-icon bg-primary">
                       <i className="fas fa-file-invoice"></i>
                     </div>
                     <div className="d-flex justify-content-between align-items-center w-100">
@@ -208,7 +208,7 @@ const Home = () => {
                     </div>
                   </Link>
                   <Link to="/InvoiceDashboard" className="menu-item">
-                    <div className="menu-icon bg-success">
+                    <div className="menu-icon bg-primary">
                       <i className="fas fa-file-invoice-dollar"></i>
                     </div>
                     <div className="d-flex justify-content-between align-items-center w-100">
@@ -343,7 +343,7 @@ const Home = () => {
             </div>
             <div className="col-md-3 col-6">
               <div className="stat-card">
-                <div className="stat-icon bg-success">
+                <div className="stat-icon bg-primary">
                   <i className="fas fa-calendar-check"></i>
                 </div>
                 <div className="stat-content">
@@ -362,7 +362,7 @@ const Home = () => {
   function getCategoryColor(category) {
     switch(category) {
       case 'CORE': return 'primary';
-      case 'TRANSACTIONS': return 'success';
+      case 'TRANSACTIONS': return 'primary';
       case 'ACTIVITY': return 'info';
       case 'INSIGHTS': return 'purple';
       case 'COMPANY': return 'orange';
