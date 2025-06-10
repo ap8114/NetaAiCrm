@@ -7,7 +7,8 @@ const VendorsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
   const navigate = useNavigate();
-
+  const [vendorType, setVendorType] = useState(""); // Add this state
+  const [roleTrade, setRoleTrade] = useState("");   // For Role/Trade field
   return (
     <div className="container-fluid p-4">
       {/* Back Button above heading */}
@@ -27,60 +28,7 @@ const VendorsPage = () => {
             </div>
             <div className="modal-body">
               <div className="row g-3">
-                <div className="col-md-6">
-                  <label className="form-label">Vendor Name *</label>
-                  <input className="form-control" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Contact Name</label>
-                  <input className="form-control" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Address Lookup</label>
-                  <input className="form-control" placeholder="Start typing to view suggestions" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Phone</label>
-                  <input className="form-control" placeholder="Ex. (123) 456-7890" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Address</label>
-                  <input className="form-control" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Email</label>
-                  <input className="form-control" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Other</label>
-                  <input className="form-control" placeholder="Ex. account#, website" />
-                </div>
-                <div className="col-md-6">
-                  <label className="form-label">Vendor Type</label>
-                  <select className="form-select">
-                    <option>Materials supplier</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-              <button className="btn btn-primary">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Edit Vendor Modal */}
-      <div className={`modal fade ${showEditModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ background: showEditModal ? 'rgba(0,0,0,0.3)' : 'none' }}>
-        <div className="modal-dialog modal-lg modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Vendor Details</h5>
-              <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
-            </div>
-            <div className="modal-body">
-              <div className="row g-3">
+                {/* ...other fields... */}
                 <div className="col-md-6">
                   <label className="form-label">Vendor Name</label>
                   <input className="form-control" value="ABC Supply" readOnly />
@@ -107,21 +55,108 @@ const VendorsPage = () => {
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Vendor Type</label>
-                  <select className="form-select" disabled>
+                  <select
+                    className="form-select"
+                    value={vendorType}
+                    onChange={e => setVendorType(e.target.value)}
+                  >
+                    <option value="">Select a vendor type</option>
                     <option>Materials supplier</option>
+                    <option>Subcontractor</option>
+                    <option>Equipment supplier</option>
+                    <option>Miscellaneous expenses</option>
                   </select>
                 </div>
+                {vendorType === "Subcontractor" && (
+                  <div className="col-md-6">
+                    <label className="form-label">Role/Trade</label>
+                    <input
+                      className="form-control"
+                      value={roleTrade}
+                      onChange={e => setRoleTrade(e.target.value)}
+                      placeholder="Enter role or trade"
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-              <button className="btn btn-primary">Save Changes</button>
+              <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
+              <button className="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* User Details Modal */}
+      {/* Edit Vendor Modal */}
+      <div className={`modal fade ${showEditModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ background: showEditModal ? 'rgba(0,0,0,0.3)' : 'none' }}>
+        <div className="modal-dialog modal-lg modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Edit Vendor</h5>
+              <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
+            </div>
+            <div className="modal-body">
+              <div className="row g-3">
+                {/* ...other fields... */}
+                <div className="col-md-6">
+                  <label className="form-label">Vendor Name</label>
+                  <input className="form-control" value="ABC Supply" readOnly />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Contact Name</label>
+                  <input className="form-control" value="Albert Brenamen" readOnly />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Address Lookup</label>
+                  <input className="form-control" value="237 West Thames Street" readOnly />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Phone</label>
+                  <input className="form-control" value="2122333230" readOnly />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Email</label>
+                  <input className="form-control" value="albert@abcsupply.com" readOnly />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Other</label>
+                  <input className="form-control" value="-" readOnly />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Vendor Type</label>
+                  <select
+                    className="form-select"
+                    value={vendorType}
+                    onChange={e => setVendorType(e.target.value)}
+                  >
+                    <option value="">Select a vendor type</option>
+                    <option>Materials supplier</option>
+                    <option>Subcontractor</option>
+                    <option>Equipment supplier</option>
+                    <option>Miscellaneous expenses</option>
+                  </select>
+                </div>
+                {vendorType === "Subcontractor" && (
+                  <div className="col-md-6">
+                    <label className="form-label">Role/Trade</label>
+                    <input
+                      className="form-control"
+                      value={roleTrade}
+                      onChange={e => setRoleTrade(e.target.value)}
+                      placeholder="Enter role or trade"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
+              <button className="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className={`modal fade ${showUserModal ? 'show d-block' : ''}`} tabIndex="-1" style={{ background: showUserModal ? 'rgba(0,0,0,0.3)' : 'none' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
