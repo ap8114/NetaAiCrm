@@ -3,7 +3,7 @@ import { FaArrowLeft, FaChevronDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaFilter, FaCog } from 'react-icons/fa';
 import React, { useState, useEffect, useRef } from "react";
-
+import { Modal, Form } from 'react-bootstrap';
 
 
 const columnsList = [
@@ -122,6 +122,60 @@ const previewTableData = [
 const Reports = () => {
 
 
+ // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [modalReport, setModalReport] = useState("");
+  const [modalStart, setModalStart] = useState("");
+  const [modalEnd, setModalEnd] = useState("");
+
+  // Helper for quick date ranges
+  const setRange = (type) => {
+    const today = new Date();
+    let start, end;
+    if (type === "previous_month") {
+      const prevMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+      start = prevMonth.toISOString().slice(0, 10);
+      end = new Date(today.getFullYear(), today.getMonth(), 0).toISOString().slice(0, 10);
+    } else if (type === "current_month") {
+      start = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10);
+      end = today.toISOString().slice(0, 10);
+    } else if (type === "previous_week") {
+      const prevWeekStart = new Date(today);
+      prevWeekStart.setDate(today.getDate() - today.getDay() - 6);
+      const prevWeekEnd = new Date(today);
+      prevWeekEnd.setDate(today.getDate() - today.getDay());
+      start = prevWeekStart.toISOString().slice(0, 10);
+      end = prevWeekEnd.toISOString().slice(0, 10);
+    } else if (type === "current_week") {
+      const weekStart = new Date(today);
+      weekStart.setDate(today.getDate() - today.getDay());
+      start = weekStart.toISOString().slice(0, 10);
+      end = today.toISOString().slice(0, 10);
+    }
+    setModalStart(start && start.split('-').reverse().join('/'));
+    setModalEnd(end && end.split('-').reverse().join('/'));
+  };
+
+  // Modified handleSelect
+  const handleSelect = (item) => {
+    const isPreview = typeof item === "object" && item.preview;
+    setSelected(typeof item === "string" ? item : item.name);
+    setIsOpen(false);
+    setShowPreview(!!isPreview);
+
+    // If not preview, open modal
+    if (!isPreview) {
+      setModalReport(typeof item === "string" ? item : item.name);
+      // Default dates: current month
+      const today = new Date();
+      const start = new Date(today.getFullYear(), today.getMonth(), 1);
+      setModalStart(start.toLocaleDateString('en-GB'));
+      setModalEnd(today.toLocaleDateString('en-GB'));
+      setShowModal(true);
+    }
+  };
+
+
   const columnSettingsRef = useRef();
 
   useEffect(() => {
@@ -178,13 +232,6 @@ const Reports = () => {
     ),
   }));
 
-  const handleSelect = (item) => {
-    const isPreview = typeof item === "object" && item.preview;
-    setSelected(typeof item === "string" ? item : item.name);
-    setIsOpen(false);
-    setShowPreview(!!isPreview);
-  };
-
   return (
     <div className="container-fluid" style={{ backgroundColor: '#f6f6f7', minHeight: '100vh' }}>
       <div className="pt-4 px-4">
@@ -196,7 +243,7 @@ const Reports = () => {
 
         <h4 className="fw-bold">Reports</h4>
 
-        <div className="mt-3 position-relative" style={{ maxWidth: 280 }}>
+        <div className="mt-3 position-relative" style={{ maxWidth: 340 }}>
           <button
             className="btn btn-light border w-100 d-flex justify-content-between align-items-center"
             onClick={() => setIsOpen(!isOpen)}
@@ -396,6 +443,51 @@ const Reports = () => {
           </div>
         )}
       </div>
+
+       {/* Modal for non-preview reports */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalReport}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <div className="d-flex gap-3 mb-3">
+              <Form.Group>
+                <Form.Label>Start Date</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={modalStart}
+                  onChange={e => setModalStart(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>End Date</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={modalEnd}
+                  onChange={e => setModalEnd(e.target.value)}
+                />
+              </Form.Group>
+            </div>
+            <div className="mb-3">
+              <span className="me-2">⚡ Set range to:</span>
+              <a href="#" className="me-2" onClick={e => { e.preventDefault(); setRange("previous_month"); }}>previous month</a>
+              <a href="#" className="me-2" onClick={e => { e.preventDefault(); setRange("current_month"); }}>current month</a>
+              <a href="#" className="me-2" onClick={e => { e.preventDefault(); setRange("previous_week"); }}>previous week</a>
+              <a href="#" onClick={e => { e.preventDefault(); setRange("current_week"); }}>current week</a>
+            </div>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="success" onClick={() => setShowModal(false)}>
+            Generate & Download
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      
     </div>
   );
 };
