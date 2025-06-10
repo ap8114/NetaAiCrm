@@ -242,9 +242,9 @@ const VendorsPage = () => {
               <td>$14,000.00</td>
               <td>$5,400.00</td>
               <td className="text-end">
-                <button className="btn p-0 me-2 text-primary" style={{ background: 'none', border: 'none' }} onClick={() => setShowEditModal(true)}><FaEdit /></button>
-                <button className="btn p-0 me-2 text-primary" style={{ background: 'none', border: 'none' }} onClick={() => setShowUserModal(true)}><FaUser /></button>
-                <button className="btn p-0 text-primary" style={{ background: 'none', border: 'none' }}>⋮</button>
+                <button className="btn btn-outline-primary me-2" onClick={() => setShowEditModal(true)}><FaEdit /></button>
+                <button className="btn btn-outline-primary" onClick={() => setShowUserModal(true)}><FaUser /></button>
+               
               </td>
             </tr>
             <tr>
@@ -258,9 +258,10 @@ const VendorsPage = () => {
               <td>$30,000.00</td>
               <td>$10,000.00</td>
               <td className="text-end">
-                <button className="btn p-0 me-2 text-primary" style={{ background: 'none', border: 'none' }} onClick={() => setShowEditModal(true)}><FaEdit /></button>
-                <button className="btn p-0 me-2 text-primary" style={{ background: 'none', border: 'none' }} onClick={() => setShowUserModal(true)}><FaUser /></button>
-                <button className="btn p-0 text-primary" style={{ background: 'none', border: 'none' }}>⋮</button>
+                <button className="btn btn-outline-primary me-2"  onClick={() => setShowEditModal(true)}><FaEdit /></button>
+
+                <button className="btn btn-outline-primary" onClick={() => setShowUserModal(true)}><FaUser /></button>
+               
               </td>
             </tr>
           </tbody>

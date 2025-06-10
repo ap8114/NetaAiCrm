@@ -131,22 +131,16 @@ const ClientsData = () => {
         </Button>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4 className="fw-bold">Clients</h4>
+        <h4 className="fw-bold mt-3">Clients</h4>
         <div className="d-flex gap-2">
           <Button variant="outline-secondary" onClick={handleExportOpen}>
             <FaFileExport className="me-2" />
             Export
           </Button>
-          <Button variant="success" onClick={handleAddOpen}>
+          <Button variant="primary" onClick={handleAddOpen}>
             Add new client
           </Button>
         </div>
-      </div>
-
-      {/* Parent-Child Relationship Tree */}
-      <div className="mb-4">
-        <h6 className="fw-bold mb-2">Client Hierarchy</h6>
-        {renderClientTree(CLIENTS)}
       </div>
 
       <div className="d-flex gap-3 align-items-center mb-3">
@@ -232,266 +226,322 @@ const ClientsData = () => {
       </div>
 
       {/* Add New Client Modal */}
-      <Modal show={showAdd} onHide={handleAddClose} size="lg">
+      <Modal show={showAdd} onHide={handleAddClose} size="lg" centered>
         <Modal.Header closeButton>
-          <Modal.Title>Add new client</Modal.Title>
+          <Modal.Title>Add New Client</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
-          <div className="row g-3">
-            <div className="col-md-6">
-              <Form.Group>
-                <Form.Label>
-                  Client Name <span className="text-danger">*</span>
-                </Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Client Type</Form.Label>
-                <Form.Select
-                  value={clientType}
-                  onChange={(e) => setClientType(e.target.value)}
-                >
-                  <option value="person">Person</option>
-                  <option value="company">Company</option>
-                </Form.Select>
-              </Form.Group>
-              {clientType === "company" && (
-                <>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Industry</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Company Size</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Business Type</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                </>
-              )}
-              <Form.Check label="This is a subclient" className="my-2" />
-              <div className="d-flex gap-2 mb-2">
-                <Button variant="secondary" size="sm">
-                  Billing Address
-                </Button>
-                <Button variant="light" size="sm">
-                  Mailing Address
-                </Button>
+          <Form>
+            <div className="row g-4">
+              {/* Left Column */}
+              <div className="col-md-6">
+                <Form.Group>
+                  <Form.Label>
+                    Client Name <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Control placeholder="Enter client name" />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Client Type</Form.Label>
+                  <Form.Select value={clientType} onChange={(e) => setClientType(e.target.value)}>
+                    <option value="person">Person</option>
+                    <option value="company">Company</option>
+                  </Form.Select>
+                </Form.Group>
+
+                {clientType === "company" && (
+                  <>
+                    <Form.Group className="mt-3">
+                      <Form.Label>Industry</Form.Label>
+                      <Form.Control placeholder="Enter industry" />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Company Size</Form.Label>
+                      <Form.Control placeholder="Enter company size" />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Business Type</Form.Label>
+                      <Form.Control placeholder="Enter business type" />
+                    </Form.Group>
+                  </>
+                )}
+
+                <Form.Check label="This is a subclient" className="mt-4 mb-3" />
+
+                <div className="d-flex gap-2 mb-3">
+                  <Button variant="outline-primary" size="sm">Billing Address</Button>
+                  <Button variant="outline-secondary" size="sm">Mailing Address</Button>
+                </div>
+
+                <Form.Group>
+                  <Form.Label>Address Lookup</Form.Label>
+                  <InputGroup>
+                    <Button variant="outline-secondary">
+                      <FaSearch />
+                    </Button>
+                    <Form.Control placeholder="Start typing to view suggestions" />
+                  </InputGroup>
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Address 2</Form.Label>
+                  <Form.Control />
+                </Form.Group>
+
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>City</Form.Label>
+                      <Form.Control />
+                    </Form.Group>
+                  </div>
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>State</Form.Label>
+                      <Form.Select>
+                        <option>NJ</option>
+                        <option>NY</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
+                </div>
+
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>Zip Code</Form.Label>
+                      <Form.Control />
+                    </Form.Group>
+                  </div>
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>Country</Form.Label>
+                      <Form.Select>
+                        <option>United States</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </div>
+                </div>
               </div>
-              <Form.Group>
-                <Form.Label>Address Lookup</Form.Label>
-                <InputGroup>
-                  <Button variant="light">
-                    <FaSearch />
-                  </Button>
-                  <Form.Control placeholder="Start typing to view suggestions" />
-                </InputGroup>
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Address</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Address 2</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>City</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>State</Form.Label>
-                <Form.Select>
-                  <option>NJ</option>
-                  <option>NY</option>
-                </Form.Select>
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Zip Code</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Country</Form.Label>
-                <Form.Select>
-                  <option>United States</option>
-                </Form.Select>
-              </Form.Group>
+
+              {/* Right Column */}
+              <div className="col-md-6">
+                <Form.Group>
+                  <Form.Label>Contact Name</Form.Label>
+                  <Form.Control placeholder="Full name" />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control placeholder="Ex. (123) 456-7890" />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control placeholder="Ex. name@email.com" />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Other</Form.Label>
+                  <Form.Control placeholder="Ex. account#, website, etc." />
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Notes</Form.Label>
+                  <Form.Control as="textarea" rows={6} placeholder="Add any notes about this client..." />
+                </Form.Group>
+              </div>
             </div>
-            <div className="col-md-6">
-              <Form.Group>
-                <Form.Label>Contact Name</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Phone</Form.Label>
-                <Form.Control placeholder="Ex. (123) 456-7890" />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Email</Form.Label>
-                <Form.Control />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Other</Form.Label>
-                <Form.Control placeholder="Ex. account#, website" />
-              </Form.Group>
-              <Form.Group className="mt-2">
-                <Form.Label>Notes</Form.Label>
-                <Form.Control as="textarea" rows={5} />
-              </Form.Group>
-            </div>
-          </div>
+          </Form>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={handleAddClose}>
             Cancel
           </Button>
-          <Button variant="success">Submit</Button>
+          <Button variant="primary">
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal>
 
       {/* Edit Client Modal */}
-      <Modal show={showEdit} onHide={handleEditClose} size="lg">
+      <Modal show={showEdit} onHide={handleEditClose} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>Client Details</Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
-          {/* Unified Client View with Tabs */}
           <Tabs defaultActiveKey="details" className="mb-3">
+            {/* === DETAILS TAB === */}
             <Tab eventKey="details" title="Details">
-              <div className="row g-3">
-                <div className="col-md-6">
-                  <Form.Group>
-                    <Form.Label>
-                      Client Name <span className="text-danger">*</span>
-                    </Form.Label>
-                    <Form.Control defaultValue={selectedClient?.name} />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Client Type</Form.Label>
-                    <Form.Select
-                      value={selectedClient?.type || "person"}
-                      onChange={(e) => setClientType(e.target.value)}
-                    >
-                      <option value="person">Person</option>
-                      <option value="company">Company</option>
-                    </Form.Select>
-                  </Form.Group>
-                  {clientType === "company" && (
-                    <>
-                      <Form.Group className="mt-2">
-                        <Form.Label>Industry</Form.Label>
-                        <Form.Control defaultValue={selectedClient?.industry} />
-                      </Form.Group>
-                      <Form.Group className="mt-2">
-                        <Form.Label>Company Size</Form.Label>
-                        <Form.Control defaultValue={selectedClient?.size} />
-                      </Form.Group>
-                      <Form.Group className="mt-2">
-                        <Form.Label>Business Type</Form.Label>
-                        <Form.Control defaultValue={selectedClient?.businessType} />
-                      </Form.Group>
-                    </>
-                  )}
-                  <Form.Check
-                    label="This is a subclient"
-                    className="my-2"
-                    defaultChecked={!!selectedClient?.parentId}
-                  />
-                  <div className="d-flex gap-2 mb-2">
-                    <Button variant="secondary" size="sm">
-                      Billing Address
-                    </Button>
-                    <Button variant="light" size="sm">
-                      Mailing Address
-                    </Button>
+              <Form>
+                <div className="row g-4">
+                  {/* LEFT COLUMN */}
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>
+                        Client Name <span className="text-danger">*</span>
+                      </Form.Label>
+                      <Form.Control defaultValue={selectedClient?.name} />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Client Type</Form.Label>
+                      <Form.Select
+                        value={clientType}
+                        onChange={(e) => setClientType(e.target.value)}
+                      >
+                        <option value="person">Person</option>
+                        <option value="company">Company</option>
+                      </Form.Select>
+                    </Form.Group>
+
+                    {clientType === "company" && (
+                      <>
+                        <Form.Group className="mt-3">
+                          <Form.Label>Industry</Form.Label>
+                          <Form.Control defaultValue={selectedClient?.industry} />
+                        </Form.Group>
+                        <Form.Group className="mt-3">
+                          <Form.Label>Company Size</Form.Label>
+                          <Form.Control defaultValue={selectedClient?.size} />
+                        </Form.Group>
+                        <Form.Group className="mt-3">
+                          <Form.Label>Business Type</Form.Label>
+                          <Form.Control defaultValue={selectedClient?.businessType} />
+                        </Form.Group>
+                      </>
+                    )}
+
+                    <Form.Check
+                      label="This is a subclient"
+                      className="mt-4 mb-3"
+                      defaultChecked={!!selectedClient?.parentId}
+                    />
+
+                    <div className="d-flex gap-2 mb-3">
+                      <Button variant="outline-primary" size="sm">Billing Address</Button>
+                      <Button variant="outline-secondary" size="sm">Mailing Address</Button>
+                    </div>
+
+                    <Form.Group>
+                      <Form.Label>Address Lookup</Form.Label>
+                      <InputGroup>
+                        <Button variant="outline-secondary">
+                          <FaSearch />
+                        </Button>
+                        <Form.Control placeholder="Start typing to view suggestions" />
+                      </InputGroup>
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Address</Form.Label>
+                      <Form.Control />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Address 2</Form.Label>
+                      <Form.Control />
+                    </Form.Group>
+
+                    <div className="row mt-3">
+                      <div className="col-md-6">
+                        <Form.Group>
+                          <Form.Label>City</Form.Label>
+                          <Form.Control />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-6">
+                        <Form.Group>
+                          <Form.Label>State</Form.Label>
+                          <Form.Select>
+                            <option>NJ</option>
+                            <option>NY</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                    </div>
+
+                    <div className="row mt-3">
+                      <div className="col-md-6">
+                        <Form.Group>
+                          <Form.Label>Zip Code</Form.Label>
+                          <Form.Control />
+                        </Form.Group>
+                      </div>
+                      <div className="col-md-6">
+                        <Form.Group>
+                          <Form.Label>Country</Form.Label>
+                          <Form.Select>
+                            <option>United States</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </div>
+                    </div>
                   </div>
-                  <Form.Group>
-                    <Form.Label>Address Lookup</Form.Label>
-                    <InputGroup>
-                      <Button variant="light">
-                        <FaSearch />
-                      </Button>
-                      <Form.Control placeholder="Start typing to view suggestions" />
-                    </InputGroup>
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Address 2</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>State</Form.Label>
-                    <Form.Select>
-                      <option>NJ</option>
-                      <option>NY</option>
-                    </Form.Select>
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Zip Code</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Country</Form.Label>
-                    <Form.Select>
-                      <option>United States</option>
-                    </Form.Select>
-                  </Form.Group>
+
+                  {/* RIGHT COLUMN */}
+                  <div className="col-md-6">
+                    <Form.Group>
+                      <Form.Label>Contact Name</Form.Label>
+                      <Form.Control />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control placeholder="Ex. (123) 456-7890" />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Other</Form.Label>
+                      <Form.Control placeholder="Ex. account#, website" />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label>Notes</Form.Label>
+                      <Form.Control as="textarea" rows={6} placeholder="Additional notes..." />
+                    </Form.Group>
+                  </div>
                 </div>
-                <div className="col-md-6">
-                  <Form.Group>
-                    <Form.Label>Contact Name</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control placeholder="Ex. (123) 456-7890" />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Other</Form.Label>
-                    <Form.Control placeholder="Ex. account#, website" />
-                  </Form.Group>
-                  <Form.Group className="mt-2">
-                    <Form.Label>Notes</Form.Label>
-                    <Form.Control as="textarea" rows={5} />
-                  </Form.Group>
-                </div>
-              </div>
+              </Form>
             </Tab>
+
+            {/* === PROJECTS & LEADS TAB === */}
             <Tab eventKey="projects" title="Projects & Leads">
               {renderClientTabs(selectedClient || { projects: [], leads: [] })}
             </Tab>
+
+            {/* === CHILD RELATIONSHIPS TAB === */}
             <Tab eventKey="children" title="Child Relationships">
-              {selectedClient?.children && selectedClient.children.length > 0 ? (
+              {selectedClient?.children?.length > 0 ? (
                 renderClientTree(selectedClient.children)
               ) : (
                 <div className="text-muted">No child records.</div>
               )}
             </Tab>
+
+            {/* === ORGANIZATION TAB === */}
             <Tab eventKey="org" title="Organization Info">
               {selectedClient?.type === "company" ? (
-                <div>
-                  <div>
-                    <strong>Industry:</strong> {selectedClient?.industry}
-                  </div>
-                  <div>
-                    <strong>Company Size:</strong> {selectedClient?.size}
-                  </div>
-                  <div>
-                    <strong>Business Type:</strong> {selectedClient?.businessType}
-                  </div>
+                <div className="px-2">
+                  <p><strong>Industry:</strong> {selectedClient?.industry || "N/A"}</p>
+                  <p><strong>Company Size:</strong> {selectedClient?.size || "N/A"}</p>
+                  <p><strong>Business Type:</strong> {selectedClient?.businessType || "N/A"}</p>
                 </div>
               ) : (
                 <div className="text-muted">Not a company.</div>
@@ -499,34 +549,30 @@ const ClientsData = () => {
             </Tab>
           </Tabs>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={handleEditClose}>
             Cancel
           </Button>
-          <Button variant="success">Save Changes</Button>
+          <Button variant="primary">Save Changes</Button>
         </Modal.Footer>
       </Modal>
 
       {/* Assign Role Modal */}
+      {/* User Details Modal */}
       <Modal show={showAssign} onHide={handleAssignClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Assign Role</Modal.Title>
+          <Modal.Title>User Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group>
-            <Form.Label>Select Role</Form.Label>
-            <Form.Select>
-              <option>Admin</option>
-              <option>User</option>
-              <option>Viewer</option>
-            </Form.Select>
-          </Form.Group>
+          <p><b>Name:</b> Albert Brenamen</p>
+          <p><b>Email:</b> albert@abcsupply.com</p>
+          <p><b>Phone:</b> (212) 233-3230</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleAssignClose}>
-            Cancel
+            Close
           </Button>
-          <Button variant="success">Assign</Button>
         </Modal.Footer>
       </Modal>
 
@@ -554,7 +600,7 @@ const ClientsData = () => {
           <Button variant="secondary" onClick={handleExportClose}>
             Cancel
           </Button>
-          <Button variant="success">Export</Button>
+          <Button variant="primary">Export</Button>
         </Modal.Footer>
       </Modal>
     </div>

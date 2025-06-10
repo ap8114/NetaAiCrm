@@ -32,7 +32,7 @@ const USERS = [
 
 // Priority badge color map
 const PRIORITY_COLORS = {
-  Low: "success",
+  Low: "primary",
   Medium: "warning",
   High: "danger",
 };
@@ -322,7 +322,7 @@ export default function Tasks() {
                   <td>
                     <Badge bg={
                       task.status === "Done"
-                        ? "success"
+                        ? "primary"
                         : task.status === "Blocked"
                         ? "danger"
                         : task.status === "In Progress"
@@ -512,7 +512,7 @@ export default function Tasks() {
               <Button variant="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button variant="success" type="submit">
+              <Button variant="primary" type="submit">
                 {editingTask ? "Save Changes" : "Create Task"}
               </Button>
             </div>

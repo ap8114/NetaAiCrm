@@ -132,7 +132,7 @@ const ClientProposalForm = () => {
         </Form.Group>
 
         <div className="d-flex justify-content-end mt-3">
-          <Button variant="success" className="me-2">Save changes</Button>
+          <Button variant="primary" className="me-2">Save changes</Button>
           <Button variant="primary">Send out for signature</Button>
         </div>
       </Form>

@@ -482,12 +482,12 @@ const Reports = () => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Cancel
           </Button>
-          <Button variant="success" onClick={() => setShowModal(false)}>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
             Generate & Download
           </Button>
         </Modal.Footer>
       </Modal>
-      
+
     </div>
   );
 };

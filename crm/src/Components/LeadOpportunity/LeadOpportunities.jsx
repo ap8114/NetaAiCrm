@@ -23,7 +23,7 @@ import BillsTab from "./BillsTab.jsx";
 const PROJECT_STATUSES = [
   { key: "pending", label: "Pending", color: "secondary" },
   { key: "in_progress", label: "In Progress", color: "info" },
-  { key: "contract_signed", label: "Contract Signed", color: "success" },
+  { key: "contract_signed", label: "Contract Signed", color: "primary" },
   { key: "completed", label: "Completed", color: "primary" },
   { key: "closed", label: "Closed", color: "dark" },
   { key: "lost", label: "Lost", color: "danger" },
@@ -546,14 +546,14 @@ const LeadOpportunities = () => {
       timestamp: "2025-06-01 10:00",
       direction: "CRM → QB",
       type: "Invoice",
-      status: "Success",
+      status: "primary",
     },
     {
       id: 2,
       timestamp: "2025-06-05 12:00",
       direction: "QB → CRM",
       type: "Payment",
-      status: "Success",
+      status: "primary",
     },
     {
       id: 3,
@@ -602,7 +602,7 @@ const LeadOpportunities = () => {
         <span>
           QuickBooks Status:{" "}
           {syncStatus.connected ? (
-            <span className="badge bg-success">Connected ✅</span>
+            <span className="badge bg-primary">Connected ✅</span>
           ) : (
             <span className="badge bg-danger">Disconnected ❌</span>
           )}
@@ -631,7 +631,7 @@ const LeadOpportunities = () => {
           onClose={() => setShowToast(false)}
           delay={5000}
           autohide
-          bg="success"
+          bg="primary"
         >
           <Toast.Header>
             <strong className="me-auto">Project Created</strong>
@@ -669,7 +669,7 @@ const LeadOpportunities = () => {
                 Add Contact Form to Website
               </Button>
               <Button variant="outline-secondary">Filter (1)</Button>
-              <Button variant="success" onClick={handleShow}>
+              <Button variant="primary" onClick={handleShow}>
                 + New Project
               </Button>
             </div>
@@ -703,7 +703,7 @@ const LeadOpportunities = () => {
                   </td>
                   <td>
                     {project.autoConverted && (
-                      <span className="badge bg-success me-2">Auto</span>
+                      <span className="badge bg-primary me-2">Auto</span>
                     )}
                     <span className="fw-semibold">
                       <Button
@@ -761,7 +761,7 @@ const LeadOpportunities = () => {
 
               <span className="fw-bold fs-5">{selectedProject.title}</span>
               {selectedProject.autoConverted && selectedProject.contractMeta && (
-                <span className="ms-2 badge bg-success">
+                <span className="ms-2 badge bg-primary">
                   Linked to Contract: {selectedProject.contractMeta.contractId}
                 </span>
               )}
@@ -836,7 +836,7 @@ const LeadOpportunities = () => {
                       <td>{t.amount}</td>
                       <td>
                         {t.status === "Closed" || t.status === "Paid" ? (
-                          <span className="badge bg-success">
+                          <span className="badge bg-primary">
                             {t.status}
                           </span>
                         ) : t.status === "Pending" ? (
@@ -856,7 +856,7 @@ const LeadOpportunities = () => {
                       <td>
                         {/* Live Sync Indicator */}
                         {t.syncStatus === "synced" && (
-                          <span className="badge bg-success">Synced</span>
+                          <span className="badge bg-primary">Synced</span>
                         )}
                         {t.syncStatus === "pending" && (
                           <span className="badge bg-warning text-dark">Pending</span>
@@ -904,7 +904,7 @@ const LeadOpportunities = () => {
                     </Form.Select>
                     <Form.Select size="sm" className="d-inline w-auto me-2">
                       <option>All Status</option>
-                      <option>Success</option>
+                      <option>primary</option>
                       <option>Failed</option>
                     </Form.Select>
                     <Form.Select size="sm" className="d-inline w-auto">
@@ -935,8 +935,8 @@ const LeadOpportunities = () => {
                         </td>
                         <td>{log.type}</td>
                         <td>
-                          {log.status === "Success" ? (
-                            <span className="badge bg-success">Success</span>
+                          {log.status === "primary" ? (
+                            <span className="badge bg-primary">primary</span>
                           ) : (
                             <span className="badge bg-danger">Failed</span>
                           )}
