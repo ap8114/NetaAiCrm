@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import "./Editpurposal.css";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -35,6 +36,13 @@ const Editpurposal = () => {
   ];
 
    const [uploadedFile, setUploadedFile] = useState(null);
+
+    const modalRef = useRef();
+
+  const openModal = () => {
+    const modal = new window.bootstrap.Modal(modalRef.current);
+    modal.show();
+  };
 
 const renderTabContent = () => {
   // Special: Lead stage
@@ -382,13 +390,18 @@ if (activeTab === "Contract & Change Orders") {
 }
 
 
- if (activeTab === "Logs") {
+
+if (activeTab === "Logs") {
+ 
+
   return (
     <div className="tab-content-box">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="mb-0">Logs</h4>
         <div className="d-flex gap-2">
-          <button className="btn btn-success">Add log</button>
+          <button className="btn btn-success" onClick={openModal}>
+            Add log
+          </button>
           <button className="btn btn-outline-secondary">
             <i className="bi bi-three-dots-vertical"></i>
           </button>
@@ -425,13 +438,60 @@ if (activeTab === "Contract & Change Orders") {
           <div className="text-muted fst-italic">
             — Job created
             <br />
-            <small className="text-secondary">by simon Mashiah @ 6:21 PM</small>
+            <small className="text-secondary">by Simon Mashiah @ 6:21 PM</small>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal inside same block */}
+      <div
+        className="modal fade"
+        ref={modalRef}
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header bg-light">
+              <h5 className="modal-title">gsdrghfdyu</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <select className="form-select mb-3">
+                <option>Comment</option>
+                <option>Update</option>
+                <option>Note</option>
+              </select>
+              <textarea
+                className="form-control"
+                rows="4"
+                placeholder="Type here"
+              ></textarea>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button type="button" className="btn btn-success">
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
 
 
  if (activeTab === "Activity") {

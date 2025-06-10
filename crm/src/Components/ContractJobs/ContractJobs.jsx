@@ -1082,7 +1082,7 @@ const ContractJobs = () => {
         <div className="contract-jobs-wrapper">
           {/* Back Button above heading */}
           <div className="mb-2 px-4 bg-light">
-            <Button variant="outline-secondary mt-1 bg-light" onClick={() => navigate(-1)}>
+            <Button variant="btn btn-secondary mt-1" onClick={() => navigate(-1)}>
               <FaArrowLeft className="me-1" /> Back
             </Button>
           </div>
