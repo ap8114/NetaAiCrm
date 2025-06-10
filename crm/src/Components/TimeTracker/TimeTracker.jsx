@@ -358,7 +358,7 @@ const TimeTracker = () => {
                     <td><Form.Check /></td>
                     <td>6/5/25<br />THU</td>
                     <td>
-                      Bon-Bon Admin<br />
+                      BonBon Admin<br />
                       <small>(by simon Mashiah)</small>
                     </td>
                     <td>
