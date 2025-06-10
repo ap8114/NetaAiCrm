@@ -111,7 +111,7 @@ const Login = () => {
               <Link to="/home">
               <button
                 type="submit"
-                className="btn ai-premium-btn w-100"
+                className="btn btn-primary w-100"
                 disabled={loading}
               >
                 {loading ? "Logging in..." : "Login"}
