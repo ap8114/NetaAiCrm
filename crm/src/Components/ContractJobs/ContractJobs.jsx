@@ -798,7 +798,7 @@ const ContractJobs = () => {
     { id: 4, title: 'Kitchen Remodel (Fixed Price)', stage: 'active', type: 'invoice' },
     { id: 5, title: 'fsdgbeehb', stage: 'closed', type: 'view' },
     { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' },
-    { id: 7, title: 'Lighting Install', stage: 'lead', type: 'view' }
+    { id: 7, title: 'Lighting Install', stage: 'lead', type: 'Create purposal' }
   ]);
   const navigate = useNavigate();
 
