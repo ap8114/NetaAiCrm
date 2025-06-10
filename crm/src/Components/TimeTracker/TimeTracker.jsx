@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tab, Nav, Table, Dropdown, Button, ButtonGroup, Form } from "react-bootstrap";
+import { Tab, Nav, Table, Dropdown, Button, ButtonGroup, Form,Container} from "react-bootstrap";
 import { FaChevronLeft, FaChevronRight, FaSearch, FaBuilding, FaTrashAlt, FaArrowUp, FaTools, FaBoxOpen, FaCommentDots, FaCommentAlt, FaCalculator, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -445,6 +445,54 @@ const TimeTracker = () => {
               </Button>
             </div>
           </Tab.Pane>
+
+       <Tab.Pane eventKey="timeReports">
+      <Container className="py-4">
+        <h5 className="mb-4">Time Reports</h5>
+        <div>
+          <div className="mb-3">
+            <strong className="text-primary">Time Report</strong>
+            <p className="mb-1">PDF report with approved time entries grouped by job and employees</p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Time Rate Report</strong>
+            <p className="mb-1">PDF report with approved time and rate information for a given time frame</p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Time Cards</strong>
+            <p className="mb-1">Spreadsheet export with submitted time entries for a given time frame</p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Timesheet Report</strong>
+            <p className="mb-1">
+              Spreadsheet report with submitted employee timecards for a given time frame, with daily resolution
+            </p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Foreman Report</strong>
+            <p className="mb-1">
+              Spreadsheet report with submitted time and reimbursement information by employee for a given time frame
+            </p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Payroll Report</strong>
+            <p className="mb-1">
+              Spreadsheet report with approved payroll information, daily or weekly based on your company setup
+            </p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Labor Costing Report</strong>
+            <p className="mb-1">
+              Spreadsheet report with labor grouped by cost type and employee for a given time frame
+            </p>
+          </div>
+          <div className="mb-3">
+            <strong className="text-primary">Paychex Export</strong>
+            <p className="mb-1">Spreadsheet to import payroll into Paychex</p>
+          </div>
+        </div>
+      </Container>
+    </Tab.Pane>
 
         </Tab.Content>
       </Tab.Container>
