@@ -7,7 +7,7 @@ const BillsTab = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeSearch, setActiveSearch] = useState("vendor");
   const [searchInput, setSearchInput] = useState("");
-    const navigate = useNavigate(); // Add this line
+  const navigate = useNavigate(); // Add this line
 
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
@@ -15,15 +15,23 @@ const BillsTab = () => {
 
   return (
     <div className="col-12 p-4">
-      <div className="d-flex justify-content-between align-items-center my-3">
-        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
-          <FaArrowLeft className="me-1 " /> Back
-        </Button>
-        <h4 className="fw-bold">Bills</h4>
-        <Button variant="primary" onClick={handleModalShow}>
-          Add new bill
-        </Button>
+      <div className=" py-3">
+        {/* Row 1: Back Button */}
+        <div className="mb-3">
+          <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+            <FaArrowLeft className="me-1" /> Back
+          </Button>
+        </div>
+
+        {/* Row 2: Heading and Add New Button */}
+        <div className="d-flex justify-content-between align-items-center">
+          <h4 className="fw-bold mb-0">Bills</h4>
+          <Button variant="primary" onClick={handleModalShow}>
+            Add new bill
+          </Button>
+        </div>
       </div>
+
 
       <div className="alert alert-warning d-flex justify-content-between">
         <span>Outstanding: <strong className="text-danger">$15,400.00</strong></span>

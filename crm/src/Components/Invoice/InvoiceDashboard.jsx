@@ -36,31 +36,29 @@ const InvoiceDashboard = () => {
 
   return (
     <div className="p-4">
-      {/* Back Button above heading */}
-      <div className="mb-2">
-        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
-          <FaArrowLeft className="me-1" /> Back
-        </Button>
-      </div>
-      <div className="mb-4">
-        {/* Row 1: Back button + Right Buttons */}
-        <div className="d-flex align-items-center mb-2">
-          {/* Left: (empty, since back button is above) */}
-          <div className="ms-auto d-flex gap-2">
-            <Button variant="outline-dark">
-              View report
-            </Button>
-            <Button variant="primary" onClick={handleOpenModal}>
-              Add new invoice
-            </Button>
-          </div>
-        </div>
+     {/* Back Button */}
+<div className="mb-3">
+  <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+    <FaArrowLeft className="me-1" /> Back
+  </Button>
+</div>
 
-        {/* Row 2: Heading */}
-        <div>
-          <h4 className="fw-bold mb-0">Invoice</h4>
-        </div>
-      </div>
+{/* Heading + Action Buttons */}
+<div className="d-flex justify-content-between align-items-center mb-4">
+  {/* Heading */}
+  <h4 className="fw-bold mb-0">Invoice</h4>
+
+  {/* Right-side buttons */}
+  <div className="d-flex gap-2">
+    <Button variant="outline-dark">
+      View report
+    </Button>
+    <Button variant="primary" onClick={handleOpenModal}>
+      Add new invoice
+    </Button>
+  </div>
+</div>
+
 
       {/* Bootstrap Nav Tabs */}
       <ul className="nav nav-tabs mb-3">

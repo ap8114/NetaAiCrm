@@ -5,6 +5,7 @@ import { Kanban, Plus } from 'react-bootstrap-icons';
 import { FaArrowLeft } from "react-icons/fa"; // Add this import
 import { useNavigate } from "react-router-dom";
 
+
 import './Jobs.css';
 
 // --- Kanban Workflow Data ---
@@ -297,7 +298,7 @@ const ReportsDashboard = () => {
   ];
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 bg-white">
       <div className="row">
         <div className="col-12">
           {reports.map((report, index) => (
@@ -353,24 +354,24 @@ const NewContractJobPage = ({ onClose, onSave }) => {
         <div className="container-fluid">
           <div className="d-flex justify-content-between align-items-center py-3 px-4">
             <div className="d-flex align-items-center">
-              <button 
-                type="button" 
-                className="btn btn-light me-3 p-2" 
+              <button
+                type="button"
+                className="btn btn-light me-3 p-2"
                 onClick={onClose}
               >x
               </button>
               <h2 className="mb-0 fw-semibold">New contract job</h2>
             </div>
             <div className="d-flex gap-2">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn btn-outline-secondary"
                 onClick={handleDiscard}
               >
                 Discard
               </button>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn btn-primary"
                 onClick={handleSave}
               >
@@ -393,7 +394,7 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                     className="form-control"
                     value={jobName}
                     onChange={(e) => setJobName(e.target.value)}
-                    style={{maxWidth: '500px'}}
+                    style={{ maxWidth: '500px' }}
                   />
                 </div>
 
@@ -401,7 +402,7 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                   <label className="form-label fw-semibold">
                     Client Name <span className="text-danger">*</span>
                   </label>
-                  <div className="position-relative" style={{maxWidth: '500px'}}>
+                  <div className="position-relative" style={{ maxWidth: '500px' }}>
                     <input
                       type="text"
                       className="form-control"
@@ -415,15 +416,15 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                   <label className="form-label fw-semibold mb-3">Which of these best describes the job?</label>
                   <div className="row g-3">
                     <div className="col-md-4">
-                      <div 
+                      <div
                         className={`card h-100 ${billingType === 'fixed-price' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('fixed-price')}
-                        style={{cursor: 'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       >
                         <div className="card-body p-3">
                           <p className="card-text small mb-3">
-                            We are performing work for a <strong>lump sum</strong> and we will bill for it on 
-                            a <strong>percent completion basis</strong>. Change orders will be applied as 
+                            We are performing work for a <strong>lump sum</strong> and we will bill for it on
+                            a <strong>percent completion basis</strong>. Change orders will be applied as
                             necessary.
                           </p>
                           <div className="text-center">
@@ -434,15 +435,15 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                     </div>
 
                     <div className="col-md-4">
-                      <div 
+                      <div
                         className={`card h-100 ${billingType === 'fixed-price-aia' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('fixed-price-aia')}
-                        style={{cursor: 'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       >
                         <div className="card-body p-3">
                           <p className="card-text small mb-3">
-                            We are working for a commercial GC or government and expect to 
-                            bill with <strong>AIA-style</strong> applications for payment. Change orders will be 
+                            We are working for a commercial GC or government and expect to
+                            bill with <strong>AIA-style</strong> applications for payment. Change orders will be
                             applied as necessary.
                           </p>
                           <div className="text-center">
@@ -453,15 +454,15 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                     </div>
 
                     <div className="col-md-4">
-                      <div 
+                      <div
                         className={`card h-100 ${billingType === 'cost-plus' ? 'border-primary border-2' : 'border'}`}
                         onClick={() => setBillingType('cost-plus')}
-                        style={{cursor: 'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       >
                         <div className="card-body p-3">
                           <p className="card-text small mb-3">
-                            It is a <strong>time and materials job</strong> or something else requiring custom 
-                            pricing tools. If a change is required, a whole new contract will 
+                            It is a <strong>time and materials job</strong> or something else requiring custom
+                            pricing tools. If a change is required, a whole new contract will
                             be produced.
                           </p>
                           <div className="text-center">
@@ -471,7 +472,7 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <p className="text-muted small mt-2">
                     * This job will use the default job costing mode. Click <a href="#" className="text-primary">here</a> in case you look for more advanced options.
                   </p>
@@ -517,11 +518,11 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                           Set Scheduling Color
                         </label>
                       </div>
-                      <select 
+                      <select
                         className="form-select"
                         value={schedulingColor}
                         onChange={(e) => setSchedulingColor(e.target.value)}
-                        style={{backgroundColor: 'blue'}}
+                        style={{ backgroundColor: 'blue' }}
                       >
                         <option value="yellow">Yellow</option>
                         <option value="red">Red</option>
@@ -537,7 +538,7 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                           Set Sales Lead
                         </label>
                       </div>
-                      <select 
+                      <select
                         className="form-select"
                         value={salesLead}
                         onChange={(e) => setSalesLead(e.target.value)}
@@ -555,7 +556,7 @@ const NewContractJobPage = ({ onClose, onSave }) => {
                           Set Project Manager
                         </label>
                       </div>
-                      <select 
+                      <select
                         className="form-select"
                         value={projectManager}
                         onChange={(e) => setProjectManager(e.target.value)}
@@ -622,37 +623,34 @@ const ChangeOrdersUI = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <div className="bg-light min-vh-100">
+    <div className="bg-white min-vh-100">
       {/* Navigation Tabs */}
       <div className="bg-white">
         <div className="container-fluid px-3 pt-3">
           <div className="d-flex gap-1">
             <button
-              className={`btn btn-sm px-3 py-2 rounded-1 border-0 fw-medium ${
-                activeTab === 'change-orders'
-                  ? 'bg-dark text-white'
-                  : 'bg-light text-secondary'
-              }`}
+              className={`btn btn-sm px-3 py-2 rounded-1 border-0 fw-medium ${activeTab === 'change-orders'
+                ? 'bg-dark text-white'
+                : 'bg-light text-secondary'
+                }`}
               onClick={() => setActiveTab('change-orders')}
             >
               Change orders
             </button>
             <button
-              className={`btn btn-sm px-3 py-2 rounded-1 border-0 fw-medium ${
-                activeTab === 'daily-logs'
-                  ? 'bg-dark text-white'
-                  : 'bg-light text-secondary'
-              }`}
+              className={`btn btn-sm px-3 py-2 rounded-1 border-0 fw-medium ${activeTab === 'daily-logs'
+                ? 'bg-dark text-white'
+                : 'bg-light text-secondary'
+                }`}
               onClick={() => setActiveTab('daily-logs')}
             >
               Daily logs
             </button>
             <button
-              className={`btn btn-sm px-3 py-2 rounded-1 border-0 fw-medium ${
-                activeTab === 'phases'
-                  ? 'bg-dark text-white'
-                  : 'bg-light text-secondary'
-              }`}
+              className={`btn btn-sm px-3 py-2 rounded-1 border-0 fw-medium ${activeTab === 'phases'
+                ? 'bg-dark text-white'
+                : 'bg-light text-secondary'
+                }`}
               onClick={() => setActiveTab('phases')}
             >
               Phases
@@ -673,7 +671,7 @@ const ChangeOrdersUI = () => {
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{fontSize: '14px'}}
+                  style={{ fontSize: '14px' }}
                 />
               </div>
             </div>
@@ -702,7 +700,7 @@ const ChangeOrdersUI = () => {
       <div className="bg-white border-bottom">
         <div className="container-fluid px-3 py-2">
           <div className="d-flex justify-content-between align-items-center">
-            <span className="text-muted" style={{fontSize: '13px'}}>0 of 0</span>
+            <span className="text-muted" style={{ fontSize: '13px' }}>0 of 0</span>
             <div className="d-flex gap-1">
               <button className="btn btn-link btn-sm text-muted p-1 border-0">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -723,12 +721,12 @@ const ChangeOrdersUI = () => {
       <div className="container-fluid px-3">
         <div className="row justify-content-center">
           <div className="col-12">
-            <div className="d-flex flex-column align-items-center justify-content-center" style={{minHeight: '400px'}}>
+            <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '400px' }}>
               {/* Search Icon */}
               <div className="mb-4">
-                <div 
+                <div
                   className="rounded-circle border border-2 border-dark d-flex align-items-center justify-content-center bg-white"
-                  style={{width: '80px', height: '80px'}}
+                  style={{ width: '80px', height: '80px' }}
                 >
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -736,10 +734,10 @@ const ChangeOrdersUI = () => {
                   </svg>
                 </div>
               </div>
-              
+
               {/* No Results Message */}
-              <h4 className="fw-bold text-dark mb-3" style={{fontSize: '24px'}}>No results</h4>
-              <p className="text-muted mb-0" style={{fontSize: '14px'}}>
+              <h4 className="fw-bold text-dark mb-3" style={{ fontSize: '24px' }}>No results</h4>
+              <p className="text-muted mb-0" style={{ fontSize: '14px' }}>
                 There are no change orders to be displayed
               </p>
             </div>
@@ -800,7 +798,7 @@ const ContractJobs = () => {
     { id: 4, title: 'Kitchen Remodel (Fixed Price)', stage: 'active', type: 'invoice' },
     { id: 5, title: 'fsdgbeehb', stage: 'closed', type: 'view' },
     { id: 6, title: 'Lighting Install', stage: 'closed', type: 'view' },
-       { id: 7, title: 'Lighting Install', stage: 'lead', type: 'view' }
+    { id: 7, title: 'Lighting Install', stage: 'lead', type: 'view' }
   ]);
   const navigate = useNavigate();
 
@@ -1009,7 +1007,7 @@ const ContractJobs = () => {
             {workflowView === 'workflow' ? (
               <ProposalWorkflowBoard proposals={workflowProposals} onNavigate={navigate} />
             ) : (
-              <Container className="bg-white py-3">
+              <div className="bg-white py-3 p-4">
                 <Row className="fw-bold border-bottom pb-2 mb-3">
                   <Col md={4}>Project details</Col>
                   <Col md={1}>Status</Col>
@@ -1020,7 +1018,9 @@ const ContractJobs = () => {
                 {jobs.map((project, index) => (
                   <Row key={index} className="align-items-start border-bottom py-3">
                     <Col md={4}>
-                      <div className="fw-bold">{project.name}</div>
+                    
+                      <div className="fw-bold"><a href="/detail">{project.name}</a></div>
+                    
                       <div className="text-muted">for {project.client}</div>
                       <div className="text-muted small">{project.billing} — {project.phases}</div>
                       <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
@@ -1064,7 +1064,7 @@ const ContractJobs = () => {
                     </Col>
                   </Row>
                 ))}
-              </Container>
+              </div>
             )}
           </>
         );
@@ -1081,19 +1081,24 @@ const ContractJobs = () => {
       ) : (
         <div className="contract-jobs-wrapper">
           {/* Back Button above heading */}
-          <div className="mb-2 px-4 bg-light">
-            <Button variant="btn btn-secondary mt-1" onClick={() => navigate(-1)}>
+
+          <div className="px-4 py-3">
+            {/* Row 1: Back Button */}
+            <Button className="mb-3" variant="outline-secondary" onClick={() => navigate(-1)}>
               <FaArrowLeft className="me-1" /> Back
             </Button>
+
+            {/* Row 2: Heading and Add Button */}
+            <div className="d-flex justify-content-between align-items-center">
+              <h4 className="fw-bold mb-0">Contract jobs</h4>
+              {activeTab === 'manage' && (
+                <Button className="btn btn-primary" onClick={handleAddNewContract}>
+                  Add new contract job
+                </Button>
+              )}
+            </div>
           </div>
-          <div className="d-flex justify-content-between align-items-center header-bar px-4 py-3">
-            <h4 className="fw-bold  mb-0">Contract jobs</h4>
-            {activeTab === 'manage' && (
-              <Button className="btn btn-primary" onClick={handleAddNewContract}>
-                Add new contract job
-              </Button>
-            )}
-          </div>
+
           <div className="tabs px-4">
             <div
               className={`tab ${activeTab === 'manage' ? 'active-tab' : ''}`}

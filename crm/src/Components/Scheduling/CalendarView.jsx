@@ -20,17 +20,20 @@ const CalendarView = () => {
   return (
     <div className="container-fluid p-4">
       {/* Back Button above heading */}
-      <div className="mb-2">
-        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
-          <FaArrowLeft className="me-1" /> Back
-        </Button>
-      </div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        {/* You can remove the old back button here if present */}
-        <div></div>
-        <Button variant="primary" onClick={() => setShowModal(true)}>Add new allocation</Button>
-      </div>
-      <h4 className='fw-bold mt-3 mb-3'>Scheduling</h4>
+      {/* Row 1: Back Button */}
+<div className="mb-3">
+  <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+    <FaArrowLeft className="me-1" /> Back
+  </Button>
+</div>
+
+{/* Row 2: Heading + Add Button */}
+<div className="d-flex justify-content-between align-items-center mb-3">
+  <h4 className="fw-bold mb-0">Scheduling</h4>
+  <Button variant="primary" onClick={() => setShowModal(true)}>
+    Add new allocation
+  </Button>
+</div>
 
       <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3 border-bottom">
         <Tab eventKey="calendar" title={<span className="fw-semibold">Corporate Calendar</span>}>
