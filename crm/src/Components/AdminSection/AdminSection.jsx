@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import "./AdminSection.css";
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import { FaChevronDown, FaChevronUp, FaCopy, FaBold, FaItalic } from 'react-icons/fa';
-
+import { FaChevronRight } from 'react-icons/fa';
 
 const initialUsers = [
     {
@@ -180,20 +180,11 @@ const initialResourceCost = [
 ];
 
 const AdminSection = () => {
-
-
-
-    // Yeh function button click par modal open karega
-
-    // Modal close karne ke liye
+    const [showCustomTemplates, setShowCustomTemplates] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const fileName = "Bon-Bon-Logo.png";
-    const fileUrl = "/uploads/Bon-Bon-Logo.png"; // Replace with the actual path or dynamic value
-
-    const handleView = () => {
-        window.open(fileUrl, "_blank");
-    };
-
+    const fileUrl = "/uploads/Bon-Bon-Logo.png";
+    const handleView = () => window.open(fileUrl, "_blank");
     const handleDownload = () => {
         const link = document.createElement("a");
         link.href = fileUrl;
@@ -202,57 +193,32 @@ const AdminSection = () => {
         link.click();
         document.body.removeChild(link);
     };
-
-
     const fileInputRef = useRef(null);
-
-    const handleClick = () => {
-        fileInputRef.current.click();
-    };
-
+    const handleClick = () => fileInputRef.current.click();
     const handleFileChange = (e) => {
         const files = e.target.files;
         console.log("Selected files:", files);
-        // You can handle file upload logic here
     };
-
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const [rates, setRates] = useState([
-        { name: 'Non taxable', rate: '0.000%' }
-    ]);
-
-    const handleAddRate = () => {
-        setRates([...rates, { name: '', rate: '' }]);
-    };
-
+    const [rates, setRates] = useState([{ name: 'Non taxable', rate: '0.000%' }]);
+    const handleAddRate = () => setRates([...rates, { name: '', rate: '' }]);
     const handleChange = (index, field, value) => {
         const updatedRates = [...rates];
         updatedRates[index][field] = value;
         setRates(updatedRates);
     };
-
     const [openDropdown, setOpenDropdown] = useState(null);
     const [text, setText] = useState("");
-
-    const toggleDropdown = (key) => {
-        setOpenDropdown((prev) => (prev === key ? null : key));
-    };
-
+    const toggleDropdown = (key) => setOpenDropdown((prev) => (prev === key ? null : key));
     const handleFormat = (tag) => {
         const selection = window.getSelection().toString();
         if (!selection) return;
         const formatted = `<${tag}>${selection}</${tag}>`;
         setText((prev) => prev.replace(selection, formatted));
     };
-
     const [showTerms, setShowTerms] = useState(false);
-
-
-
     const [subject, setSubject] = useState("Invoice #^InvoiceNumber^");
     const [message, setMessage] = useState(
         "Please find attached Invoice #^InvoiceNumber^ for our services.\n\nThank you,\n\n^UserName^"
@@ -268,13 +234,11 @@ const AdminSection = () => {
     const [showApiKey, setShowApiKey] = useState(false);
     const [apiKey, setApiKey] = useState('');
     const [copied, setCopied] = useState(false);
-
     const generateKey = () => {
         const newKey = '2b65ddacc34d9867d738793d8efd028e5359ff7061e18c609ac5a2a2f1ba';
         setApiKey(newKey);
         setShowApiKey(true);
     };
-
     const copyToClipboard = () => {
         navigator.clipboard.writeText(apiKey);
         setCopied(true);
@@ -283,8 +247,6 @@ const AdminSection = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [purchaseOrder, setPurchaseOrder] = useState(1);
     const [invoiceNumber, setInvoiceNumber] = useState(1);
-
-    // --- Structure tab state ---
     const [structureType, setStructureType] = useState("Departments");
     const [departments, setDepartments] = useState([
         "General/Corporate",
@@ -293,19 +255,13 @@ const AdminSection = () => {
         "fg",
     ]);
     const [newDept, setNewDept] = useState("");
-
-    const handleRemoveDept = (idx) => {
-        setDepartments(departments.filter((_, i) => i !== idx));
-    };
-
+    const handleRemoveDept = (idx) => setDepartments(departments.filter((_, i) => i !== idx));
     const handleAddDept = () => {
         if (newDept.trim()) {
             setDepartments([...departments, newDept.trim()]);
             setNewDept("");
         }
     };
-
-    // Users state
     const [users, setUsers] = useState(initialUsers);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -322,23 +278,15 @@ const AdminSection = () => {
         cell: "",
         empId: "",
     });
-
-    // Rates & Resources state
     const [showResourceCost, setShowResourceCost] = useState(true);
     const [showRoles, setShowRoles] = useState(true);
     const [roles, setRoles] = useState(initialRoles);
     const [resourceCost, setResourceCost] = useState(initialResourceCost);
     const [showRoleModal, setShowRoleModal] = useState(false);
     const [newRole, setNewRole] = useState({ name: "", billingRate: "", budgetRate: "" });
-
-    // Subscription state
     const [showSubStep1, setShowSubStep1] = useState(false);
     const [showSubStep2, setShowSubStep2] = useState(false);
-
-    // Customize tab state
     const [customizeTab, setCustomizeTab] = useState("features");
-
-    // Modal handlers
     const openAddModal = () => {
         setAddUserType("");
         setShowAddModal(true);
@@ -360,8 +308,6 @@ const AdminSection = () => {
         setSelectedUser(user);
         setShowOnboardingModal(true);
     };
-
-    // Add new role handler
     const handleAddRole = () => {
         if (!newRole.name.trim()) return;
         setRoles([
@@ -376,7 +322,53 @@ const AdminSection = () => {
         setNewRole({ name: "", billingRate: "", budgetRate: "" });
         setShowRoleModal(false);
     };
-
+    const [showHideJobs, setShowHideJobs] = useState(false);
+    const [hideClosedJobs, setHideClosedJobs] = useState(false);
+    const [hideClosedPhases, setHideClosedPhases] = useState(false);
+    const [hideBiddingJobs, setHideBiddingJobs] = useState(false);
+    const [showTimeTracking, setShowTimeTracking] = useState(false);
+    const [preventMobileEdit, setPreventMobileEdit] = useState(false);
+    const [enableOvertime, setEnableOvertime] = useState(false);
+    const [showDirectReports, setShowDirectReports] = useState(false);
+    const [firstDayOfWeek, setFirstDayOfWeek] = useState("Sunday");
+    const [fenceSize, setFenceSize] = useState(1);
+    const [showCostManagement, setShowCostManagement] = useState(false);
+    const [useActualCosts, setUseActualCosts] = useState(false);
+    const [enableFlexiblePOs, setEnableFlexiblePOs] = useState(false);
+    const [jobCostingStyle, setJobCostingStyle] = useState("Professional: Budget and plan in Knowify, then track labor and materials against budget line items");
+    const [showProjectManagement, setShowProjectManagement] = useState(false);
+    const [enableWip, setEnableWip] = useState(true);
+    const [factorWip, setFactorWip] = useState(false);
+    const [displayItemsOrder, setDisplayItemsOrder] = useState(false);
+    const [enablePhaseProgress, setEnablePhaseProgress] = useState(false);
+    const [hideClosedJobsWorkflow, setHideClosedJobsWorkflow] = useState(false);
+    const [showScheduling, setShowScheduling] = useState(false);
+    const [enableResourceBoard, setEnableResourceBoard] = useState(true);
+    const [enableJobBoard, setEnableJobBoard] = useState(false);
+    const [extendJobPhaseDates, setExtendJobPhaseDates] = useState(false);
+    const [schedulingFirstDay, setSchedulingFirstDay] = useState("");
+    const [showProposalMgmt, setShowProposalMgmt] = useState(false);
+    const [proposalValidDays, setProposalValidDays] = useState(30);
+    const [proposalEsignLink, setProposalEsignLink] = useState("View Proposal");
+    const [breakdownDefault, setBreakdownDefault] = useState("Show line item breakdown / bill of materials to customer");
+    const [outputStyle, setOutputStyle] = useState("Display line item subtotals");
+    const [invoicingStyle, setInvoicingStyle] = useState("Use a regular invoice - display line items to be invoiced only");
+    const [showJobDescBox, setShowJobDescBox] = useState(false);
+    const [enableDeposits, setEnableDeposits] = useState(false);
+    const [depositInvoiceDate, setDepositInvoiceDate] = useState("Project start date");
+    const [depositPaymentTerms, setDepositPaymentTerms] = useState("");
+    const [showAiaInvoicing, setShowAiaInvoicing] = useState(false);
+    const [enableAiaInvoicing, setEnableAiaInvoicing] = useState(true);
+    const [aiaDefaultStyle, setAiaDefaultStyle] = useState("Enter completed work (in $) to be Invoiced in the pay app (no stored materials)");
+    const [showCostPlus, setShowCostPlus] = useState(false);
+    const [enableCostPlus, setEnableCostPlus] = useState(false);
+    const [showPartsInventory, setShowPartsInventory] = useState(false);
+    const [showDefaultPaymentTerms, setShowDefaultPaymentTerms] = useState(false);
+    const [showDefaultPOAddress, setShowDefaultPOAddress] = useState(false);
+    const [showPhoneReminders, setShowPhoneReminders] = useState(false);
+    const [showSubmittals, setShowSubmittals] = useState(false);
+    const [isNumberingOpen, setIsNumberingOpen] = useState(false);
+    const [isLogoOpen, setIsLogoOpen] = useState(false);
     return (
         <div className="admin-company-form container py-4">
             <h3 className="mb-4">Admin</h3>
@@ -679,86 +671,86 @@ const AdminSection = () => {
                         </div>
                     </div>
                 </div>
-              <div className="tab-pane fade" id="users" role="tabpanel">
-  {/* Controls Row */}
-  <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-    <input
-      className="form-control"
-      style={{ maxWidth: 200 }}
-      placeholder="Search"
-    />
-    
-    <button className="btn btn-primary" onClick={openAddModal}>
-      + Add User
-    </button>
+                <div className="tab-pane fade" id="users" role="tabpanel">
+                    {/* Controls Row */}
+                    <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <input
+                            className="form-control"
+                            style={{ maxWidth: 200 }}
+                            placeholder="Search"
+                        />
 
-    <div className="form-check ms-2">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id="showInactive"
-      />
-      <label className="form-check-label" htmlFor="showInactive">
-        Show Inactive
-      </label>
-    </div>
+                        <button className="btn btn-primary" onClick={openAddModal}>
+                            + Add User
+                        </button>
 
-    <div className="ms-auto mt-2 mt-sm-0">
-      <span style={{ fontSize: 12 }}>Regular (6), No access (7)</span>
-    </div>
-  </div>
+                        <div className="form-check ms-2">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="showInactive"
+                            />
+                            <label className="form-check-label" htmlFor="showInactive">
+                                Show Inactive
+                            </label>
+                        </div>
 
-  {/* Responsive Table Wrapper */}
-  <div className="table-responsive">
-    <table className="table table-borderless align-middle">
-      <tbody>
-        {users.map((user, idx) => (
-          <tr key={user.id}>
-            <td>
-              <span
-                style={{
-                  color: user.onboarding ? "#2eafec" : "#222",
-                }}
-              >
-                <i className="bi bi-person-fill me-1" />
-                {user.name}
-              </span>
-            </td>
-            <td>{user.role}</td>
-            <td>
-              {user.onboarding && (
-                <span
-                  className="badge bg-light text-dark"
-                  style={{ cursor: "pointer", fontSize: 11 }}
-                  onClick={() => openOnboardingModal(user)}
-                >
-                  <i className="bi bi-info-circle me-1" />
-                  INCOMPLETE MOBILE ONBOARDING
-                </span>
-              )}
-            </td>
-            <td className="text-end">
-              <button
-                className="btn btn-link btn-sm"
-                title="Edit"
-                onClick={() => openEditModal(user)}
-              >
-                <i className="bi bi-pencil-square" />
-              </button>
-              <button
-                className="btn btn-link btn-sm"
-                title="Message"
-                disabled
-              >
-                <i className="bi bi-envelope" />
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
+                        <div className="ms-auto mt-2 mt-sm-0">
+                            <span style={{ fontSize: 12 }}>Regular (6), No access (7)</span>
+                        </div>
+                    </div>
+
+                    {/* Responsive Table Wrapper */}
+                    <div className="table-responsive">
+                        <table className="table table-borderless align-middle">
+                            <tbody>
+                                {users.map((user, idx) => (
+                                    <tr key={user.id}>
+                                        <td>
+                                            <span
+                                                style={{
+                                                    color: user.onboarding ? "#2eafec" : "#222",
+                                                }}
+                                            >
+                                                <i className="bi bi-person-fill me-1" />
+                                                {user.name}
+                                            </span>
+                                        </td>
+                                        <td>{user.role}</td>
+                                        <td>
+                                            {user.onboarding && (
+                                                <span
+                                                    className="badge bg-light text-dark"
+                                                    style={{ cursor: "pointer", fontSize: 11 }}
+                                                    onClick={() => openOnboardingModal(user)}
+                                                >
+                                                    <i className="bi bi-info-circle me-1" />
+                                                    INCOMPLETE MOBILE ONBOARDING
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td className="text-end">
+                                            <button
+                                                className="btn btn-link btn-sm"
+                                                title="Edit"
+                                                onClick={() => openEditModal(user)}
+                                            >
+                                                <i className="bi bi-pencil-square" />
+                                            </button>
+                                            <button
+                                                className="btn btn-link btn-sm"
+                                                title="Message"
+                                                disabled
+                                            >
+                                                <i className="bi bi-envelope" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
                 <div className="tab-pane fade" id="rates" role="tabpanel">
                     {/* Resource Cost Section */}
@@ -968,13 +960,23 @@ const AdminSection = () => {
                                     <div>
                                         Every business is different, that is why you can adjust Knowify to fit your particular needs. Contact us at support@knowify.com if you would like us to help you. Our setup is complimentary!
                                     </div>
+
                                     <div className="mt-2">
+
                                         <div>
-                                            <div onClick={() => setIsOpen(!isOpen)} style={{ cursor: "pointer", fontWeight: "bold" }}>
-                                                ▶ Company Logo
+                                            <div
+                                                onClick={() => setIsLogoOpen((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                            >
+                                                {isLogoOpen ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Company Logo
                                             </div>
 
-                                            {isOpen && (
+                                            {isLogoOpen && (
                                                 <div style={{ border: "1px solid #ccc", padding: "10px", marginTop: "10px", backgroundColor: "#f9f9f9" }}>
                                                     <p>
                                                         Upload the logo of your company here. We will include it in your
@@ -1000,14 +1002,55 @@ const AdminSection = () => {
                                             )}
                                         </div>
 
-                                        <div>&#x25B6;Custom Templates</div>
+                                        <div>
+                                            <div
+                                                onClick={() => setShowCustomTemplates((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showCustomTemplates ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Custom Templates
+                                            </div>
+                                            {showCustomTemplates && (
+                                                <div className="ps-3 pb-2">
+                                                    <div>
+                                                        Interested in our custom templates? Contact <a href="mailto:support@knowify.com">support@knowify.com</a> for more info.<br />
+                                                        We can create custom templates for bids, estimates, invoices and purchase orders.
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <a
+                                                            href="https://www.knowify.com/custom-templates/"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            style={{ color: "#2eafec", textDecoration: "underline", fontSize: 15, display: "flex", alignItems: "center" }}
+                                                        >
+                                                            <i className="bi bi-camera-video-fill me-1" style={{ fontSize: 18 }} />
+                                                            Learn more about our custom templates
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
 
                                         <div>
-                                            <div className="dropdown-header" onClick={() => setIsOpen(!isOpen)}>
-                                                ▶ Numbering
+                                            <div
+                                                className="dropdown-header"
+                                                onClick={() => setIsNumberingOpen((v) => !v)}
+                                                style={{ display: "flex", alignItems: "center", cursor: "pointer", fontWeight: "bold" }}
+                                            >
+                                                {isNumberingOpen ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Numbering
                                             </div>
 
-                                            {isOpen && (
+                                            {isNumberingOpen && (
                                                 <div className="dropdown-container">
                                                     <div className="form-group">
                                                         <label>
@@ -1037,19 +1080,770 @@ const AdminSection = () => {
                                             )}
                                         </div>
 
-                                        <div>&#x25B6; Hide/Display Jobs</div>
-                                        <div>&#x25B6; Time Tracking</div>
-                                        <div>&#x25B6; Cost Management</div>
-                                        <div>&#x25B6; Project Management</div>
-                                        <div>&#x25B6; Scheduling</div>
-                                        <div>&#x25B6; Proposal Management & Deposits</div>
-                                        <div>&#x25B6; AIA-style Invoicing (pay apps)</div>
-                                        <div>&#x25B6; Cost Plus with Schedule of Values Invoicing</div>
-                                        <div>&#x25B6; Parts Inventory <span className="badge bg-primary ms-1" style={{ fontSize: 10 }}>UNLIMITED</span></div>
-                                        <div>&#x25B6; Default Payment Terms</div>
-                                        <div>&#x25B6; Default Address for POs</div>
-                                        <div>&#x25B6; Phone Reminders</div>
-                                        <div>&#x25B6; Submittals <span className="badge bg-primary ms-1" style={{ fontSize: 10 }}>UNLIMITED</span></div>
+                                        <div>
+                                            <div
+                                                onClick={() => setShowHideJobs((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showHideJobs ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Hide/Display Jobs
+                                            </div>
+                                            {showHideJobs && (
+                                                <div className="ps-3 pb-2">
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="hideClosedJobs"
+                                                            checked={hideClosedJobs}
+                                                            onChange={() => setHideClosedJobs((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="hideClosedJobs">
+                                                            Hide closed jobs for job costing purposes.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="hideClosedPhases"
+                                                            checked={hideClosedPhases}
+                                                            onChange={() => setHideClosedPhases((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="hideClosedPhases">
+                                                            Hide closed phases for job costing purposes.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="hideBiddingJobs"
+                                                            checked={hideBiddingJobs}
+                                                            onChange={() => setHideBiddingJobs((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="hideBiddingJobs">
+                                                            Hide bidding jobs in the smartphone app.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowTimeTracking((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showTimeTracking ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Time Tracking
+                                            </div>
+                                            {showTimeTracking && (
+                                                <div className="ps-3 pb-2">
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="preventMobileEdit"
+                                                            checked={preventMobileEdit}
+                                                            onChange={() => setPreventMobileEdit((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="preventMobileEdit">
+                                                            Prevent mobile users from manually adding or editing time
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableOvertime"
+                                                            checked={enableOvertime}
+                                                            onChange={() => setEnableOvertime((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableOvertime">
+                                                            Enable overtime tracking
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="showDirectReports"
+                                                            checked={showDirectReports}
+                                                            onChange={() => setShowDirectReports((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="showDirectReports">
+                                                            Show only direct reports by default when reviewing time
+                                                        </label>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label htmlFor="firstDayOfWeek" className="form-label">
+                                                            First day of the week in timecards / payroll
+                                                        </label>
+                                                        <select
+                                                            id="firstDayOfWeek"
+                                                            className="form-select"
+                                                            style={{ maxWidth: 200 }}
+                                                            value={firstDayOfWeek}
+                                                            onChange={e => setFirstDayOfWeek(e.target.value)}
+                                                        >
+                                                            <option>Sunday</option>
+                                                            <option>Monday</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            Fence size for check in/out purposes: {fenceSize} miles
+                                                        </label>
+                                                        <input
+                                                            type="range"
+                                                            min={0.05}
+                                                            max={1}
+                                                            step={0.01}
+                                                            value={fenceSize}
+                                                            onChange={e => setFenceSize(Number(e.target.value))}
+                                                            style={{ width: 250, display: "block" }}
+                                                        />
+                                                        <div className="d-flex justify-content-between" style={{ fontSize: 12, color: "#888" }}>
+                                                            <span>0.05 mi</span>
+                                                            <span>1.00 mi</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mb-3">
+                                                        <iframe
+                                                            title="Fence Map"
+                                                            src="https://maps.google.com/maps?q=34.2083,-118.3962&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                                            style={{ width: "100%", height: "150px", border: "0" }}
+                                                            allowFullScreen=""
+                                                            loading="lazy"
+                                                        ></iframe>
+                                                    </div>
+                                                    <button className="btn btn-success">Save Changes</button>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowCostManagement((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showCostManagement ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Cost Management
+                                            </div>
+                                            {showCostManagement && (
+                                                <div className="ps-3 pb-2">
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="useActualCosts"
+                                                            checked={useActualCosts}
+                                                            onChange={() => setUseActualCosts((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="useActualCosts">
+                                                            Use actual costs instead of committed costs when calculating job performance.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableFlexiblePOs"
+                                                            checked={enableFlexiblePOs}
+                                                            onChange={() => setEnableFlexiblePOs((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableFlexiblePOs">
+                                                            Enable ability to create flexible POs with multiple items. These POs do not specify the quantity of ordered items, just the total cost, and they remain open until you decide to close them manually.
+                                                        </label>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label" htmlFor="jobCostingStyle">
+                                                            Default job costing style
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            id="jobCostingStyle"
+                                                            value={jobCostingStyle}
+                                                            onChange={e => setJobCostingStyle(e.target.value)}
+                                                        >
+                                                            <option>Simple: Bid first, then track labor and materials at the job level</option>
+                                                            <option>Advanced: Bid first, then track labor and materials against each of the bid line items</option>
+                                                            <option>Professional: Budget and plan in Knowify, then track labor and materials against budget line items</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowProjectManagement((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showProjectManagement ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Project Management
+                                            </div>
+                                            {showProjectManagement && (
+                                                <div className="ps-3 pb-2">
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableWip"
+                                                            checked={enableWip}
+                                                            onChange={() => setEnableWip((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableWip">
+                                                            Enable Work-In-Progress in jobs with budget
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="factorWip"
+                                                            checked={factorWip}
+                                                            onChange={() => setFactorWip((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="factorWip">
+                                                            Factor Work-In-Progress in profit calculations
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="displayItemsOrder"
+                                                            checked={displayItemsOrder}
+                                                            onChange={() => setDisplayItemsOrder((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="displayItemsOrder">
+                                                            Display items in plan &amp; track view in the same order as they are entered
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enablePhaseProgress"
+                                                            checked={enablePhaseProgress}
+                                                            onChange={() => setEnablePhaseProgress((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enablePhaseProgress">
+                                                            Enable progress at phase level
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="hideClosedJobsWorkflow"
+                                                            checked={hideClosedJobsWorkflow}
+                                                            onChange={() => setHideClosedJobsWorkflow((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="hideClosedJobsWorkflow">
+                                                            Hide closed jobs in workflow board
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowScheduling((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showScheduling ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Scheduling
+                                            </div>
+                                            {showScheduling && (
+                                                <div className="ps-3 pb-2">
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableResourceBoard"
+                                                            checked={enableResourceBoard}
+                                                            onChange={() => setEnableResourceBoard((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableResourceBoard">
+                                                            Enable access to resource board
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableJobBoard"
+                                                            checked={enableJobBoard}
+                                                            onChange={() => setEnableJobBoard((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableJobBoard">
+                                                            Enable access to Job board
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="extendJobPhaseDates"
+                                                            checked={extendJobPhaseDates}
+                                                            onChange={() => setExtendJobPhaseDates((v) => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="extendJobPhaseDates">
+                                                            Extend job phase dates when a resource is scheduled for that phase outside the current data range
+                                                        </label>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label" htmlFor="schedulingFirstDay">
+                                                            First day of the week in scheduling tools
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            id="schedulingFirstDay"
+                                                            value={schedulingFirstDay}
+                                                            onChange={e => setSchedulingFirstDay(e.target.value)}
+                                                            style={{ maxWidth: 150 }}
+                                                        >
+                                                            <option value="">Select...</option>
+                                                            <option value="Sunday">Sunday</option>
+                                                            <option value="Monday">Monday</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowProposalMgmt((v) => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showProposalMgmt ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Proposal Management &amp; Deposits
+                                            </div>
+                                            {showProposalMgmt && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 400 }}>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            How many days are proposals valid for by default
+                                                        </label>
+                                                        <input
+                                                            type="number"
+                                                            className="form-control"
+                                                            value={proposalValidDays}
+                                                            onChange={e => setProposalValidDays(e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            Custom link for e-signature emails (ex: View Proposal)
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            value={proposalEsignLink}
+                                                            onChange={e => setProposalEsignLink(e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            Default for breakdown / bill of materials
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            value={breakdownDefault}
+                                                            onChange={e => setBreakdownDefault(e.target.value)}
+                                                        >
+                                                            <option>Show line item breakdown / bill of materials to customer</option>
+                                                            <option>Hide line item breakdown / bill of materials from customer</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            Default for output style
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            value={outputStyle}
+                                                            onChange={e => setOutputStyle(e.target.value)}
+                                                        >
+                                                            <option>Display line item subtotals</option>
+                                                            <option>Display only grand total</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            Default for invoicing style
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            value={invoicingStyle}
+                                                            onChange={e => setInvoicingStyle(e.target.value)}
+                                                        >
+                                                            <option>Use a regular invoice - display line items to be invoiced only</option>
+                                                            <option>Use a summary invoice - display only totals</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="showJobDescBox"
+                                                            checked={showJobDescBox}
+                                                            onChange={() => setShowJobDescBox(v => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="showJobDescBox">
+                                                            Display job description box in fixed price jobs.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableDeposits"
+                                                            checked={enableDeposits}
+                                                            onChange={() => setEnableDeposits(v => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableDeposits">
+                                                            Enable deposits in contract jobs.
+                                                        </label>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">
+                                                            Default invoice date for deposits
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            value={depositInvoiceDate}
+                                                            onChange={e => setDepositInvoiceDate(e.target.value)}
+                                                        >
+                                                            <option>Project start date</option>
+                                                            <option>Contract signed date</option>
+                                                            <option>Proposal accepted date</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="mb-3">
+                                                        <label className="form-label">
+                                                            Default payment terms for deposits
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            value={depositPaymentTerms}
+                                                            onChange={e => setDepositPaymentTerms(e.target.value)}
+                                                        >
+                                                            <option value="">Select...</option>
+                                                            <option>Due on receipt</option>
+                                                            <option>Net 7</option>
+                                                            <option>Net 15</option>
+                                                            <option>Net 30</option>
+                                                        </select>
+                                                    </div>
+                                                    <button className="btn btn-success">Save Changes</button>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowAiaInvoicing(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showAiaInvoicing ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                AIA-style Invoicing (pay apps)
+                                            </div>
+                                            {showAiaInvoicing && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 500 }}>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableAiaInvoicing"
+                                                            checked={enableAiaInvoicing}
+                                                            onChange={() => setEnableAiaInvoicing(v => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableAiaInvoicing">
+                                                            Enable AIA-style Invoicing.
+                                                        </label>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label" htmlFor="aiaDefaultStyle">
+                                                            Default Invoicing style
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            id="aiaDefaultStyle"
+                                                            value={aiaDefaultStyle}
+                                                            onChange={e => setAiaDefaultStyle(e.target.value)}
+                                                        >
+                                                            <option>Enter completed work (in $) to be Invoiced in the pay app (no stored materials)</option>
+                                                            <option>Enter completed work and stored materials (in $) to be Invoiced in the pay app</option>
+                                                            <option>Enter percent complete for each line item to be Invoiced in the pay app</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowCostPlus(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showCostPlus ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Cost Plus with Schedule of Values Invoicing
+                                            </div>
+                                            {showCostPlus && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 600 }}>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="enableCostPlus"
+                                                            checked={enableCostPlus}
+                                                            onChange={() => setEnableCostPlus(v => !v)}
+                                                        />
+                                                        <label className="form-check-label" htmlFor="enableCostPlus">
+                                                            Enable Cost Plus contracts with Invoicing based on a schedules of values plus a pre-defined markup.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowPartsInventory(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showPartsInventory ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Parts Inventory
+                                                <span className="badge bg-primary ms-1" style={{ fontSize: 10, marginLeft: 8 }}>UNLIMITED</span>
+                                            </div>
+                                            {showPartsInventory && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 700 }}>
+                                                    <div className="mb-2" style={{ fontSize: 14 }}>
+                                                        <span className="badge bg-success me-2" style={{ fontSize: 10, verticalAlign: "middle" }}>UNLIMITED</span>
+                                                        Track locations/trucks, parts and inventory quantities
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <a
+                                                            href="#"
+                                                            style={{ color: "#2eafec", textDecoration: "underline", fontSize: 15 }}
+                                                        >
+                                                            Click here to request a call from a product expert to review the Unlimited plan.
+                                                        </a>
+                                                    </div>
+                                                    <div className="mb-2" style={{ fontSize: 13, color: "#222" }}>
+                                                        <em>
+                                                            Learn more about parts inventory management{" "}
+                                                            <a href="#" style={{ color: "#2eafec", textDecoration: "underline" }}>here</a>.
+                                                        </em>
+                                                    </div>
+                                                    <div style={{ fontSize: 12, color: "#444" }}>
+                                                        <em>
+                                                            *Upgrading your plan will increase the price of your subscription. Click{" "}
+                                                            <a href="#" style={{ color: "#2eafec", textDecoration: "underline" }}>
+                                                                here
+                                                            </a>{" "}
+                                                            to view the advantages of each plan and their prices.
+                                                        </em>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowDefaultPaymentTerms(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showDefaultPaymentTerms ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Default Payment Terms
+                                            </div>
+                                            {showDefaultPaymentTerms && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 300 }}>
+                                                    <select className="form-select">
+                                                        <option>NET 15</option>
+                                                        <option>NET 30</option>
+                                                        <option>NET 45</option>
+                                                        <option>NET 60</option>
+                                                    </select>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowDefaultPOAddress(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showDefaultPOAddress ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Default Address for POs
+                                            </div>
+                                            {showDefaultPOAddress && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 350 }}>
+                                                    <div className="form-check mb-2">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            id="useJobsiteAddress"
+                                                        />
+                                                        <label className="form-check-label" htmlFor="useJobsiteAddress">
+                                                            Use Jobsite address as default for purchase orders.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowPhoneReminders(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showPhoneReminders ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Phone Reminders
+                                            </div>
+                                            {showPhoneReminders && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 350 }}>
+                                                    <div className="form-check mb-2">
+                                                        <input className="form-check-input" type="checkbox" id="remindCheckIn" />
+                                                        <label className="form-check-label" htmlFor="remindCheckIn">
+                                                            Check In
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check mb-2">
+                                                        <input className="form-check-input" type="checkbox" id="remindCheckOut" defaultChecked />
+                                                        <label className="form-check-label" htmlFor="remindCheckOut">
+                                                            Check Out
+                                                        </label>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">Type</label>
+                                                        <select className="form-select">
+                                                            <option>At Scheduled Time</option>
+                                                            <option>Before Scheduled Time</option>
+                                                            <option>After Scheduled Time</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <label className="form-label">At</label>
+                                                        <input className="form-control" type="text" value="8:00 PM" readOnly />
+                                                    </div>
+                                                    <button className="btn btn-success">Save Changes</button>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <div
+                                                onClick={() => setShowSubmittals(v => !v)}
+                                                style={{ cursor: "pointer", fontWeight: "bold", display: "flex", alignItems: "center" }}
+                                                className="mb-2"
+                                            >
+                                                {showSubmittals ? (
+                                                    <FaChevronDown style={{ marginRight: 4 }} />
+                                                ) : (
+                                                    <FaChevronRight style={{ marginRight: 4 }} />
+                                                )}
+                                                Submittals
+                                                <span className="badge bg-primary ms-1" style={{ fontSize: 10, marginLeft: 8 }}>UNLIMITED</span>
+                                            </div>
+                                            {showSubmittals && (
+                                                <div className="ps-3 pb-2" style={{ maxWidth: 700 }}>
+                                                    <div className="mb-2" style={{ fontSize: 14 }}>
+                                                        <span className="badge bg-success me-2" style={{ fontSize: 10, verticalAlign: "middle" }}>UNLIMITED</span>
+                                                        Request submittals from subs
+                                                    </div>
+                                                    <div className="mb-2">
+                                                        <a
+                                                            href="#"
+                                                            style={{ color: "#2eafec", textDecoration: "underline", fontSize: 15 }}
+                                                        >
+                                                            Click here to request a call from a product expert to review the Unlimited plan.
+                                                        </a>
+                                                    </div>
+                                                    <div className="mb-2" style={{ fontSize: 13, color: "#222" }}>
+                                                        <em>
+                                                            You can learn more about our submittals feature{" "}
+                                                            <a href="#" style={{ color: "#2eafec", textDecoration: "underline" }}>here</a>.
+                                                        </em>
+                                                    </div>
+                                                    <div style={{ fontSize: 12, color: "#444" }}>
+                                                        <em>
+                                                            *Upgrading your plan will increase the price of your subscription. Click{" "}
+                                                            <a href="#" style={{ color: "#2eafec", textDecoration: "underline" }}>
+                                                                here
+                                                            </a>{" "}
+                                                            to view the advantages of each plan and their prices.
+                                                        </em>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </>
                             )}
@@ -1473,58 +2267,58 @@ const AdminSection = () => {
                     </div>
                 </div>
                 <div className="tab-pane fade" id="quickbooks" role="tabpanel">
-                   <div className="container py-4">
-  <h5>QuickBooks Connection</h5>
+                    <div className="container py-4">
+                        <h5>QuickBooks Connection</h5>
 
-  {/* Responsive Layout */}
-  <div className="row gy-3 mb-4">
-    {/* Left Side Boxes */}
-    <div className="col-12 col-lg-8">
-      <div className="row g-3">
-        {/* Box 1 */}
-        <div className="col-12 col-md-6">
-          <div className="border rounded p-3 h-100" style={{ background: "#fafbfc" }}>
-            <div className="text-danger mb-2 fw-semibold">Not Connected to QuickBooks</div>
-            <hr className="my-2" />
-            <div className="text-muted" style={{ fontSize: 13 }}>Status</div>
-          </div>
-        </div>
-        {/* Box 2 */}
-        <div className="col-12 col-md-6">
-          <div className="border rounded p-3 h-100" style={{ background: "#fafbfc" }}>
-            <div className="mb-2 fw-semibold">Would you like to connect? Click here:</div>
-            <button className="btn btn-primary mb-2 w-100">Connect to QuickBooks</button>
-            <hr className="my-2" />
-            <div className="text-muted" style={{ fontSize: 13 }}>What to do now?</div>
-          </div>
-        </div>
-      </div>
-    </div>
+                        {/* Responsive Layout */}
+                        <div className="row gy-3 mb-4">
+                            {/* Left Side Boxes */}
+                            <div className="col-12 col-lg-8">
+                                <div className="row g-3">
+                                    {/* Box 1 */}
+                                    <div className="col-12 col-md-6">
+                                        <div className="border rounded p-3 h-100" style={{ background: "#fafbfc" }}>
+                                            <div className="text-danger mb-2 fw-semibold">Not Connected to QuickBooks</div>
+                                            <hr className="my-2" />
+                                            <div className="text-muted" style={{ fontSize: 13 }}>Status</div>
+                                        </div>
+                                    </div>
+                                    {/* Box 2 */}
+                                    <div className="col-12 col-md-6">
+                                        <div className="border rounded p-3 h-100" style={{ background: "#fafbfc" }}>
+                                            <div className="mb-2 fw-semibold">Would you like to connect? Click here:</div>
+                                            <button className="btn btn-primary mb-2 w-100">Connect to QuickBooks</button>
+                                            <hr className="my-2" />
+                                            <div className="text-muted" style={{ fontSize: 13 }}>What to do now?</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-    {/* Right Side Text */}
-    <div className="col-12 col-lg-4">
-      <div className="mb-2" style={{ color: "#2eafec", fontWeight: 600, fontSize: 16 }}>Why?</div>
-      <div style={{ fontSize: 14 }}>
-        BonBon seamlessly integrates with QuickBooks. If you sync with your QuickBooks account now, Knowify will import your QuickBooks list of employees, clients, vendors, products, services and taxes, and will sync new bills and invoices.
-        <br /><br />
-        <span style={{ color: "#222" }}>
-          <strong>Important note:</strong> The import process might take up to 5 minutes, depending on the size of your QuickBooks account. Knowify will only import data from QuickBooks. No data will be changed or removed in your QuickBooks account.
-        </span>
-      </div>
-    </div>
-  </div>
+                            {/* Right Side Text */}
+                            <div className="col-12 col-lg-4">
+                                <div className="mb-2" style={{ color: "#2eafec", fontWeight: 600, fontSize: 16 }}>Why?</div>
+                                <div style={{ fontSize: 14 }}>
+                                    BonBon seamlessly integrates with QuickBooks. If you sync with your QuickBooks account now, Knowify will import your QuickBooks list of employees, clients, vendors, products, services and taxes, and will sync new bills and invoices.
+                                    <br /><br />
+                                    <span style={{ color: "#222" }}>
+                                        <strong>Important note:</strong> The import process might take up to 5 minutes, depending on the size of your QuickBooks account. Knowify will only import data from QuickBooks. No data will be changed or removed in your QuickBooks account.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
-  {/* Info Alert Box */}
-  <div className="alert alert-info d-flex flex-column flex-md-row align-items-start align-items-md-center p-3 gap-3" style={{ background: "#f5faff", borderColor: "#e3f0fb" }}>
-    <i className="bi bi-info-circle" style={{ fontSize: 20, color: "#2eafec" }}></i>
-    <div className="flex-grow-1">
-      <strong>Interested in QuickBooks Online?</strong>
-      <br />
-      With our partnership with Intuit, we can bundle Knowify and QuickBooks Online and offer a price no one can beat.
-    </div>
-    <a href="#" className="text-decoration-underline text-primary" style={{ fontSize: 14 }}>Learn more</a>
-  </div>
-</div>
+                        {/* Info Alert Box */}
+                        <div className="alert alert-info d-flex flex-column flex-md-row align-items-start align-items-md-center p-3 gap-3" style={{ background: "#f5faff", borderColor: "#e3f0fb" }}>
+                            <i className="bi bi-info-circle" style={{ fontSize: 20, color: "#2eafec" }}></i>
+                            <div className="flex-grow-1">
+                                <strong>Interested in QuickBooks Online?</strong>
+                                <br />
+                                With our partnership with Intuit, we can bundle Knowify and QuickBooks Online and offer a price no one can beat.
+                            </div>
+                            <a href="#" className="text-decoration-underline text-primary" style={{ fontSize: 14 }}>Learn more</a>
+                        </div>
+                    </div>
 
                 </div>
                 <div className="tab-pane fade" id="subscription" role="tabpanel">
@@ -1815,114 +2609,114 @@ const AdminSection = () => {
             )}
 
             {/* Edit User Modal */}
-          {showEditModal && (
-    <div className="modal d-block" tabIndex="-1">
-        <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title">Update User</h5>
-                    <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
-                </div>
-                <div className="modal-body">
-                    <div className="row g-3">
-                        <div className="col-md-6">
-                            <label>Type of Access</label>
-                            <select className="form-select" value={editUser.type} onChange={(e) => setEditUser({ ...editUser, type: e.target.value })}>
-                                <option>User with no access to Knowify</option>
-                                <option>User with regular access to Knowify</option>
-                            </select>
-                        </div>
-                        <div className="col-md-6">
-                            <label>Role</label>
-                            <input className="form-control" value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })} />
-                        </div>
-                        <div className="col-md-6">
-                            <label>First Name</label>
-                            <input className="form-control" value={editUser.firstName} onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })} />
-                        </div>
-                        <div className="col-md-6">
-                            <label>Last Name</label>
-                            <input className="form-control" value={editUser.lastName} onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })} />
-                        </div>
-                        <div className="col-md-6">
-                            <label>Email</label>
-                            <input className="form-control" value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
-                        </div>
-                        <div className="col-md-6">
-                            <label>Department</label>
-                            <select className="form-select" value={editUser.department} onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}>
-                                <option>General/Corporate</option>
-                                <option>Finance</option>
-                                <option>Engineering</option>
-                            </select>
-                        </div>
-                        <div className="col-md-6">
-                            <label>Direct Manager</label>
-                            <select className="form-select" value={editUser.manager} onChange={(e) => setEditUser({ ...editUser, manager: e.target.value })}>
-                                <option>None</option>
-                                <option>Manager A</option>
-                                <option>Manager B</option>
-                            </select>
-                        </div>
-                        <div className="col-md-6">
-                            <label>Enable Approval Authority</label>
-                            <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" checked={editUser.approval} onChange={(e) => setEditUser({ ...editUser, approval: e.target.checked })} />
+            {showEditModal && (
+                <div className="modal d-block" tabIndex="-1">
+                    <div className="modal-dialog modal-xl">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Update User</h5>
+                                <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
                             </div>
-                        </div>
-                        <div className="col-md-6">
-                            <label>Cell Phone (optional)</label>
-                            <input className="form-control" value={editUser.cell} onChange={(e) => setEditUser({ ...editUser, cell: e.target.value })} />
-                        </div>
-                        <div className="col-md-6">
-                            <label>Employee ID (optional)</label>
-                            <input className="form-control" value={editUser.empId} onChange={(e) => setEditUser({ ...editUser, empId: e.target.value })} />
-                        </div>
-                    </div>
-
-                    <div className="mt-4">
-                        <h6>This User...</h6>
-                        <div className="row g-2">
-                            {[
-                                'is responsible for managing vendor bills',
-                                'is responsible for invoicing clients',
-                                'tracks their time',
-                                'manages client agreements',
-                                'schedules company resources',
-                                'views employee rates and job financials',
-                                'can access QuickBooks or is your accountant',
-                                'is a foreman or can approve time cards',
-                                'manages or estimates jobs',
-                                'is a Knowify system administrator'
-                            ].map((label, index) => (
-                                <div className="col-md-6" key={index}>
-                                    <div className="form-check">
-                                        <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            checked={editUser.permissions?.includes(label)}
-                                            onChange={(e) => {
-                                                const updated = e.target.checked
-                                                    ? [...(editUser.permissions || []), label]
-                                                    : (editUser.permissions || []).filter(p => p !== label);
-                                                setEditUser({ ...editUser, permissions: updated });
-                                            }}
-                                        />
-                                        <label className="form-check-label">{label}</label>
+                            <div className="modal-body">
+                                <div className="row g-3">
+                                    <div className="col-md-6">
+                                        <label>Type of Access</label>
+                                        <select className="form-select" value={editUser.type} onChange={(e) => setEditUser({ ...editUser, type: e.target.value })}>
+                                            <option>User with no access to Knowify</option>
+                                            <option>User with regular access to Knowify</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Role</label>
+                                        <input className="form-control" value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>First Name</label>
+                                        <input className="form-control" value={editUser.firstName} onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Last Name</label>
+                                        <input className="form-control" value={editUser.lastName} onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Email</label>
+                                        <input className="form-control" value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Department</label>
+                                        <select className="form-select" value={editUser.department} onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}>
+                                            <option>General/Corporate</option>
+                                            <option>Finance</option>
+                                            <option>Engineering</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Direct Manager</label>
+                                        <select className="form-select" value={editUser.manager} onChange={(e) => setEditUser({ ...editUser, manager: e.target.value })}>
+                                            <option>None</option>
+                                            <option>Manager A</option>
+                                            <option>Manager B</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Enable Approval Authority</label>
+                                        <div className="form-check form-switch">
+                                            <input className="form-check-input" type="checkbox" checked={editUser.approval} onChange={(e) => setEditUser({ ...editUser, approval: e.target.checked })} />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Cell Phone (optional)</label>
+                                        <input className="form-control" value={editUser.cell} onChange={(e) => setEditUser({ ...editUser, cell: e.target.value })} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label>Employee ID (optional)</label>
+                                        <input className="form-control" value={editUser.empId} onChange={(e) => setEditUser({ ...editUser, empId: e.target.value })} />
                                     </div>
                                 </div>
-                            ))}
+
+                                <div className="mt-4">
+                                    <h6>This User...</h6>
+                                    <div className="row g-2">
+                                        {[
+                                            'is responsible for managing vendor bills',
+                                            'is responsible for invoicing clients',
+                                            'tracks their time',
+                                            'manages client agreements',
+                                            'schedules company resources',
+                                            'views employee rates and job financials',
+                                            'can access QuickBooks or is your accountant',
+                                            'is a foreman or can approve time cards',
+                                            'manages or estimates jobs',
+                                            'is a Knowify system administrator'
+                                        ].map((label, index) => (
+                                            <div className="col-md-6" key={index}>
+                                                <div className="form-check">
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        checked={editUser.permissions?.includes(label)}
+                                                        onChange={(e) => {
+                                                            const updated = e.target.checked
+                                                                ? [...(editUser.permissions || []), label]
+                                                                : (editUser.permissions || []).filter(p => p !== label);
+                                                            setEditUser({ ...editUser, permissions: updated });
+                                                        }}
+                                                    />
+                                                    <label className="form-check-label">{label}</label>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
+                                <button className="btn btn-primary">Save Changes</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-                    <button className="btn btn-primary">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-)}
+            )}
 
             {/* Incomplete Mobile Onboarding Modal */}
             {showOnboardingModal && selectedUser && (
