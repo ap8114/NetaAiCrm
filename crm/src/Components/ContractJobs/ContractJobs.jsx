@@ -5,6 +5,7 @@ import { Kanban, Plus } from 'react-bootstrap-icons';
 import { FaArrowLeft } from "react-icons/fa"; // Add this import
 import { useNavigate } from "react-router-dom";
 
+
 import './Jobs.css';
 
 // --- Kanban Workflow Data ---
@@ -1017,7 +1018,9 @@ const ContractJobs = () => {
                 {jobs.map((project, index) => (
                   <Row key={index} className="align-items-start border-bottom py-3">
                     <Col md={4}>
-                      <div className="fw-bold">{project.name}</div>
+                    
+                      <div className="fw-bold"><a href="/detail">{project.name}</a></div>
+                    
                       <div className="text-muted">for {project.client}</div>
                       <div className="text-muted small">{project.billing} — {project.phases}</div>
                       <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
