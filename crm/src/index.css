@@ -1,0 +1,9 @@
+.custom-hover-secondary {
+  color: #6c757d; /* Bootstrap secondary color */
+  border-color: #6c757d;
+}
+
+.custom-hover-secondary:hover {
+  background-color: #6c757d; /* secondary */
+  color: #fff; /* white text */
+}

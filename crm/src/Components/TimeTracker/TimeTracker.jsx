@@ -57,7 +57,7 @@ const TimeTracker = () => {
               </div>
               <div className="d-flex align-items-center">
                 <select className="form-select me-2" style={{ width: 200 }}>
-                  <option>Bon-Bon Admin</option>
+                  <option>BonBon Admin</option>
                   <option>Other User</option>
                 </select>
                 <Button variant="primary" onClick={() => setShowActivityModal(true)}>

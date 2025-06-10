@@ -230,17 +230,14 @@ export default function Tasks() {
   return (
     <div className="p-4">
       {/* Back Button above heading */}
-      <div className="mb-2">
+      <div className="mb-3">
         <Button variant="outline-secondary" onClick={() => navigate(-1)}>
           <FaArrowLeft className="me-1" /> Back
         </Button>
       </div>
       {/* Notification Bell */}
-      <div className="d-flex justify-content-end mb-2">
-        <Button variant="outline-warning" onClick={() => setShowNotif(false)}>
-          <FaBell className="me-2" />
-          {showNotif && <Badge bg="danger">!</Badge>}
-        </Button>
+      <div className="d-flex justify-content-left mb-2">
+       <h4>Task</h4>
       </div>
       <TaskAnalytics />
       <Tabs id="main-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-4">

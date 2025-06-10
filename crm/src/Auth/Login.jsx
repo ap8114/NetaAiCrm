@@ -133,7 +133,7 @@ const Login = () => {
               src={bonbo}
               alt="Login Visual"
               className="img-fluid w-100 h-100"
-              style={{ objectFit: "cover", borderTopRightRadius: "1.5rem", borderBottomRightRadius: "1.5rem" }}
+              style={{ objectFit: "cover", borderTopRightRadius: "1.5rem", borderBottomRightRadius: "1.5rem" , maxWidth: 900, minHeight: 480  }}
             />
           </div>
         </div>
