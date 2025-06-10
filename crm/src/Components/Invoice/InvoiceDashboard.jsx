@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Table, Form } from 'react-bootstrap';
-import { FaFileExport, FaCheckSquare, FaPrint, FaFilter, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa'; // Add FaArrowLeft
-import { useNavigate } from "react-router-dom"; // Add this import
+import { FaFileExport, FaCheckSquare, FaPrint, FaFilter, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
+import InvoiceDetailModal from './InvoiceDetailModal';
 
 const invoices = [
   {
@@ -29,36 +30,40 @@ const invoices = [
 const InvoiceDashboard = () => {
   const [activeTab, setActiveTab] = useState('invoices');
   const [showModal, setShowModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
   const navigate = useNavigate();
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
+  const handleOpenDetailModal = (invoice) => {
+    setSelectedInvoice(invoice);
+    setShowDetailModal(true);
+  };
+
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setSelectedInvoice(null);
+  };
+
   return (
     <div className="p-4">
-     {/* Back Button */}
-<div className="mb-3">
-  <Button variant="outline-secondary" onClick={() => navigate(-1)}>
-    <FaArrowLeft className="me-1" /> Back
-  </Button>
-</div>
+      {/* Back Button */}
+      <div className="mb-3">
+        <Button variant="outline-secondary" onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-1" /> Back
+        </Button>
+      </div>
 
-{/* Heading + Action Buttons */}
-<div className="d-flex justify-content-between align-items-center mb-4">
-  {/* Heading */}
-  <h4 className="fw-bold mb-0">Invoice</h4>
-
-  {/* Right-side buttons */}
-  <div className="d-flex gap-2">
-    <Button variant="outline-dark">
-      View report
-    </Button>
-    <Button variant="primary" onClick={handleOpenModal}>
-      Add new invoice
-    </Button>
-  </div>
-</div>
-
+      {/* Heading + Action Buttons */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h4 className="fw-bold mb-0">Invoice</h4>
+        <div className="d-flex gap-2">
+          <Button variant="outline-dark">View report</Button>
+          <Button variant="primary" onClick={handleOpenModal}>Add new invoice</Button>
+        </div>
+      </div>
 
       {/* Bootstrap Nav Tabs */}
       <ul className="nav nav-tabs mb-3">
@@ -128,7 +133,7 @@ const InvoiceDashboard = () => {
                     <td>{inv.balance}</td>
                     <td>{inv.total}</td>
                     <td>{inv.invoiceNumber}</td>
-                    <td>
+                    <td style={{ cursor: 'pointer' }} onClick={() => handleOpenDetailModal(inv)}>
                       {inv.client}<br />
                       <span className="text-muted">{inv.project}</span>
                     </td>
@@ -194,7 +199,7 @@ const InvoiceDashboard = () => {
         </div>
       )}
 
-      {/* Modal */}
+      {/* New Invoice Modal */}
       {showModal && (
         <div className="modal fade show" tabIndex="-1" style={{ display: 'block', background: 'rgba(0,0,0,0.2)' }}>
           <div className="modal-dialog modal-dialog-centered">
@@ -213,15 +218,20 @@ const InvoiceDashboard = () => {
                 </div>
                 <Form.Select size="lg" className="mb-2" style={{ fontSize: '1.1rem' }}>
                   <option>Type client or job</option>
-                  {/* Add options dynamically if needed */}
                 </Form.Select>
               </div>
             </div>
           </div>
         </div>
       )}
-      {/* Modal backdrop */}
       {showModal && <div className="modal-backdrop fade show"></div>}
+
+      {/* Invoice Detail Modal */}
+      <InvoiceDetailModal
+        show={showDetailModal}
+        handleClose={handleCloseDetailModal}
+        invoice={selectedInvoice}
+      />
     </div>
   );
 };

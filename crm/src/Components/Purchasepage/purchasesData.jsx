@@ -3,6 +3,7 @@ import { Table, Button, Form, InputGroup, Dropdown, Modal, Row, Col } from "reac
 import { FaRegCopy, FaEnvelopeOpenText, FaTrashAlt, FaChevronLeft, FaChevronRight, FaArrowLeft } from "react-icons/fa";
 import CopyFromSpreadsheetModal from './CopyFromSpreadsheetModal';
 import { useNavigate } from "react-router-dom";
+import PurchaseOrderModal from "./PurchaseOrderModal";
 
 const PurchasesData = [
   {
@@ -28,6 +29,8 @@ const PurchasesData = [
 ];
 
 function AddPurchaseModal({ show, onHide }) {
+
+
   const [items, setItems] = useState([
     { description: "", quantity: 1, unitCost: "", job: "" }
   ]);
@@ -38,6 +41,9 @@ function AddPurchaseModal({ show, onHide }) {
     newItems[index][field] = value;
     setItems(newItems);
   };
+
+ 
+
 
   const addItem = () => {
     setItems([...items, { description: "", quantity: 1, unitCost: "", job: "" }]);
@@ -233,6 +239,13 @@ export default function Purchases() {
   const [showAdd, setShowAdd] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const navigate = useNavigate(); // Add this line
+  const [showModal, setShowModal] = useState(false);
+  const [selectedLine, setSelectedLine] = useState(null);
+
+  const handleLineClick = (line) => {
+    setSelectedLine(line);
+    setShowModal(true);
+  };
 
   return (
     <div className="col-12 p-4 mt-4" style={{ overflowX: "hidden" }}>
@@ -299,9 +312,17 @@ export default function Purchases() {
               </td>
               <td>{row.date}</td>
               <td>
-                {row.allocated.map((line, i) => (
-                  <div key={i}>{line}</div>
-                ))}
+               {row.allocated.map((line, i) => (
+        <div key={i} onClick={() => handleLineClick(line)} style={{ cursor: 'pointer' }}>
+          {line}
+        </div>
+      ))}
+
+      <PurchaseOrderModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        line={selectedLine}/>
+
               </td>
               <td className="text-primary fw-bold">{row.amount}</td>
               <td>{row.po}</td>

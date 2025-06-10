@@ -190,7 +190,7 @@ const InternalProjects = () => {
             {projects.map((project, index) => (
               <tr key={index}>
                 <td>
-                  <div className="fw-semibold">{project.title}</div>
+                  <div className="fw-semibold"><a href="/UnallocatedTabs">{project.title}</a></div>
                   <div className="text-muted small">{project.subtitle}</div>
                 </td>
                 <td>
