@@ -58,8 +58,8 @@ function AppContent() {
 
 
         <Route path="/InternalProjects" element={<InternalProjects />} />
-        <Route path="/UnallocatedTabs" element={<UnallocatedTabs  />} />
-<Route path="/PurchaseOrderModal" element={<PurchaseOrderModal  />} />
+        <Route path="/UnallocatedTabs" element={<UnallocatedTabs />} />
+        <Route path="/PurchaseOrderModal" element={<PurchaseOrderModal />} />
 
         <Route path="/LeadOpportunities" element={<LeadOpportunities />} />
 
@@ -67,7 +67,7 @@ function AppContent() {
         <Route path="/purchasesData" element={<Purchases />} />
 
 
-          <Route path="/copyfromspreadsheetmodal" element={<CopyFromSpreadsheetModal />} />
+        <Route path="/copyfromspreadsheetmodal" element={<CopyFromSpreadsheetModal />} />
 
         <Route path="/ReportsPage" element={<Reports />} />
 
@@ -81,12 +81,12 @@ function AppContent() {
 
         <Route path="/InvoiceDashboard" element={<InvoiceDashboard />} />
 
-         <Route path="/TimeTracker" element={<TimeTracker />} />
-         
+        <Route path="/TimeTracker" element={<TimeTracker />} />
 
-         <Route path="/CalendarView" element={<CalendarView />} />
 
-         <Route path="/adminsection" element={<AdminSection />} />
+        <Route path="/CalendarView" element={<CalendarView />} />
+
+        <Route path="/adminsection" element={<AdminSection />} />
 
         {/* Auth routes */}
         <Route path="/" element={<Login />} />

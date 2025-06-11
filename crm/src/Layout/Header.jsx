@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // FontAwesome (fa)
 import { FaHome, FaUserFriends, FaClipboardList, FaReceipt, FaShoppingCart } from 'react-icons/fa';
 
@@ -34,7 +34,7 @@ import bonbonlogo from "../assets/Supplyblack.png";
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef(null);
-
+    const navigate = useNavigate();
     const handleClickOutside = (event) => {
         if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
             setIsOpen(false);
@@ -347,9 +347,15 @@ const Header = () => {
                                 </button>
                             )}
 
-                            <Link to="/" className="text-decoration-none">
-                                <button className="btn btn-primary w-100">Log out</button>
-                            </Link>
+                            {/* <Link to="/" className="text-decoration-none"> */}
+                            <button className="btn btn-primary w-100"
+                                onClick={() => {
+                                    localStorage.clear();
+                                    setTimeout(() => {
+                                        navigate('/');
+                                    }, 1000);
+                                }}>Log out</button>
+                            {/* </Link> */}
                         </div>
                     )}
                 </div>

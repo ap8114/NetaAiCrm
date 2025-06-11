@@ -3,6 +3,9 @@ import "./AdminSection.css";
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
 import { FaChevronDown, FaChevronUp, FaCopy, FaBold, FaItalic } from 'react-icons/fa';
 import { FaChevronRight } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '../../slices/userSlice';
+import AlertBox from '../AlertBox';
 
 const initialUsers = [
     {
@@ -369,6 +372,30 @@ const AdminSection = () => {
     const [showSubmittals, setShowSubmittals] = useState(false);
     const [isNumberingOpen, setIsNumberingOpen] = useState(false);
     const [isLogoOpen, setIsLogoOpen] = useState(false);
+
+    const [successMessage, setSuccessMessage] = useState(null); // ✅ message state
+    const [messageType, setMessageType] = useState("success");
+
+
+    const dispatch = useDispatch();
+    const { loading } = useSelector((state) => state.user);
+
+    const handleAddUser = () => {
+        dispatch(addUser(editUser))
+            .unwrap()
+            .then((res) => {
+                setSuccessMessage("User Added Successfully!");
+                setMessageType("success");
+                setTimeout(() => {
+                    setShowAddModal(false);
+                }, 1000);
+            })
+            .catch((err) => {
+                alert("Failed to add user: " + err);
+            });
+    };
+
+
     return (
         <div className="admin-company-form container py-4">
             <h3 className="mb-4">Admin</h3>
@@ -2506,107 +2533,195 @@ const AdminSection = () => {
                                 <h5 className="modal-title">Add New User</h5>
                                 <button type="button" className="btn-close" onClick={() => setShowAddModal(false)}></button>
                             </div>
+
+                            {successMessage && (
+                                <AlertBox
+                                    type={messageType}
+                                    message={message}
+                                    onClose={() => setMessage(null)}
+                                />
+                            )}
+
+
                             <div className="modal-body">
-                                <div className="row g-3">
+                                {/* Type of Access Always Visible */}
+                                <div className="row g-3 mb-3">
                                     <div className="col-md-6">
                                         <label>Type of Access</label>
-                                        <select className="form-select" value={editUser.type} onChange={(e) => setEditUser({ ...editUser, type: e.target.value })}>
-                                            <option>User with no access to Knowify</option>
+                                        <select
+                                            className="form-select"
+                                            value={editUser.type}
+                                            onChange={(e) => setEditUser({ ...editUser, type: e.target.value })}
+                                        >
+                                            <option value="">Select access type...</option>
                                             <option>User with regular access to Knowify</option>
+                                            <option>User with mobile access to Knowify only</option>
+                                            <option>User with no access to Knowify</option>
                                         </select>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Role</label>
-                                        <input className="form-control" value={editUser.role} onChange={(e) => setEditUser({ ...editUser, role: e.target.value })} />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>First Name</label>
-                                        <input className="form-control" value={editUser.firstName} onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })} />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Last Name</label>
-                                        <input className="form-control" value={editUser.lastName} onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })} />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Email</label>
-                                        <input className="form-control" value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Department</label>
-                                        <select className="form-select" value={editUser.department} onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}>
-                                            <option>General/Corporate</option>
-                                            <option>Finance</option>
-                                            <option>Engineering</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Direct Manager</label>
-                                        <select className="form-select" value={editUser.manager} onChange={(e) => setEditUser({ ...editUser, manager: e.target.value })}>
-                                            <option>None</option>
-                                            <option>Manager A</option>
-                                            <option>Manager B</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Enable Approval Authority</label>
-                                        <div className="form-check form-switch">
-                                            <input className="form-check-input" type="checkbox" checked={editUser.approval} onChange={(e) => setEditUser({ ...editUser, approval: e.target.checked })} />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Cell Phone (optional)</label>
-                                        <input className="form-control" value={editUser.cell} onChange={(e) => setEditUser({ ...editUser, cell: e.target.value })} />
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label>Employee ID (optional)</label>
-                                        <input className="form-control" value={editUser.empId} onChange={(e) => setEditUser({ ...editUser, empId: e.target.value })} />
                                     </div>
                                 </div>
 
-                                <div className="mt-4">
-                                    <h6>This User...</h6>
-                                    <div className="row g-2">
-                                        {[
-                                            'is responsible for managing vendor bills',
-                                            'is responsible for invoicing clients',
-                                            'tracks their time',
-                                            'manages client agreements',
-                                            'schedules company resources',
-                                            'views employee rates and job financials',
-                                            'can access QuickBooks or is your accountant',
-                                            'is a foreman or can approve time cards',
-                                            'manages or estimates jobs',
-                                            'is a Knowify system administrator'
-                                        ].map((label, index) => (
-                                            <div className="col-md-6" key={index}>
-                                                <div className="form-check">
+                                {/* Show full form only after access type is selected */}
+                                {editUser.type && (
+                                    <>
+                                        <div className="row g-3">
+                                            <div className="col-md-6">
+                                                <label>Role</label>
+                                                <input
+                                                    className="form-control"
+                                                    value={editUser.role}
+                                                    onChange={(e) => setEditUser({ ...editUser, role: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>First Name</label>
+                                                <input
+                                                    className="form-control"
+                                                    value={editUser.firstName}
+                                                    onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Last Name</label>
+                                                <input
+                                                    className="form-control"
+                                                    value={editUser.lastName}
+                                                    onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Email</label>
+                                                <input
+                                                    className="form-control"
+                                                    value={editUser.email}
+                                                    onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Department</label>
+                                                <select
+                                                    className="form-select"
+                                                    value={editUser.department}
+                                                    onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}
+                                                >
+                                                    <option>General/Corporate</option>
+                                                    <option>Finance</option>
+                                                    <option>Engineering</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Direct Manager</label>
+                                                <select
+                                                    className="form-select"
+                                                    value={editUser.manager}
+                                                    onChange={(e) => setEditUser({ ...editUser, manager: e.target.value })}
+                                                >
+                                                    <option>None</option>
+                                                    <option>Manager A</option>
+                                                    <option>Manager B</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Enable Approval Authority</label>
+                                                <div className="form-check form-switch">
                                                     <input
                                                         className="form-check-input"
                                                         type="checkbox"
-                                                        checked={editUser.permissions?.includes(label)}
-                                                        onChange={(e) => {
-                                                            const updated = e.target.checked
-                                                                ? [...(editUser.permissions || []), label]
-                                                                : (editUser.permissions || []).filter(p => p !== label);
-                                                            setEditUser({ ...editUser, permissions: updated });
-                                                        }}
+                                                        checked={editUser.approval}
+                                                        onChange={(e) => setEditUser({ ...editUser, approval: e.target.checked })}
                                                     />
-                                                    <label className="form-check-label">{label}</label>
                                                 </div>
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                            <div className="col-md-6">
+                                                <label>Cell Phone (optional)</label>
+                                                <input
+                                                    className="form-control"
+                                                    value={editUser.cell}
+                                                    onChange={(e) => setEditUser({ ...editUser, cell: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label>Employee ID (optional)</label>
+                                                <input
+                                                    className="form-control"
+                                                    value={editUser.empId}
+                                                    onChange={(e) => setEditUser({ ...editUser, empId: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/* Footer should only show when form is expanded */}
+                                        {/* Conditional Permissions Section */}
+                                        {editUser.type !== "User with no access to Knowify" && (
+                                            <div className="mt-4">
+                                                <h6>This User...</h6>
+                                                <div className="row g-2">
+                                                    {[
+                                                        "User with regular access to Knowify",
+                                                        "User with mobile access to Knowify only",
+                                                    ].includes(editUser.type) &&
+                                                        (editUser.type === "User with regular access to Knowify"
+                                                            ? [
+                                                                'is responsible for managing vendor bills',
+                                                                'is responsible for invoicing clients',
+                                                                'tracks their time',
+                                                                'manages client agreements',
+                                                                'schedules company resources',
+                                                                'views employee rates and job financials',
+                                                                'can access QuickBooks or is your accountant',
+                                                                'is a foreman or can approve time cards',
+                                                                'manages or estimates jobs',
+                                                                'is a Knowify system administrator',
+                                                            ]
+                                                            : [
+                                                                'tracks their time',
+                                                                'is a foreman or can approve time cards',
+                                                            ]
+                                                        ).map((label, index) => (
+                                                            <div className="col-md-6" key={index}>
+                                                                <div className="form-check">
+                                                                    <input
+                                                                        className="form-check-input"
+                                                                        type="checkbox"
+                                                                        checked={editUser.permissions?.includes(label)}
+                                                                        onChange={(e) => {
+                                                                            const updated = e.target.checked
+                                                                                ? [...(editUser.permissions || []), label]
+                                                                                : (editUser.permissions || []).filter(p => p !== label);
+                                                                            setEditUser({ ...editUser, permissions: updated });
+                                                                        }}
+                                                                    />
+                                                                    <label className="form-check-label">{label}</label>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
                             </div>
-                            <div className="modal-footer">
-                                <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-                                <button className="btn btn-primary">Add User</button>
+
+                            <div className="modal-footer justify-content-end">
+                                <button
+                                    type="button"
+                                    className="btn btn-light me-2 text-dark"
+                                    onClick={() => setShowAddModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary text-white"
+                                    onClick={() => handleAddUser}
+                                >
+                                    Add User
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
             )}
+
 
             {/* Edit User Modal */}
             {showEditModal && (
