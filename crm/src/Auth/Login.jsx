@@ -184,16 +184,17 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser(formData)).then(() => {
-      setMessage("Login successful!");
-      setMessageType("success");
-      setTimeout(() => {
-        navigate("/home");
-      }, 1000);
-    }).catch(() => {
-      setMessage("Login failed!");
-      setMessageType("failure");
-    });
+    dispatch(loginUser(formData))
+      .then(() => {
+        setMessage("Login successful!");
+        setMessageType("success");
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      }).catch(() => {
+        setMessage("Login failed!");
+        setMessageType("failure");
+      });
   };
 
   return (
