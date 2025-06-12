@@ -1,3 +1,6 @@
+import { FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const MobileProfileSection = ({ setShowMobileMenu }) => (
     <div className="border-top pt-3">
         <div className="d-flex align-items-center mb-3">

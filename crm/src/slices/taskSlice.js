@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utils/api";
 
-const BASE_URL = "/client";
+const BASE_URL = "/tasks";
 
-// ✅ Create Client
-export const createClient = createAsyncThunk(
-    "client/create",
-    async (clientData, { rejectWithValue }) => {
+// ✅ Create tasks
+export const createTasks = createAsyncThunk(
+    "tasks/create",
+    async (taskData, { rejectWithValue }) => {
         try {
-            const res = await api.post(BASE_URL, clientData);
+            const res = await api.post(BASE_URL, taskData);
             return res.data;
         } catch (err) {
             return rejectWithValue(err.response?.data || err.message);
@@ -16,9 +16,9 @@ export const createClient = createAsyncThunk(
     }
 );
 
-// ✅ Get All Clients
-export const fetchAllClients = createAsyncThunk(
-    "/client",
+// ✅ Get All tasks
+export const fetchAllTasks = createAsyncThunk(
+    "/tasks",
     async (_, { rejectWithValue }) => {
         try {
             const res = await api.get(BASE_URL);
@@ -29,9 +29,9 @@ export const fetchAllClients = createAsyncThunk(
     }
 );
 
-// ✅ Get Client by ID
-export const fetchClientById = createAsyncThunk(
-    "client/fetchById",
+// ✅ Get tasks by ID
+export const fetchTaskById = createAsyncThunk(
+    "tasks/fetchById",
     async (id, { rejectWithValue }) => {
         try {
             const res = await api.get(`${BASE_URL}/${id}`);
@@ -42,9 +42,9 @@ export const fetchClientById = createAsyncThunk(
     }
 );
 
-// ✅ Update Client
-export const updateClient = createAsyncThunk(
-    "client/update",
+// ✅ Update tasks
+export const updateTasks = createAsyncThunk(
+    "tasks/update",
     async ({ id, data }, { rejectWithValue }) => {
         try {
             const res = await api.put(`${BASE_URL}/${id}`, data);
@@ -55,9 +55,9 @@ export const updateClient = createAsyncThunk(
     }
 );
 
-// ✅ Delete Client
-export const deleteClient = createAsyncThunk(
-    "client/delete",
+// ✅ Delete tasks
+export const deleteTasks = createAsyncThunk(
+    "tasks/delete",
     async (id, { rejectWithValue }) => {
         try {
             await api.delete(`${BASE_URL}/${id}`);
@@ -69,11 +69,11 @@ export const deleteClient = createAsyncThunk(
 );
 
 // 🔽 Slice Definition
-const clientSlice = createSlice({
-    name: "client",
+const TaskSlice = createSlice({
+    name: "tasks",
     initialState: {
-        clients: [],
-        client: null,
+        tasks: [],
+        taskData: null,
         loading: false,
         error: null,
     },
@@ -84,77 +84,77 @@ const clientSlice = createSlice({
         builder
 
             // Create
-            .addCase(createClient.pending, (state) => {
+            .addCase(createTasks.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(createClient.fulfilled, (state, action) => {
+            .addCase(createTasks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients.push(action.payload);
+                state.tasks.push(action.payload);
             })
-            .addCase(createClient.rejected, (state, action) => {
+            .addCase(createTasks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Get All
-            .addCase(fetchAllClients.pending, (state) => {
+            .addCase(fetchAllTasks.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchAllClients.fulfilled, (state, action) => {
+            .addCase(fetchAllTasks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = action.payload;
+                state.tasks = action.payload;
             })
-            .addCase(fetchAllClients.rejected, (state, action) => {
+            .addCase(fetchAllTasks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Get by ID
-            .addCase(fetchClientById.pending, (state) => {
+            .addCase(fetchTaskById.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchClientById.fulfilled, (state, action) => {
+            .addCase(fetchTaskById.fulfilled, (state, action) => {
                 state.loading = false;
-                state.client = action.payload;
+                state.taskData = action.payload;
             })
-            .addCase(fetchClientById.rejected, (state, action) => {
+            .addCase(fetchTaskById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Update
-            .addCase(updateClient.pending, (state) => {
+            .addCase(updateTasks.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updateClient.fulfilled, (state, action) => {
+            .addCase(updateTasks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = state.clients.map((c) =>
+                state.tasks = state.tasks.map((c) =>
                     c._id === action.payload._id ? action.payload : c
                 );
             })
-            .addCase(updateClient.rejected, (state, action) => {
+            .addCase(updateTasks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Delete
-            .addCase(deleteClient.pending, (state) => {
+            .addCase(deleteTasks.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(deleteClient.fulfilled, (state, action) => {
+            .addCase(deleteTasks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = state.clients.filter((c) => c._id !== action.payload);
+                state.tasks = state.tasks.filter((c) => c._id !== action.payload);
             })
-            .addCase(deleteClient.rejected, (state, action) => {
+            .addCase(deleteTasks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     },
 });
 
-export default clientSlice.reducer;
+export default TaskSlice.reducer;

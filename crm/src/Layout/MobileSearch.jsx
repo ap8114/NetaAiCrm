@@ -1,3 +1,6 @@
+import { BsSearch } from "react-icons/bs";
+import MobileSearchDropdown from "./MobileSearchDropdown";
+
 const MobileSearch = ({ isOpen, setIsOpen, wrapperRef }) => (
     <div className="position-relative" ref={wrapperRef}>
         <div className="d-flex d-md-none align-items-center mb-3">

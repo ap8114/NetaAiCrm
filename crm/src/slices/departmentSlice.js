@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utils/api";
 
-const BASE_URL = "/client";
+const BASE_URL = "/departments";
 
-// ✅ Create Client
-export const createClient = createAsyncThunk(
-    "client/create",
-    async (clientData, { rejectWithValue }) => {
+// ✅ Create departments
+export const createDepartments = createAsyncThunk(
+    "departments/create",
+    async (departmentData, { rejectWithValue }) => {
         try {
-            const res = await api.post(BASE_URL, clientData);
+            const res = await api.post(BASE_URL, departmentData);
             return res.data;
         } catch (err) {
             return rejectWithValue(err.response?.data || err.message);
@@ -16,9 +16,9 @@ export const createClient = createAsyncThunk(
     }
 );
 
-// ✅ Get All Clients
-export const fetchAllClients = createAsyncThunk(
-    "/client",
+// ✅ Get All departments
+export const fetchAllDepartments = createAsyncThunk(
+    "/departments",
     async (_, { rejectWithValue }) => {
         try {
             const res = await api.get(BASE_URL);
@@ -30,8 +30,8 @@ export const fetchAllClients = createAsyncThunk(
 );
 
 // ✅ Get Client by ID
-export const fetchClientById = createAsyncThunk(
-    "client/fetchById",
+export const fetchDepartmentsById = createAsyncThunk(
+    "departments/fetchById",
     async (id, { rejectWithValue }) => {
         try {
             const res = await api.get(`${BASE_URL}/${id}`);
@@ -42,9 +42,9 @@ export const fetchClientById = createAsyncThunk(
     }
 );
 
-// ✅ Update Client
-export const updateClient = createAsyncThunk(
-    "client/update",
+// ✅ Update departments
+export const updateDepartments = createAsyncThunk(
+    "departments/update",
     async ({ id, data }, { rejectWithValue }) => {
         try {
             const res = await api.put(`${BASE_URL}/${id}`, data);
@@ -55,9 +55,9 @@ export const updateClient = createAsyncThunk(
     }
 );
 
-// ✅ Delete Client
-export const deleteClient = createAsyncThunk(
-    "client/delete",
+// ✅ Delete departments
+export const deleteDepartments = createAsyncThunk(
+    "departments/delete",
     async (id, { rejectWithValue }) => {
         try {
             await api.delete(`${BASE_URL}/${id}`);
@@ -69,11 +69,11 @@ export const deleteClient = createAsyncThunk(
 );
 
 // 🔽 Slice Definition
-const clientSlice = createSlice({
-    name: "client",
+const departmentSlice = createSlice({
+    name: "departments",
     initialState: {
-        clients: [],
-        client: null,
+        departments: [],
+        departmentData: null,
         loading: false,
         error: null,
     },
@@ -84,77 +84,77 @@ const clientSlice = createSlice({
         builder
 
             // Create
-            .addCase(createClient.pending, (state) => {
+            .addCase(createDepartments.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(createClient.fulfilled, (state, action) => {
+            .addCase(createDepartments.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients.push(action.payload);
+                state.departments.push(action.payload);
             })
-            .addCase(createClient.rejected, (state, action) => {
+            .addCase(createDepartments.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Get All
-            .addCase(fetchAllClients.pending, (state) => {
+            .addCase(fetchAllDepartments.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchAllClients.fulfilled, (state, action) => {
+            .addCase(fetchAllDepartments.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = action.payload;
+                state.departments = action.payload;
             })
-            .addCase(fetchAllClients.rejected, (state, action) => {
+            .addCase(fetchAllDepartments.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Get by ID
-            .addCase(fetchClientById.pending, (state) => {
+            .addCase(fetchDepartmentsById.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchClientById.fulfilled, (state, action) => {
+            .addCase(fetchDepartmentsById.fulfilled, (state, action) => {
                 state.loading = false;
-                state.client = action.payload;
+                state.departmentData = action.payload;
             })
-            .addCase(fetchClientById.rejected, (state, action) => {
+            .addCase(fetchDepartmentsById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Update
-            .addCase(updateClient.pending, (state) => {
+            .addCase(updateDepartments.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updateClient.fulfilled, (state, action) => {
+            .addCase(updateDepartments.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = state.clients.map((c) =>
+                state.departments = state.departments.map((c) =>
                     c._id === action.payload._id ? action.payload : c
                 );
             })
-            .addCase(updateClient.rejected, (state, action) => {
+            .addCase(updateDepartments.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Delete
-            .addCase(deleteClient.pending, (state) => {
+            .addCase(deleteDepartments.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(deleteClient.fulfilled, (state, action) => {
+            .addCase(deleteDepartments.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = state.clients.filter((c) => c._id !== action.payload);
+                state.departments = state.departments.filter((c) => c._id !== action.payload);
             })
-            .addCase(deleteClient.rejected, (state, action) => {
+            .addCase(deleteDepartments.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     },
 });
 
-export default clientSlice.reducer;
+export default departmentSlice.reducer;

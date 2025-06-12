@@ -1,3 +1,6 @@
+import { FaClipboardList, FaFileInvoice, FaHome, FaReceipt, FaShoppingCart, FaTruck, FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const MobileSearchDropdown = ({ setIsOpen }) => (
     <div className="position-absolute bg-white border rounded shadow p-3 w-100" style={{ maxWidth: "100%", top: "100%", left: 0, zIndex: 10 }}>
         <div className="mb-3">

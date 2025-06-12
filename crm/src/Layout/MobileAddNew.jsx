@@ -1,3 +1,6 @@
+import { FaCalendarAlt, FaClock, FaCube, FaFileAlt, FaFileInvoice, FaHandHoldingUsd, FaProjectDiagram, FaTasks, FaTruck, FaUser } from "react-icons/fa";
+import DropdownSection from "./DropdownSection";
+
 const MobileAddNew = ({ setShowMobileMenu, setShowMobileAddNew }) => (
     <div className="p-3 border rounded bg-light mt-2">
         <button className="btn btn-light border-0 d-lg-none" onClick={() => { setShowMobileMenu(false); setShowMobileAddNew(false); }}>
