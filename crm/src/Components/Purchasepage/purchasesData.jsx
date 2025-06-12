@@ -4,6 +4,8 @@ import { FaRegCopy, FaEnvelopeOpenText, FaTrashAlt, FaChevronLeft, FaChevronRigh
 import CopyFromSpreadsheetModal from './CopyFromSpreadsheetModal';
 import { useNavigate } from "react-router-dom";
 import PurchaseOrderModal from "./PurchaseOrderModal";
+import AddPurchaseModal from "./AddPurchaseModal";
+import ReportModal from "./ReportModal";
 
 const PurchasesData = [
   {
@@ -28,212 +30,212 @@ const PurchasesData = [
   },
 ];
 
-function AddPurchaseModal({ show, onHide }) {
+// function AddPurchaseModal({ show, onHide }) {
 
 
-  const [items, setItems] = useState([
-    { description: "", quantity: 1, unitCost: "", job: "" }
-  ]);
-  const [showSpreadsheetModal, setShowSpreadsheetModal] = useState(false);
+//   const [items, setItems] = useState([
+//     { description: "", quantity: 1, unitCost: "", job: "" }
+//   ]);
+//   const [showSpreadsheetModal, setShowSpreadsheetModal] = useState(false);
 
-  const handleItemChange = (index, field, value) => {
-    const newItems = [...items];
-    newItems[index][field] = value;
-    setItems(newItems);
-  };
-
- 
+//   const handleItemChange = (index, field, value) => {
+//     const newItems = [...items];
+//     newItems[index][field] = value;
+//     setItems(newItems);
+//   };
 
 
-  const addItem = () => {
-    setItems([...items, { description: "", quantity: 1, unitCost: "", job: "" }]);
-  };
 
-  return (
-    <>
-      <Modal
-        show={show}
-        onHide={() => {
-          setShowSpreadsheetModal(false);
-          onHide();
-        }}
-        fullscreen  // Changed from size="lg" to fullscreen
-        backdrop={showSpreadsheetModal ? "static" : true}
-        keyboard={!showSpreadsheetModal}
-      >
-        <div
-          style={showSpreadsheetModal ? {
-            pointerEvents: "none",
-            opacity: 0.5,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column'
-          } : {
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Modal.Header closeButton={!showSpreadsheetModal}>
-            <Modal.Title>New purchase</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ flex: 1, overflowY: 'auto' }}>
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Purchase Type</Form.Label>
-                <Form.Select defaultValue="">
-                  <option value="" disabled>Select Purchase Type</option>
-                  <option>Purchase Order (vendor will send an invoice)</option>
-                  <option>Expense (paid with cash or debit card)</option>
-                  <option>Reimbursement (company will reimburse me)</option>
-                </Form.Select>
-              </Form.Group>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Person to be Reimbursed</Form.Label>
-                <Form.Control placeholder="Type name" />
-              </Form.Group>
+//   const addItem = () => {
+//     setItems([...items, { description: "", quantity: 1, unitCost: "", job: "" }]);
+//   };
 
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h6 className="mb-0">Item</h6>
-                <div>
-                  <Button
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={() => setShowSpreadsheetModal(true)}
-                    disabled={showSpreadsheetModal}
-                    className="me-2"
-                  >
-                    Copy from spreadsheet
-                  </Button>
-                  <Button variant="outline-primary" size="sm" onClick={addItem}>
-                    + Add another item
-                  </Button>
-                </div>
-              </div>
+//   return (
+//     <>
+//       <Modal
+//         show={show}
+//         onHide={() => {
+//           setShowSpreadsheetModal(false);
+//           onHide();
+//         }}
+//         fullscreen  // Changed from size="lg" to fullscreen
+//         backdrop={showSpreadsheetModal ? "static" : true}
+//         keyboard={!showSpreadsheetModal}
+//       >
+//         <div
+//           style={showSpreadsheetModal ? {
+//             pointerEvents: "none",
+//             opacity: 0.5,
+//             height: '100%',
+//             display: 'flex',
+//             flexDirection: 'column'
+//           } : {
+//             height: '100%',
+//             display: 'flex',
+//             flexDirection: 'column'
+//           }}
+//         >
+//           <Modal.Header closeButton={!showSpreadsheetModal}>
+//             <Modal.Title>New purchase</Modal.Title>
+//           </Modal.Header>
+//           <Modal.Body style={{ flex: 1, overflowY: 'auto' }}>
+//             <Form>
+//               <Form.Group className="mb-3">
+//                 <Form.Label>Purchase Type</Form.Label>
+//                 <Form.Select defaultValue="">
+//                   <option value="" disabled>Select Purchase Type</option>
+//                   <option>Purchase Order (vendor will send an invoice)</option>
+//                   <option>Expense (paid with cash or debit card)</option>
+//                   <option>Reimbursement (company will reimburse me)</option>
+//                 </Form.Select>
+//               </Form.Group>
 
-              <div style={{ maxHeight: '40vh', overflowY: 'auto' }}>
-                {items.map((item, index) => (
-                  <Row key={index} className="mb-2 align-items-end">
-                    <Col md={5}>
-                      <Form.Label className="small mb-0">Description</Form.Label>
-                      <Form.Control
-                        placeholder="Enter description"
-                        value={item.description}
-                        onChange={(e) => handleItemChange(index, "description", e.target.value)}
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <Form.Label className="small mb-0">Qty</Form.Label>
-                      <Form.Control
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <Form.Label className="small mb-0">Unit Cost</Form.Label>
-                      <Form.Control
-                        type="number"
-                        placeholder="$"
-                        value={item.unitCost}
-                        onChange={(e) => handleItemChange(index, "unitCost", e.target.value)}
-                      />
-                    </Col>
-                    <Col md={3}>
-                      <Form.Label className="small mb-0">Job</Form.Label>
-                      <Form.Control
-                        placeholder="Search Job"
-                        value={item.job}
-                        onChange={(e) => handleItemChange(index, "job", e.target.value)}
-                      />
-                    </Col>
-                  </Row>
-                ))}
-              </div>
+//               <Form.Group className="mb-3">
+//                 <Form.Label>Person to be Reimbursed</Form.Label>
+//                 <Form.Control placeholder="Type name" />
+//               </Form.Group>
 
-              <Row className="mt-3">
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Check label="Set Purchase Date" />
-                    <Form.Check label="Upload Supporting Documents" />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Notes</Form.Label>
-                    <Form.Control as="textarea" rows={3} placeholder="Type here" />
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer className="border-top py-3">
-            <div className="me-auto fw-bold fs-5">Total: $0.00</div>
-            <Button variant="light" onClick={onHide}>
-              Cancel
-            </Button>
-            <Button variant="primary">✔ Verify & Submit</Button>
-          </Modal.Footer>
-        </div>
-      </Modal>
-      <CopyFromSpreadsheetModal
-        show={showSpreadsheetModal}
-        onHide={() => setShowSpreadsheetModal(false)}
-      />
-    </>
-  );
-}
+//               <div className="d-flex justify-content-between align-items-center mb-2">
+//                 <h6 className="mb-0">Item</h6>
+//                 <div>
+//                   <Button
+//                     variant="outline-secondary"
+//                     size="sm"
+//                     onClick={() => setShowSpreadsheetModal(true)}
+//                     disabled={showSpreadsheetModal}
+//                     className="me-2"
+//                   >
+//                     Copy from spreadsheet
+//                   </Button>
+//                   <Button variant="outline-primary" size="sm" onClick={addItem}>
+//                     + Add another item
+//                   </Button>
+//                 </div>
+//               </div>
 
-function ReportModal({ show, onHide }) {
-  return (
-    <Modal show={show} onHide={onHide} size="lg" centered>
-      <Modal.Header closeButton>
-        <Modal.Title>Purchases report</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="mb-3 d-flex align-items-center gap-2">
-          <InputGroup style={{ width: 220 }}>
-            <InputGroup.Text>
-              <i className="bi bi-calendar"></i>
-            </InputGroup.Text>
-            <Form.Control value="6/1/25 - 6/5/25" readOnly />
-          </InputGroup>
-          <Button variant="outline-secondary">
-            <i className="bi bi-funnel"></i>
-          </Button>
-          <div className="ms-auto d-flex gap-2">
-            <Button variant="outline-secondary">
-              <i className="bi bi-gear"></i>
-            </Button>
-            <Button variant="primary">Export</Button>
-          </div>
-        </div>
-        <div className="mb-3">
-          <Button variant="dark" className="me-2">
-            Purchases
-          </Button>
-          <Button variant="secondary" className="me-2">
-            Catalog allocations
-          </Button>
-          <Button variant="secondary">Summary</Button>
-        </div>
-        <div className="text-center mt-5">
-          <i
-            className="bi bi-search"
-            style={{ fontSize: 64, color: "#adb5bd" }}
-          ></i>
-          <div className="fw-bold mt-3" style={{ fontSize: 24 }}>
-            No results found
-          </div>
-          <div className="text-muted">
-            Try adjusting your filtering to find what you’re looking for.
-          </div>
-        </div>
-      </Modal.Body>
-    </Modal>
-  );
-}
+//               <div style={{ maxHeight: '40vh', overflowY: 'auto' }}>
+//                 {items.map((item, index) => (
+//                   <Row key={index} className="mb-2 align-items-end">
+//                     <Col md={5}>
+//                       <Form.Label className="small mb-0">Description</Form.Label>
+//                       <Form.Control
+//                         placeholder="Enter description"
+//                         value={item.description}
+//                         onChange={(e) => handleItemChange(index, "description", e.target.value)}
+//                       />
+//                     </Col>
+//                     <Col md={2}>
+//                       <Form.Label className="small mb-0">Qty</Form.Label>
+//                       <Form.Control
+//                         type="number"
+//                         value={item.quantity}
+//                         onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+//                       />
+//                     </Col>
+//                     <Col md={2}>
+//                       <Form.Label className="small mb-0">Unit Cost</Form.Label>
+//                       <Form.Control
+//                         type="number"
+//                         placeholder="$"
+//                         value={item.unitCost}
+//                         onChange={(e) => handleItemChange(index, "unitCost", e.target.value)}
+//                       />
+//                     </Col>
+//                     <Col md={3}>
+//                       <Form.Label className="small mb-0">Job</Form.Label>
+//                       <Form.Control
+//                         placeholder="Search Job"
+//                         value={item.job}
+//                         onChange={(e) => handleItemChange(index, "job", e.target.value)}
+//                       />
+//                     </Col>
+//                   </Row>
+//                 ))}
+//               </div>
+
+//               <Row className="mt-3">
+//                 <Col md={6}>
+//                   <Form.Group className="mb-3">
+//                     <Form.Check label="Set Purchase Date" />
+//                     <Form.Check label="Upload Supporting Documents" />
+//                   </Form.Group>
+//                 </Col>
+//                 <Col md={6}>
+//                   <Form.Group className="mb-3">
+//                     <Form.Label>Notes</Form.Label>
+//                     <Form.Control as="textarea" rows={3} placeholder="Type here" />
+//                   </Form.Group>
+//                 </Col>
+//               </Row>
+//             </Form>
+//           </Modal.Body>
+//           <Modal.Footer className="border-top py-3">
+//             <div className="me-auto fw-bold fs-5">Total: $0.00</div>
+//             <Button variant="light" onClick={onHide}>
+//               Cancel
+//             </Button>
+//             <Button variant="primary">✔ Verify & Submit</Button>
+//           </Modal.Footer>
+//         </div>
+//       </Modal>
+//       <CopyFromSpreadsheetModal
+//         show={showSpreadsheetModal}
+//         onHide={() => setShowSpreadsheetModal(false)}
+//       />
+//     </>
+//   );
+// }
+
+// function ReportModal({ show, onHide }) {
+//   return (
+//     <Modal show={show} onHide={onHide} size="lg" centered>
+//       <Modal.Header closeButton>
+//         <Modal.Title>Purchases report</Modal.Title>
+//       </Modal.Header>
+//       <Modal.Body>
+//         <div className="mb-3 d-flex align-items-center gap-2">
+//           <InputGroup style={{ width: 220 }}>
+//             <InputGroup.Text>
+//               <i className="bi bi-calendar"></i>
+//             </InputGroup.Text>
+//             <Form.Control value="6/1/25 - 6/5/25" readOnly />
+//           </InputGroup>
+//           <Button variant="outline-secondary">
+//             <i className="bi bi-funnel"></i>
+//           </Button>
+//           <div className="ms-auto d-flex gap-2">
+//             <Button variant="outline-secondary">
+//               <i className="bi bi-gear"></i>
+//             </Button>
+//             <Button variant="primary">Export</Button>
+//           </div>
+//         </div>
+//         <div className="mb-3">
+//           <Button variant="dark" className="me-2">
+//             Purchases
+//           </Button>
+//           <Button variant="secondary" className="me-2">
+//             Catalog allocations
+//           </Button>
+//           <Button variant="secondary">Summary</Button>
+//         </div>
+//         <div className="text-center mt-5">
+//           <i
+//             className="bi bi-search"
+//             style={{ fontSize: 64, color: "#adb5bd" }}
+//           ></i>
+//           <div className="fw-bold mt-3" style={{ fontSize: 24 }}>
+//             No results found
+//           </div>
+//           <div className="text-muted">
+//             Try adjusting your filtering to find what you’re looking for.
+//           </div>
+//         </div>
+//       </Modal.Body>
+//     </Modal>
+//   );
+// }
 
 export default function Purchases() {
   const [showAdd, setShowAdd] = useState(false);
@@ -290,7 +292,6 @@ export default function Purchases() {
       </div>
 
       <Table bordered hover responsive style={{ overflowX: "hidden" }}>
-
         <thead>
           <tr>
             <th>Status</th>
@@ -312,16 +313,16 @@ export default function Purchases() {
               </td>
               <td>{row.date}</td>
               <td>
-               {row.allocated.map((line, i) => (
-        <div key={i} onClick={() => handleLineClick(line)} style={{ cursor: 'pointer' }}>
-          {line}
-        </div>
-      ))}
+                {row.allocated.map((line, i) => (
+                  <div key={i} onClick={() => handleLineClick(line)} style={{ cursor: 'pointer' }}>
+                    {line}
+                  </div>
+                ))}
 
-      <PurchaseOrderModal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        line={selectedLine}/>
+                <PurchaseOrderModal
+                  show={showModal}
+                  onHide={() => setShowModal(false)}
+                  line={selectedLine} />
 
               </td>
               <td className="text-primary fw-bold">{row.amount}</td>

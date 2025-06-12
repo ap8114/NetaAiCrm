@@ -290,10 +290,14 @@ const AdminSection = () => {
     const [showSubStep1, setShowSubStep1] = useState(false);
     const [showSubStep2, setShowSubStep2] = useState(false);
     const [customizeTab, setCustomizeTab] = useState("features");
+
+
     const openAddModal = () => {
         setAddUserType("");
         setShowAddModal(true);
     };
+
+
     const openEditModal = (user) => {
         setEditUser({
             type: user.access,
@@ -307,10 +311,13 @@ const AdminSection = () => {
         });
         setShowEditModal(true);
     };
+
     const openOnboardingModal = (user) => {
         setSelectedUser(user);
         setShowOnboardingModal(true);
     };
+
+
     const handleAddRole = () => {
         if (!newRole.name.trim()) return;
         setRoles([
@@ -325,6 +332,8 @@ const AdminSection = () => {
         setNewRole({ name: "", billingRate: "", budgetRate: "" });
         setShowRoleModal(false);
     };
+
+
     const [showHideJobs, setShowHideJobs] = useState(false);
     const [hideClosedJobs, setHideClosedJobs] = useState(false);
     const [hideClosedPhases, setHideClosedPhases] = useState(false);
@@ -611,6 +620,7 @@ const AdminSection = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="tab-pane fade" id="structure" role="tabpanel">
                     <div className="row">
                         <div className="col-md-6">
@@ -698,6 +708,7 @@ const AdminSection = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="tab-pane fade" id="users" role="tabpanel">
                     {/* Controls Row */}
                     <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
@@ -968,6 +979,7 @@ const AdminSection = () => {
                         )}
                     </div>
                 </div>
+
                 <div className="tab-pane fade" id="customize" role="tabpanel">
                     {/* Customize tab content here */}
                     <div className="container py-3">
@@ -2233,6 +2245,7 @@ const AdminSection = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="tab-pane fade" id="documents" role="tabpanel">
                     <div className="container py-3">
                         <h6 className="mb-2">Company Documents (1/100)</h6>
@@ -2293,6 +2306,7 @@ const AdminSection = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="tab-pane fade" id="quickbooks" role="tabpanel">
                     <div className="container py-4">
                         <h5>QuickBooks Connection</h5>
@@ -2348,6 +2362,7 @@ const AdminSection = () => {
                     </div>
 
                 </div>
+
                 <div className="tab-pane fade" id="subscription" role="tabpanel">
                     <div className="container py-3">
                         <h6 className="mb-3">Knowify Account</h6>

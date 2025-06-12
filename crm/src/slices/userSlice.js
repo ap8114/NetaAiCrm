@@ -21,6 +21,8 @@ export const loginUser = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         try {
             const res = await api.post("/login", credentials);
+            console.log(res);
+
             const { accessToken } = res.data.data;
             // Save token
             localStorage.setItem("token", accessToken);
