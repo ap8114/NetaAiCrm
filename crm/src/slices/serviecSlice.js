@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../utils/api";
 
-const BASE_URL = "/catalog";
+const BASE_URL = "/services";
 
-// ✅ Create Catalog
-export const createCatalog = createAsyncThunk(
-    "catalog/create",
-    async (catalogData, { rejectWithValue }) => {
+// ✅ Create services
+export const createServices = createAsyncThunk(
+    "services/create",
+    async (servicesData, { rejectWithValue }) => {
         try {
-            const res = await api.post(BASE_URL, catalogData);
+            const res = await api.post(BASE_URL, servicesData);
             return res.data;
         } catch (err) {
             return rejectWithValue(err.response?.data || err.message);
@@ -16,9 +16,9 @@ export const createCatalog = createAsyncThunk(
     }
 );
 
-// ✅ Get All Catalogs
-export const fetchAllCatalogs = createAsyncThunk(
-    "/catalog",
+// ✅ Get All services
+export const fetchAllServices = createAsyncThunk(
+    "/services",
     async (_, { rejectWithValue }) => {
         try {
             const res = await api.get(BASE_URL);
@@ -29,9 +29,9 @@ export const fetchAllCatalogs = createAsyncThunk(
     }
 );
 
-// ✅ Get Catalog by ID
-export const fetchCatalogById = createAsyncThunk(
-    "catalog/fetchById",
+// ✅ Get services by ID
+export const fetchServicesById = createAsyncThunk(
+    "services/fetchById",
     async (id, { rejectWithValue }) => {
         try {
             const res = await api.get(`${BASE_URL}/${id}`);
@@ -42,9 +42,9 @@ export const fetchCatalogById = createAsyncThunk(
     }
 );
 
-// ✅ Update Catalog
-export const updateCatalog = createAsyncThunk(
-    "catalog/update",
+// ✅ Update services
+export const updateServices = createAsyncThunk(
+    "services/update",
     async ({ id, data }, { rejectWithValue }) => {
         try {
             const res = await api.put(`${BASE_URL}/${id}`, data);
@@ -55,9 +55,9 @@ export const updateCatalog = createAsyncThunk(
     }
 );
 
-// ✅ Delete Catalog
-export const deleteCatalog = createAsyncThunk(
-    "catalog/delete",
+// ✅ Delete services
+export const deleteServices = createAsyncThunk(
+    "services/delete",
     async (id, { rejectWithValue }) => {
         try {
             await api.delete(`${BASE_URL}/${id}`);
@@ -69,11 +69,11 @@ export const deleteCatalog = createAsyncThunk(
 );
 
 // 🔽 Slice Definition
-const catalogSlice = createSlice({
-    name: "catalog",
+const ServiceSlice = createSlice({
+    name: "services",
     initialState: {
-        catalogs: [],
-        catalog: null,
+        services: [],
+        serviceData: null,
         loading: false,
         error: null,
     },
@@ -84,77 +84,77 @@ const catalogSlice = createSlice({
         builder
 
             // Create
-            .addCase(createCatalog.pending, (state) => {
+            .addCase(createServices.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(createCatalog.fulfilled, (state, action) => {
+            .addCase(createServices.fulfilled, (state, action) => {
                 state.loading = false;
-                state.catalogs.push(action.payload);
+                state.services.push(action.payload);
             })
-            .addCase(createCatalog.rejected, (state, action) => {
+            .addCase(createServices.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Get All
-            .addCase(fetchAllCatalogs.pending, (state) => {
+            .addCase(fetchAllServices.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchAllCatalogs.fulfilled, (state, action) => {
+            .addCase(fetchAllServices.fulfilled, (state, action) => {
                 state.loading = false;
-                state.catalogs = action.payload;
+                state.services = action.payload;
             })
-            .addCase(fetchAllCatalogs.rejected, (state, action) => {
+            .addCase(fetchAllServices.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Get by ID
-            .addCase(fetchCatalogById.pending, (state) => {
+            .addCase(fetchServicesById.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchCatalogById.fulfilled, (state, action) => {
+            .addCase(fetchServicesById.fulfilled, (state, action) => {
                 state.loading = false;
-                state.catalog = action.payload;
+                state.serviceData = action.payload;
             })
-            .addCase(fetchCatalogById.rejected, (state, action) => {
+            .addCase(fetchServicesById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Update
-            .addCase(updateCatalog.pending, (state) => {
+            .addCase(updateServices.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updateCatalog.fulfilled, (state, action) => {
+            .addCase(updateServices.fulfilled, (state, action) => {
                 state.loading = false;
-                state.catalogs = state.catalogs.map((c) =>
+                state.services = state.services.map((c) =>
                     c._id === action.payload._id ? action.payload : c
                 );
             })
-            .addCase(updateCatalog.rejected, (state, action) => {
+            .addCase(updateServices.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
             // Delete
-            .addCase(deleteCatalog.pending, (state) => {
+            .addCase(deleteServices.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(deleteCatalog.fulfilled, (state, action) => {
+            .addCase(deleteServices.fulfilled, (state, action) => {
                 state.loading = false;
-                state.catalogs = state.catalogs.filter((c) => c._id !== action.payload);
+                state.services = state.services.filter((c) => c._id !== action.payload);
             })
-            .addCase(deleteCatalog.rejected, (state, action) => {
+            .addCase(deleteServices.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     },
 });
 
-export default catalogSlice.reducer;
+export default ServiceSlice.reducer;
