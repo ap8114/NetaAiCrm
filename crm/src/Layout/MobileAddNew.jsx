@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaClock, FaCube, FaFileAlt, FaFileInvoice, FaHandHoldingUsd, FaProjectDiagram, FaTasks, FaTruck, FaUser } from "react-icons/fa";
+import { FaCalendarAlt, FaClock, FaCube, FaFileAlt, FaFileInvoice, FaHandHoldingUsd, FaProjectDiagram, FaTasks, FaTimes, FaTruck, FaUser } from "react-icons/fa";
 import DropdownSection from "./DropdownSection";
 
 const MobileAddNew = ({ setShowMobileMenu, setShowMobileAddNew }) => (

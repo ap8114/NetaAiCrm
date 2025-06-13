@@ -870,6 +870,7 @@ const Header = () => {
                     setShowActivityPanel={setShowActivityPanel}
                     navigate={navigate}
                     profileRef={profileRef}
+                    setShowNotificationModal={setShowNotificationModal}
                 />
             </header>
 

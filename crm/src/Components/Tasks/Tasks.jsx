@@ -135,17 +135,17 @@ export default function Tasks() {
         prev.map((t) =>
           t.id === editingTask.id
             ? {
-                ...t,
-                ...form,
-                statusHistory: [
-                  ...t.statusHistory,
-                  { status: form.status, user: "Current User", timestamp: new Date().toISOString() },
-                ],
-                logs: [
-                  ...t.logs,
-                  { type: "updated", user: "Current User", timestamp: new Date().toISOString() },
-                ],
-              }
+              ...t,
+              ...form,
+              statusHistory: [
+                ...t.statusHistory,
+                { status: form.status, user: "Current User", timestamp: new Date().toISOString() },
+              ],
+              logs: [
+                ...t.logs,
+                { type: "updated", user: "Current User", timestamp: new Date().toISOString() },
+              ],
+            }
             : t
         )
       );
@@ -237,7 +237,7 @@ export default function Tasks() {
       </div>
       {/* Notification Bell */}
       <div className="d-flex justify-content-left mb-2">
-       <h4>Task</h4>
+        <h4>Task</h4>
       </div>
       <TaskAnalytics />
       <Tabs id="main-tabs" activeKey={key} onSelect={(k) => setKey(k)} className="mb-4">
@@ -324,10 +324,10 @@ export default function Tasks() {
                       task.status === "Done"
                         ? "primary"
                         : task.status === "Blocked"
-                        ? "danger"
-                        : task.status === "In Progress"
-                        ? "info"
-                        : "secondary"
+                          ? "danger"
+                          : task.status === "In Progress"
+                            ? "info"
+                            : "secondary"
                     }>
                       {task.status}
                     </Badge>
