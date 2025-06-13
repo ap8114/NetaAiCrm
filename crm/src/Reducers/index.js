@@ -7,6 +7,7 @@ import catalogReducer from "../slices/catalogSlice"; // ✅ added
 import projectReducer from "../slices/projectSlice"; // ✅ added
 import taskReducer from "../slices/taskSlice"; // ✅ added
 import departmentReducer from "../slices/departmentSlice"; // ✅ added
+import contractJobReducer from "../slices/contractJobSlice"; // ✅ added
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     project: projectReducer,
     task: taskReducer,
     department: departmentReducer,
+    contractJob: contractJobReducer,
 });
 
 export default rootReducer;
