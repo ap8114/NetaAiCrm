@@ -89,7 +89,7 @@ const projects = [
     percent: "33%",
     color: "danger"
   },
-   {
+  {
     name: "Greenfield School",
     client: "Ajay Mehra",
     billing: "Cost Plus",
@@ -833,7 +833,7 @@ const ContractJobs = () => {
         stage: 'lead',
         type: 'proposal'
       },
-      
+
       ...prev
     ]);
     setShowNewContractPage(false);
@@ -1018,9 +1018,9 @@ const ContractJobs = () => {
                 {jobs.map((project, index) => (
                   <Row key={index} className="align-items-start border-bottom py-3">
                     <Col md={4}>
-                    
+
                       <div className="fw-bold"><a href="/detail">{project.name}</a></div>
-                    
+
                       <div className="text-muted">for {project.client}</div>
                       <div className="text-muted small">{project.billing} — {project.phases}</div>
                       <Button variant="outline-secondary" size="sm" className="mt-2">Invoice now</Button>
